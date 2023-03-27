@@ -6,7 +6,7 @@
 #    By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 20:55:16 by itan              #+#    #+#              #
-#    Updated: 2023/03/28 01:46:55 by itan             ###   ########.fr        #
+#    Updated: 2023/03/28 02:26:42 by itan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,10 @@ LIBDIR	= includes/libft
 LIB		= -L$(LIBDIR) -lft -lreadline
 LIBNAME	= libft.a
 # this is for debugging
-DNAME	= debug.out
-# DDIR	= test
+DNAME	= d.out
+DDIR	= test
 DFLAGS	= -fsanitize=address -fdiagnostics-color=always -g3
-# DSRC	= $(shell find $(DDIR) -name '*.c')
+DSRC	= $(shell find $(DDIR) -name '*.c')
 DOBJ	= $(DSRC:.c=.o)
 
 # ** COLORS ** #
@@ -60,7 +60,33 @@ BLINK		= \033[4m
 REVERSE		= \033[5m
 UNDERLINE	= \033[3m
 
+CLR_TERM	= \033[H\033[2J
+
+all::
+		@printf "$(CLR_TERM)$(WHITE)$(BRIGHT) __________________________________ $(NORMAL)\n"
+		@printf "$(WHITE)$(BRIGHT)< Trying my best to make $(CYAN)$(NAME)$(WHITE) >$(NORMAL)\n"
+		@printf "$(WHITE)$(BRIGHT) ---------------------------------- $(NORMAL)\n"
+		@printf "        \ $(GREEN)$(BRIGHT)  ^__^$(NORMAL)\n"
+		@printf "         \ $(GREEN)$(BRIGHT) (oo)\_______$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT) (__)\       )\/\$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT)     ||----w |$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT)     ||     ||$(NORMAL)\n\n"
+
 all::	$(NAME)
+
+d: debug
+
+debug::
+		@printf "$(CLR_TERM)$(WHITE)$(BRIGHT) ______________________________ $(NORMAL)\n"
+		@printf "$(WHITE)$(BRIGHT)< Trying my best to make $(CYAN)$(DNAME)$(WHITE) >$(NORMAL)\n"
+		@printf "$(WHITE)$(BRIGHT) ------------------------------ $(NORMAL)\n"
+		@printf "        \ $(GREEN)$(BRIGHT)  ^__^$(NORMAL)\n"
+		@printf "         \ $(GREEN)$(BRIGHT) (oo)\_______$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT) (__)\       )\/\$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT)     ||----w |$(NORMAL)\n"
+		@printf "           $(GREEN)$(BRIGHT)     ||     ||$(NORMAL)\n\n"
+
+debug::	$(DNAME)
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
 				@mkdir -p $(OBJ_DIRS)
@@ -73,19 +99,19 @@ $(DDIR)/%.o:	$(DDIR)/%.c
 				@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME)::	$(LIBDIR)/$(LIBNAME) $(OBJ) 
-			@printf "\n$(MAGENTA)$(BRIGHT)Compiling $(NAME)...          \n"
+			@printf "\n$(MAGENTA)$(BRIGHT)Compiling $(NAME)...          $(NORMAL)\n"
 			@$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME) $(LIB)
-			@printf "$(GREEN)COMPLETE!!\n\n"
+			@printf "$(GREEN)$(BRIGHT)COMPLETE!!$(NORMAL)\n\n"
 
-$(DNAME):	$(LIBDIR)/$(LIBNAME) $(SRC) $(DSRC)
-			@printf "\n$(MAGENTA)Compiling $(DNAME) for $(NAME)...          \n"
+$(DNAME)::	SRC:=$(filter-out $(SRC_DIR)/main.c, $(SRC))
+
+$(DNAME)::	$(LIBDIR)/$(LIBNAME) $(SRC) $(DSRC)
+			@printf "\n$(MAGENTA)$(BRIGHT)Compiling $(DNAME) for $(NAME)...          $(NORMAL)\n"
 			@$(CC) $(CFLAGS) $(DFLAGS) $(INC) $(SRC) $(DSRC) -o $(DNAME) $(LIB)
-			@printf "$(GREEN)COMPLETE!!\n\n"
+			@printf "$(GREEN)$(BRIGHT)COMPLETE!!$(NORMAL)\n\n"
 
 $(LIBDIR)/$(LIBNAME):
 		@make -C $(LIBDIR) --no-print-directory
-
-debug:	$(DNAME)
 
 clean:
 		@printf "$(RED)$(BRIGHT)Removing $(NAME) objects...\n$(NORMAL)"
@@ -101,7 +127,7 @@ fclean:	clean
 
 re:			fclean all
 
-.PHONY: all clean fclean re debug bonus norm
+.PHONY: all clean fclean re debug bonus norm d
 
 norm:
 		@norminette $(SRC_DIR) includes/
