@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/03/27 23:53:34 by itan             ###   ########.fr       */
+/*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
+/*   Updated: 2023/03/27 23:56:00 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include "libft.h"
+#include "minishell.h"
 
-#endif
+int	main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	(void)env;
+	return (0);
+}
