@@ -6,7 +6,7 @@
 #    By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 20:55:16 by itan              #+#    #+#              #
-#    Updated: 2023/03/27 23:34:56 by itan             ###   ########.fr        #
+#    Updated: 2023/03/28 00:15:05 by itan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ CFLAGS	= -Wall -Werror -Wextra
 RM		= rm -f
 INC		= $(addprefix -I , $(shell find includes -type d -name includes))
 
-
+LIBDIR	= includes/libft
+LIB		= -L$(LIBDIR) -lft
+LIBNAME	= libft.a
 # this is for debugging
 DNAME	= debug.out
 # DDIR	= test
@@ -70,25 +72,30 @@ $(DDIR)/%.o:	$(DDIR)/%.c
 				@printf "$(YELLOW)$(BRIGHT)Generating %25s\t$(NORMAL)%40s\r" "$(NAME) debug objects..." $@
 				@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-$(NAME)::	$(OBJ) 
+$(NAME)::	$(LIBDIR)/$(LIBNAME) $(OBJ) 
 			@printf "\n$(MAGENTA)$(BRIGHT)Compiling $(NAME)...          \n"
-			@$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME) $(LIB)
 			@printf "$(GREEN)COMPLETE!!\n\n"
 
-$(DNAME):	$(SRC) $(DSRC)
+$(DNAME):	$(LIBDIR)/$(LIBNAME) $(SRC) $(DSRC)
 			@printf "\n$(MAGENTA)Compiling $(DNAME) for $(NAME)...          \n"
-			@$(CC) $(CFLAGS) $(DFLAGS) $(INC) $(SRC) $(DSRC) -o $(DNAME)
+			@$(CC) $(CFLAGS) $(DFLAGS) $(INC) $(SRC) $(DSRC) -o $(DNAME) $(LIB)
 			@printf "$(GREEN)COMPLETE!!\n\n"
+
+$(LIBDIR)/$(LIBNAME):
+		@make -C $(LIBDIR) --no-print-directory
 
 debug:	$(DNAME)
 
 clean:
 		@printf "$(RED)$(BRIGHT)Removing $(NAME) objects...\n$(NORMAL)"
+		@make clean -C $(LIBDIR) --no-print-directory
 		@$(RM) $(OBJ) $(DOBJ)
 		@$(RM) -r $(OBJ_DIR)
 
 fclean:	clean
 		@printf "$(RED)$(BRIGHT)Deleting $(NAME) and $(DNAME)...\n\n$(NORMAL)"
+		@make fclean -C $(LIBDIR) --no-print-directory
 		@$(RM) $(NAME)
 		@$(RM) $(DNAME)
 

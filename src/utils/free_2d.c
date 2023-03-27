@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   free_2d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 00:10:44 by itan             ###   ########.fr       */
+/*   Created: 2023/03/28 00:09:34 by itan              #+#    #+#             */
+/*   Updated: 2023/03/28 00:10:21 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "libft.h"
-# include <stdio.h>
+#include "minishell.h"
 
-/* ---------------------------------- utils --------------------------------- */
-void	free_2d(char **val);
+void	free_2d(char **val)
+{
+	int	i;
 
-/* ------------------------------- validation ------------------------------- */
-char	*check_program_exist(char *program_name, char **envp);
-
-#endif
+	i = 0;
+	while (val[i])
+		free(val[i++]);
+	free(val);
+}
