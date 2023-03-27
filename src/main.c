@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 00:24:14 by itan             ###   ########.fr       */
+/*   Updated: 2023/03/28 01:47:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*command_path;
+	char	*line;
 
 	(void)ac;
 	(void)av;
@@ -23,5 +24,7 @@ int	main(int ac, char **av, char **env)
 		printf("%s\n", command_path);
 	else
 		printf("command not found\n");
+	line = readline("minishell> ");
+	printf("%s\n", line);
 	return (0);
 }
