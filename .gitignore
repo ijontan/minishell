@@ -2,5 +2,5 @@
 *.out
 minishell
 result.txt
-debug.out.dSYM
+*.dSYM
 test/

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 01:44:32 by itan             ###   ########.fr       */
+/*   Updated: 2023/03/28 22:05:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
+/* --------------------------------- signals -------------------------------- */
+void	handle_signal(int signo);
 
 /* ---------------------------------- utils --------------------------------- */
 void	free_2d(char **val);
