@@ -20,11 +20,14 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <sys/wait.h>
+
 /* --------------------------------- signals -------------------------------- */
 void	handle_signal(int signo);
 
 /* ---------------------------------- utils --------------------------------- */
 void	free_2d(char **val);
+char	**split_args(char *command);
 
 /* ------------------------------- validation ------------------------------- */
 char	*check_program_exist(char *program_name, char **envp);
