@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/03/29 04:02:17 by itan             ###   ########.fr       */
+/*   Updated: 2023/03/29 19:21:35 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ typedef struct s_prompt
 	char		*hostname;
 	char		*pwd;
 	char		*home;
+	char		*git_branch;
 	int			status;
 }				t_prompt;
 
 typedef struct s_sh_data
 {
 	t_prompt	*prompt;
+	char		**env;
 }				t_sh_data;
 
 /* -------------------------------- build_in -------------------------------- */
@@ -49,9 +51,10 @@ void			handle_signal(int signo);
 /* ---------------------------------- utils --------------------------------- */
 char			**dup_2d(char **args);
 void			free_2d(char **val);
+char			*get_current_dir(void);
 char			**split_args(char *command);
 
 /* ------------------------------- validation ------------------------------- */
-char			*check_program_exist(char *program_name, char **envp);
+char			*check_program_exist(char *program_name, char **env);
 
 #endif

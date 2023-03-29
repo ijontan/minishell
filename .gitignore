@@ -4,3 +4,4 @@ minishell
 result.txt
 *.dSYM
 test/
+*.DS_Store
