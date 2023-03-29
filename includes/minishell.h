@@ -44,7 +44,7 @@ void			free_prompt_data(t_prompt *prompt);
 void			handle_signal(int signo);
 
 /* ---------------------------------- utils --------------------------------- */
-char			*ft_append(char *str1, const char *str2);
+char			**dup_2d(char **args);
 void			free_2d(char **val);
 char			**split_args(char *command);
 
