@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:05:57 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 00:06:44 by itan             ###   ########.fr       */
+/*   Updated: 2023/03/29 19:22:34 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*get_path(char **envp)
 	return (NULL);
 }
 
-char	*check_program_exist(char *program_name, char **envp)
+char	*check_path_exist(char *program_name, char **envp)
 {
 	char	**paths;
 	char	*dst;
@@ -51,4 +51,17 @@ char	*check_program_exist(char *program_name, char **envp)
 	free_2d(paths);
 	perror("program doesn't exist in path");
 	return (NULL);
+}
+
+char	*check_program_exist(char *program_name, char **env)
+{
+	if (program_name[0] == '/' || program_name[0] == '.')
+	{
+		if (!access(program_name, F_OK))
+			return (program_name);
+		perror("program doesn't exist");
+		return (NULL);
+	}
+	else
+		return (check_path_exist(program_name, env));
 }
