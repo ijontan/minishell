@@ -35,6 +35,9 @@ typedef struct s_sh_data
 	t_prompt	*prompt;
 }				t_sh_data;
 
+/* -------------------------------- build_in -------------------------------- */
+void			cd(char **args);
+
 /* --------------------------------- prompt --------------------------------- */
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
