@@ -6,12 +6,17 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:09:34 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 00:10:21 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:16:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief free_2d free 2d array
+ * 
+ * @param val 
+ */
 void	free_2d(char **val)
 {
 	int	i;

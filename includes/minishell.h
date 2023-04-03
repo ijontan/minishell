@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/04/02 22:49:04 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:09:54 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,37 @@ typedef struct s_sh_data
 }				t_sh_data;
 
 /* -------------------------------- build_in -------------------------------- */
+
 void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
+
 void			exec_commands(t_sh_data *sh_data);
 
 /* --------------------------------- prompt --------------------------------- */
+
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
 
 /* --------------------------------- signals -------------------------------- */
+
 void			handle_signal(int signo);
 
 /* ------------------------------ tokenization ------------------------------ */
+
 char			*expand_env(char *str, char **env);
 t_command		*tokenize(char *command);
 
 /* ---------------------------------- utils --------------------------------- */
+
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 char			*get_current_dir(void);
 char			**split_args(char *command);
 
 /* ------------------------------- validation ------------------------------- */
+
 char			*check_program_exist(char *program_name, char **env);
 
 #endif

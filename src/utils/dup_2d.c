@@ -6,12 +6,18 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 19:16:38 by itan              #+#    #+#             */
-/*   Updated: 2023/03/29 19:18:19 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:16:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief dup_2d duplicate 2d array
+ * 
+ * @param args 
+ * @return char** 
+ */
 char	**dup_2d(char **args)
 {
 	char	**dup;

@@ -6,13 +6,20 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 02:41:23 by itan              #+#    #+#             */
-/*   Updated: 2023/03/29 19:23:52 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:15:06 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include "minishell.h"
 
+//TODO: should be updated
+/**
+ * @brief Get the git branch name
+ * 
+ * @param env 
+ * @return char* 
+ */
 static char	*get_gitbranch(char **env)
 {
 	int		pipes[2];
@@ -50,6 +57,13 @@ static char	*get_gitbranch(char **env)
 	return (tmp);
 }
 
+//TODO: should be updated
+/**
+ * @brief Get the hostname of the computer, for now
+ * 
+ * @param env 
+ * @return char* 
+ */
 static char	*get_hostname(char **env)
 {
 	int		pipes[2];
@@ -86,6 +100,11 @@ static char	*get_hostname(char **env)
 	return (tmp);
 }
 
+/**
+ * @brief update the prompt data
+ * 
+ * @param sh_data minishell data
+ */
 void	get_prompt_data(t_sh_data *sh_data)
 {
 	sh_data->prompt = ft_calloc(1, sizeof(t_prompt));
@@ -96,6 +115,12 @@ void	get_prompt_data(t_sh_data *sh_data)
 	sh_data->prompt->git_branch = get_gitbranch(sh_data->env);
 }
 
+/**
+ * @brief Get the prompt string from the prompt data
+ * 
+ * @param sh_data minishell data
+ * @return char* 
+ */
 char	*get_prompt(t_sh_data *sh_data)
 {
 	char		*dst;
@@ -125,6 +150,11 @@ char	*get_prompt(t_sh_data *sh_data)
 	return (dst);
 }
 
+/**
+ * @brief Free prompt data
+ * 
+ * @param prompt the prompt data
+ */
 void	free_prompt_data(t_prompt *prompt)
 {
 	free(prompt->user);

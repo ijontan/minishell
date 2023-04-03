@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 00:36:04 by itan              #+#    #+#             */
-/*   Updated: 2023/03/29 02:06:29 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:20:19 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ static char	**split_recurse(char *command, int depth)
 // wrote this function to split the command into an array of arguments
 // for example, "echo "hello world"" will be split into ["echo",
 //	""hello world""]
+
+/**
+ * @brief split_args split the command into an array of arguments.
+ * for example, "echo "hello world"" will be split into ["echo", 
+ * "hello world"]
+ * 
+ * @param command 
+ * @return char** 
+ */
 char	**split_args(char *command)
 {
 	return (split_recurse(command, 0));

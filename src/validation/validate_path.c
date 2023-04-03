@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:05:57 by itan              #+#    #+#             */
-/*   Updated: 2023/03/29 19:22:34 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/03 14:22:17 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ char	*check_path_exist(char *program_name, char **envp)
 	return (NULL);
 }
 
+/**
+ * @brief check if program exist in path or in work dir or not
+ * 
+ * @param program_name name of the program
+ * @param env  current environment variable
+ * @return char* 
+ */
 char	*check_program_exist(char *program_name, char **env)
 {
 	if (program_name[0] == '/' || program_name[0] == '.')
