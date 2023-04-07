@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/04/02 22:45:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/04/07 15:51:25 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,20 @@ static void	setup_pipes(t_sh_data *sh_data, int n)
 
 	sh_data->pipes = (t_pipe *)ft_calloc(n, sizeof(t_pipe));
 	i = -1;
-	while (i < n - 1)
+	while (++i < n - 1)
 		pipe(sh_data->pipes[i].pipe);
 }
 
 static void	close_pipes(t_sh_data *sh_data)
 {
 	int	i;
+	int	num_pipes;
 
+	num_pipes = 0;
+	while (sh_data->commands[num_pipes].program)
+		num_pipes++;
 	i = -1;
-	while (sh_data->pipes[++i].pipe[0])
+	while (++i < num_pipes)
 	{
 		close(sh_data->pipes[i].pipe[0]);
 		close(sh_data->pipes[i].pipe[1]);
@@ -53,6 +57,7 @@ static int	exec_command(t_sh_data *sh_data, int i)
 	pid = fork();
 	if (pid == 0)
 	{
+		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
 		if (cmd->fd_in)
 			dup2(cmd->fd_in, 0);
 		else if (i > 0 && !sh_data->commands[i - 1].fd_out)
@@ -80,15 +85,15 @@ void	exec_commands(t_sh_data *sh_data)
 	int	*pids;
 
 	i = 0;
-	while (sh_data->commands[i].program)
+	while (sh_data->commands[i].args)
 		i++;
 	setup_pipes(sh_data, i);
 	pids = (int *)ft_calloc(i + 1, sizeof(int));
 	i = -1;
-	while (sh_data->commands[++i].program)
+	while (sh_data->commands[++i].args)
 		pids[i] = exec_command(sh_data, i);
 	close_pipes(sh_data);
 	i = -1;
-	while (sh_data->commands[++i].program)
+	while (sh_data->commands[++i].args)
 		waitpid(pids[i], NULL, 0);
 }
