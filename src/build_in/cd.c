@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/05/25 22:33:36 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/05/30 23:27:32 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ static void	*ft_memdel(void *ptr)
 		ptr = NULL;
 	}
 	return (NULL);
+}
+
+static int	update_oldpwd(void)
+{
+	char	*oldpwd;
+	char	*cwd;
+
+	cwd = getcwd(NULL, 1024);
+	if (!cwd)
+		return (0);
+	oldpwd = ft_strjoin("OLDPWD=", cwd);
 }
 
 static int	to_path(int path)
@@ -74,7 +85,7 @@ static int	check_args(char **args)
 
 void	cd(char **args)
 {
-	if (args[1] == NULL)
+	if (args[1] == NULL || args[1], "~")
 		return (to_path(0));
 	if (chdir(args[1]) != 0)
 	{
