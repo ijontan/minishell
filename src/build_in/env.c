@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 21:51:33 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/13 17:33:48 by nwai-kea         ###   ########.fr       */
+/*   Created: 2023/06/09 22:38:47 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/06/13 22:51:34 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **args)
+int	env(char **args, char **env)
 {
 	int	i;
-	int	flag;
 
 	i = 0;
-	flag = 0;
-	if (!args[i])
+	if (!args[0])
 	{
-		write(1, '\n', 1);
+		while (env[i])
+		{
+			if (ft_strchr(env[i], '=') != -1)
+				ft_putstr_fd(env[i], 1);
+			i++;
+		}
+	}
+	else
+	{
+		ft_putendl_fd("minishell: env: Too many arguments.", 1);
 		return (1);
 	}
-	else if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-	{
-		flag = 1;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1])
-			ft_putchar_fd(' ', 1);
-		i++;
-	}
-	if (flag == 0)
-		write(1, '\n', 1);
 	return (0);
 }
