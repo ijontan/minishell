@@ -53,11 +53,11 @@ static char	**split_recurse(char *command, int depth)
  */
 char	**split_args(char *command)
 {
-	if (!s)
+	if (!command)
 		return (0);
-	while (*s && *s == ' ')
-		s++;
-	if (!*s)
+	while (*command && *command == ' ')
+		command++;
+	if (!*command)
 		return (ft_calloc(1, sizeof(char *)));
 	return (split_recurse(command, 0));
 }
