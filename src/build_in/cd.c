@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/06/20 23:42:43 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:52:32 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	check_args(char **args)
 void	cd(char **args, t_sh_data *data)
 {
 	if (args[0] == NULL || args[0] == "~")
-		return (to_path(0));
+		return (to_path(0, data));
 	if (chdir(args[0]) != 0)
 	{
 		perror("minishell");
