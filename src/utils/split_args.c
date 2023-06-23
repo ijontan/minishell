@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 00:36:04 by itan              #+#    #+#             */
-/*   Updated: 2023/04/03 14:20:19 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/23 14:04:25 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static char	**split_recurse(char *command, int depth)
 	while (*command == ' ')
 		command++;
 	if (*command == '"' || *command == '\'')
-		is_quoted = *command++;
+		is_quoted = *command;
 	i = 0;
 	while ((command[i] != ' ' || is_quoted) && command[i])
 		if (command[i++] == is_quoted)
 			break ;
-	str = ft_substr(command, 0, i - !(!is_quoted));
+	str = ft_substr(command, 0, i);
 	while (command[i] && command[i] == ' ')
 		i++;
 	if (!command[i])
@@ -45,13 +45,19 @@ static char	**split_recurse(char *command, int depth)
 
 /**
  * @brief split_args split the command into an array of arguments.
- * for example, "echo "hello world"" will be split into ["echo", 
+ * for example, "echo "hello world"" will be split into ["echo",
  * "hello world"]
- * 
- * @param command 
- * @return char** 
+ *
+ * @param command
+ * @return char**
  */
 char	**split_args(char *command)
 {
+	if (!command)
+		return (0);
+	while (*command && *command == ' ')
+		command++;
+	if (!*command)
+		return (ft_calloc(1, sizeof(char *)));
 	return (split_recurse(command, 0));
 }
