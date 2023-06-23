@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/22 16:01:40 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/22 16:40:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ char			**dup_2d(char **args);
 void			free_2d(char **val);
 char			*get_current_dir(void);
 char			**split_args(char *command);
-char			**split_strseps(char *str, char **seps);
-
+t_command_chunk	*split_command_chunks(char *str, char **seps);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);
