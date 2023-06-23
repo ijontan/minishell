@@ -6,11 +6,32 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/19 23:05:11 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:09:02 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	add_env_var(char **args, char **env)
+{
+	int	i;
+	int	overwrite;
+
+	i = 0;
+	overwrite = 0;
+	while (env[i])
+	{
+		if (ft_strcmp(env[i], args))
+		{
+			env[i] = args;
+			overwrite = 1;
+			break ;
+		}
+		i++;
+	}
+	if (!overwrite)
+		env[i] = args;
+}
 
 int	env_valid(char **env)
 {
