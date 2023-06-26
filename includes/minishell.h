@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 14:54:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/26 15:46:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_sh_data
 {
 	t_prompt	*prompt;
 	char		**env;
-	t_list		*commands;
+	t_list		*command_chunks;
 	t_pipe		*pipes;
 }				t_sh_data;
 
@@ -75,6 +75,7 @@ void			free_prompt_data(t_prompt *prompt);
 
 /* ---------------------------------- setup --------------------------------- */
 char			*env_expension(char *arg, char **env);
+char			*heredoc(char *eof);
 t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */
