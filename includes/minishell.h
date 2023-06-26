@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/22 16:40:50 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/26 14:54:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_command
 	int			fd_in;
 	int			fd_out;
 	char		*here_doc;
-	char		*next;
 }				t_command;
 
 typedef struct s_pipe
@@ -74,6 +73,10 @@ void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
 
+/* ---------------------------------- setup --------------------------------- */
+char			*env_expension(char *arg, char **env);
+t_list			*setup_commands(char *command);
+
 /* --------------------------------- signals -------------------------------- */
 
 void			handle_signal(int signo);
@@ -87,6 +90,7 @@ t_list			*tokenize(char *command);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 char			*get_current_dir(void);
+char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 /* ------------------------------- validation ------------------------------- */
