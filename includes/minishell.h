@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 15:46:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/28 22:09:31 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 # include "libft.h"
 # include <stdio.h>
 // this is use to stop stdio.h from moving down when i save
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <sys/wait.h>
+
+# define HEREDOC_NUM -2
 
 typedef struct s_prompt
 {
@@ -35,6 +38,7 @@ typedef struct s_command_chunk
 {
 	char		*chunk;
 	char		*sep;
+	t_list		*commands;
 }				t_command_chunk;
 
 typedef struct s_command
@@ -43,7 +47,7 @@ typedef struct s_command
 	char		**args;
 	int			fd_in;
 	int			fd_out;
-	char		*here_doc;
+	char		*heredoc;
 }				t_command;
 
 typedef struct s_pipe
@@ -56,7 +60,7 @@ typedef struct s_sh_data
 	t_prompt	*prompt;
 	char		**env;
 	t_list		*command_chunks;
-	t_pipe		*pipes;
+	t_list		*pipes;
 }				t_sh_data;
 
 /* -------------------------------- build_in -------------------------------- */
@@ -65,8 +69,8 @@ void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
 
-void			exec_commands(t_sh_data *sh_data);
-
+void			exec_commands(t_sh_data *sh_data, t_list *command_chunk);
+void			sanitize_command_io(t_command *cmd);
 /* --------------------------------- prompt --------------------------------- */
 
 void			get_prompt_data(t_sh_data *sh_data);

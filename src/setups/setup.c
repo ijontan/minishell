@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 15:50:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/28 16:31:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**split_commands(char *command)
 	return (split_recurse(command, 0));
 }
 
-static void	check_heredoc(t_command *cmd)
+static void	get_heredoc(t_command *cmd)
 {
 	int	i;
 
@@ -59,7 +59,8 @@ static void	check_heredoc(t_command *cmd)
 	i = 0;
 	while (cmd->args[i])
 	{
-		if (cmd->args[i][0] == '<' && cmd->args[i][1] == '<')
+		if (cmd->args[i][0] == '<' && cmd->args[i][1] == '<'
+			&& cmd->args[i][2] == 0)
 		{
 			if (cmd->heredoc)
 				free(cmd->heredoc);
@@ -89,7 +90,7 @@ t_list	*setup_commands(char *command)
 	{
 		cmd_tmp = (t_command *)ft_calloc(1, sizeof(t_command));
 		cmd_tmp->args = split_args(args[i++]);
-		check_heredoc(cmd_tmp);
+		get_heredoc(cmd_tmp);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
 	}
 	free_2d(args);
