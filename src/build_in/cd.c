@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/06/22 18:54:56 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:45:33 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	check_args(char **args)
 	return (0);
 }
 
-void	cd(char **args, t_sh_data *data)
+int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 

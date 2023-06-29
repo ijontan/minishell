@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 00:03:30 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/06/30 00:29:50 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ typedef struct s_sh_data
 	t_pipe		*pipes;
 	int			exited;
 }				t_sh_data;
+
+typedef struct s_sig
+{
+	int			sigint;
+	int			sigstatus;
+	int			sigquit;
+	pid_t		pid;
+}				t_sig;
+
+extern t_sig	g_sig;
 
 /* -------------------------------- build_in -------------------------------- */
 
