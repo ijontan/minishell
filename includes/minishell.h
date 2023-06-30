@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/28 22:09:31 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/30 15:09:38 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 
 # define HEREDOC_NUM -2
 
+/**
+ * @brief data for prompt
+ *
+ * @param user username
+ * @param hostname hostname
+ * @param pwd current working directory
+ * @param home home directory
+ * @param git_branch git branch name
+ * @param status exit status of last command
+ */
 typedef struct s_prompt
 {
 	char		*user;
@@ -34,6 +44,12 @@ typedef struct s_prompt
 	int			status;
 }				t_prompt;
 
+/**
+ * @brief chunk of commands separated by && or || or parentheses
+ *
+ * @param chunk the string of commands
+ * @param sep the separator between this chunk and the next chunk
+ */
 typedef struct s_command_chunk
 {
 	char		*chunk;
@@ -41,6 +57,15 @@ typedef struct s_command_chunk
 	t_list		*commands;
 }				t_command_chunk;
 
+/**
+ * @brief required datas for a single command
+ *
+ * @param program program name eg. ls, echo
+ * @param args arguments for program including program name
+ * @param fd_in file descriptor for input
+ * @param fd_out file descriptor for output
+ * @param heredoc string that heredoc captured, not eof
+ */
 typedef struct s_command
 {
 	char		*program;
@@ -55,6 +80,14 @@ typedef struct s_pipe
 	int			pipe[2];
 }				t_pipe;
 
+/**
+ * @brief required datas for shell
+ *
+ * @param prompt prompt data
+ * @param env environment variables
+ * @param command_chunks linked list for t_command_chunk
+ * @param pipes linked list for t_pipe
+ */
 typedef struct s_sh_data
 {
 	t_prompt	*prompt;
