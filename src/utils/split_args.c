@@ -5,59 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 00:36:04 by itan              #+#    #+#             */
-/*   Updated: 2023/06/23 14:04:25 by itan             ###   ########.fr       */
+/*   Created: 2023/06/22 16:22:47 by itan              #+#    #+#             */
+/*   Updated: 2023/06/28 20:58:23 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**split_recurse(char *command, int depth)
+static char	*ft_strcmpn(char *str, char **seps)
 {
-	char	*str;
+	int	i;
+
+	i = 0;
+	while (seps && seps[i])
+	{
+		if (ft_strncmp(str, seps[i], ft_strlen(seps[i])) == 0)
+			return (seps[i]);
+		i++;
+	}
+	return (0);
+}
+
+static int	check_quoted(char *str, int i, int is_quoted)
+{
+	if ((str[i] == '"' || str[i] == '\'') && !is_quoted)
+		is_quoted = str[i];
+	else if (str[i] == is_quoted)
+		is_quoted = 0;
+	return (is_quoted);
+}
+
+static char	*move_to_next(char *str, int *i, char **seps, int *dept)
+{
+	char	*sep;
+
+	sep = NULL;
+	while (str[*i] && str[*i] == ' ')
+		(*i)++;
+	if (str[*i] && ft_strcmpn(str + *i, seps))
+	{
+		sep = ft_strdup(ft_strcmpn(str + *i, seps));
+		(*i) += ft_strlen(sep);
+		(*dept)++;
+	}
+	while (str[*i] && str[*i] == ' ')
+		(*i)++;
+	return (sep);
+}
+
+static char	**recurse(char *str, char **seps, int dept)
+{
 	char	**dst;
-	int		i;
+	char	*cache;
+	char	*sep;
 	int		is_quoted;
+	int		i;
 
 	is_quoted = 0;
-	while (*command == ' ')
-		command++;
-	if (*command == '"' || *command == '\'')
-		is_quoted = *command;
+	sep = NULL;
 	i = 0;
-	while ((command[i] != ' ' || is_quoted) && command[i])
-		if (command[i++] == is_quoted)
-			break ;
-	str = ft_substr(command, 0, i);
-	while (command[i] && command[i] == ' ')
-		i++;
-	if (!command[i])
-		dst = (char **)ft_calloc(depth + 2, sizeof(char *));
+	while (str[i] && (!ft_strcmpn(str + i, seps) || is_quoted))
+		is_quoted = check_quoted(str, i++, is_quoted);
+	cache = ft_substr(str, 0, i - !(!is_quoted));
+	sep = move_to_next(str, &i, seps, &dept);
+	if (!str[i])
+		dst = (char **)ft_calloc(dept + 2, sizeof(char *));
 	else
-		dst = split_recurse(command + i, depth + 1);
-	dst[depth] = str;
+		dst = recurse(str + i, seps, dept + 1);
+	if (sep)
+		dst[dept--] = sep;
+	dst[dept] = cache;
 	return (dst);
 }
 
-// wrote this function to split the command into an array of arguments
-// for example, "echo "hello world"" will be split into ["echo",
-//	""hello world""]
-
-/**
- * @brief split_args split the command into an array of arguments.
- * for example, "echo "hello world"" will be split into ["echo",
- * "hello world"]
- *
- * @param command
- * @return char**
- */
 char	**split_args(char *command)
 {
-	if (!command)
-		return (0);
-	while (*command && *command == ' ')
-		command++;
-	if (!*command)
-		return (ft_calloc(1, sizeof(char *)));
-	return (split_recurse(command, 0));
+	char	**seps;
+
+	seps = (char *[]){"<<", ">>", "<", ">", " ", NULL};
+	while (*command && ft_strcmpn(command, seps))
+		command += ft_strlen(ft_strcmpn(command, seps));
+	return (recurse(command, seps, 0));
 }

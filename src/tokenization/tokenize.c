@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:42:38 by itan              #+#    #+#             */
-/*   Updated: 2023/06/22 16:15:03 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/26 14:53:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // TODO: add heredoc to this function
 
 /**
- * @brief Split the input string into command blocks
+ * @brief (depricated) Split the input string into command blocks
  *
  * @param args The string to split
  * @return t_command* The array of command blocks
@@ -38,5 +38,6 @@ t_list	*tokenize(char *command)
 		cmd_tmp->args = split_args(args[i++]);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
 	}
+	free_2d(args);
 	return (dst);
 }

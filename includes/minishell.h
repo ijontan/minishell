@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/30 00:29:50 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:16:42 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,24 @@
 # include "libft.h"
 # include <stdio.h>
 // this is use to stop stdio.h from moving down when i save
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <sys/wait.h>
 
+# define HEREDOC_NUM -2
+
+/**
+ * @brief data for prompt
+ *
+ * @param user username
+ * @param hostname hostname
+ * @param pwd current working directory
+ * @param home home directory
+ * @param git_branch git branch name
+ * @param status exit status of last command
+ */
 typedef struct s_prompt
 {
 	char		*user;
@@ -31,20 +44,35 @@ typedef struct s_prompt
 	int			status;
 }				t_prompt;
 
+/**
+ * @brief chunk of commands separated by && or || or parentheses
+ *
+ * @param chunk the string of commands
+ * @param sep the separator between this chunk and the next chunk
+ */
 typedef struct s_command_chunk
 {
 	char		*chunk;
 	char		*sep;
+	t_list		*commands;
 }				t_command_chunk;
 
+/**
+ * @brief required datas for a single command
+ *
+ * @param program program name eg. ls, echo
+ * @param args arguments for program including program name
+ * @param fd_in file descriptor for input
+ * @param fd_out file descriptor for output
+ * @param heredoc string that heredoc captured, not eof
+ */
 typedef struct s_command
 {
 	char		*program;
 	char		**args;
 	int			fd_in;
 	int			fd_out;
-	char		*here_doc;
-	char		*next;
+	char		*heredoc;
 }				t_command;
 
 typedef struct s_pipe
@@ -52,12 +80,20 @@ typedef struct s_pipe
 	int			pipe[2];
 }				t_pipe;
 
+/**
+ * @brief required datas for shell
+ *
+ * @param prompt prompt data
+ * @param env environment variables
+ * @param command_chunks linked list for t_command_chunk
+ * @param pipes linked list for t_pipe
+ */
 typedef struct s_sh_data
 {
 	t_prompt	*prompt;
 	char		**env;
-	t_list		*commands;
-	t_pipe		*pipes;
+	t_list		*command_chunks;
+	t_list		*pipes;
 	int			exited;
 }				t_sh_data;
 
@@ -77,13 +113,18 @@ void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
 
-void			exec_commands(t_sh_data *sh_data);
-
+void			exec_commands(t_sh_data *sh_data, t_list *command_chunk);
+void			sanitize_command_io(t_command *cmd);
 /* --------------------------------- prompt --------------------------------- */
 
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
+
+/* ---------------------------------- setup --------------------------------- */
+char			*env_expension(char *arg, char **env);
+char			*heredoc(char *eof);
+t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */
 
@@ -98,6 +139,7 @@ t_list			*tokenize(char *command);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 char			*get_current_dir(void);
+char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 /* ------------------------------- validation ------------------------------- */
