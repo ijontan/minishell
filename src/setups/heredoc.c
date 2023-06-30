@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env.c                                       :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/02 21:47:51 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 14:53:30 by itan             ###   ########.fr       */
+/*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
+/*   Updated: 2023/06/26 15:45:24 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief  (depricated)
- *
- * @param str
- * @param env the current environment variables
- * @return char*
- */
-char	*expand_env(char *str, char **env)
+char	*heredoc(char *eof)
 {
-	(void)str;
-	(void)env;
-	return (NULL);
+	char	*dst;
+
+	while (1)
+	{
+		dst = readline("> ");
+		if (ft_strcmp(dst, eof) == 0)
+			break ;
+		else
+			ft_append(dst, "\n");
+	}
+	return (dst);
 }

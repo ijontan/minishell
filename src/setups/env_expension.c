@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/23 17:17:00 by itan             ###   ########.fr       */
+/*   Updated: 2023/06/26 14:38:59 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*env_expension(char *arg, char **env)
 	int		len;
 
 	dst = ft_strdup("");
-	i = 0;
-	while (arg[i])
+	i = -1;
+	while (arg[++i])
 	{
 		if (arg[i] == '$')
 		{
@@ -51,10 +51,9 @@ char	*env_expension(char *arg, char **env)
 			dst = ft_append(tmp2, tmp);
 			free(tmp);
 			arg += i + len + 1;
-			i = 0;
+			i = -1;
 			continue ;
 		}
-		i++;
 	}
 	return (dst);
 }
