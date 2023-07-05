@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/30 16:16:42 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:18:04 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include "libft.h"
 # include <stdio.h>
 // this is use to stop stdio.h from moving down when i save
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 
 # define HEREDOC_NUM -2
@@ -87,6 +89,7 @@ typedef struct s_pipe
  * @param env environment variables
  * @param command_chunks linked list for t_command_chunk
  * @param pipes linked list for t_pipe
+ * @param exited exit status
  */
 typedef struct s_sh_data
 {
@@ -94,6 +97,7 @@ typedef struct s_sh_data
 	char		**env;
 	t_list		*command_chunks;
 	t_list		*pipes;
+	DIR			*dir;
 	int			exited;
 }				t_sh_data;
 
