@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/06/30 17:00:31 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/05 17:25:39 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	setup_pipes(t_sh_data *sh_data, t_command_chunk *command_chunk)
 	t_pipe		*pipe_tmp;
 
 	tmp = command_chunk->commands;
-	((t_command *)(tmp->content))->fd_in = STDIN_FILENO;
 	while (tmp)
 	{
 		cmd = (t_command *)tmp->content;
@@ -65,14 +64,18 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 
 	sanitize_command_io(cmd);
 	pid = fork();
-	if (pid == 0)
+	if (pid < 0)
 	{
+		perror("minishell");
+		exit(1);
+	}
+	else if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
 		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
-		if (cmd->fd_in == HEREDOC_NUM)
-			write(STDIN_FILENO, cmd->heredoc, ft_strlen(cmd->heredoc));
-		else
-			dup2(cmd->fd_in, STDIN_FILENO);
+		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
+		close_pipes(sh_data);
 		execve(cmd->program, cmd->args, sh_data->env);
 		perror("minishell");
 		exit(127);
@@ -91,6 +94,7 @@ void	exec_commands(t_sh_data *sh_data, t_list *command_chunk)
 	pid_t			*pids;
 	t_command_chunk	*chunk;
 	t_list			*tmp;
+	int				status;
 
 	chunk = (t_command_chunk *)command_chunk->content;
 	setup_pipes(sh_data, chunk);
@@ -100,14 +104,12 @@ void	exec_commands(t_sh_data *sh_data, t_list *command_chunk)
 	i = 0;
 	while (tmp)
 	{
-		ft_printf("executing command %s\n",
-			((t_command *)tmp->content)->args[0]);
 		pids[i++] = exec_command(sh_data, (t_command *)tmp->content);
 		tmp = tmp->next;
 	}
 	close_pipes(sh_data);
 	i = -1;
 	while (pids[++i])
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
 	free(pids);
 }

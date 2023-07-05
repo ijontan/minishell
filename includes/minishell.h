@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/06/30 15:09:38 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/05 16:16:49 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <sys/wait.h>
-
-# define HEREDOC_NUM -2
 
 /**
  * @brief data for prompt
@@ -64,7 +62,6 @@ typedef struct s_command_chunk
  * @param args arguments for program including program name
  * @param fd_in file descriptor for input
  * @param fd_out file descriptor for output
- * @param heredoc string that heredoc captured, not eof
  */
 typedef struct s_command
 {
@@ -72,7 +69,7 @@ typedef struct s_command
 	char		**args;
 	int			fd_in;
 	int			fd_out;
-	char		*heredoc;
+	int			latest_heredoc;
 }				t_command;
 
 typedef struct s_pipe
@@ -113,6 +110,7 @@ void			free_prompt_data(t_prompt *prompt);
 /* ---------------------------------- setup --------------------------------- */
 char			*env_expension(char *arg, char **env);
 char			*heredoc(char *eof);
+void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */

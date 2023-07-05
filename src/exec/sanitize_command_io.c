@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/06/30 15:48:35 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/05 17:50:28 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static int	left_arrow(t_command *cmd, int i)
 	if (cmd->args[i][0] == '<')
 	{
 		if (cmd->args[i][1] == '<')
-			cmd->fd_in = HEREDOC_NUM;
+			cmd->fd_in = cmd->latest_heredoc;
 		else
 		{
-			if (cmd->fd_in != 0 && cmd->fd_in != HEREDOC_NUM)
+			if (cmd->fd_in != 0 && cmd->fd_in != cmd->latest_heredoc)
 				close(cmd->fd_in);
 			if (!cmd->args[i + 1])
 				return (1);
@@ -39,10 +39,10 @@ static int	right_arrow(t_command *cmd, int i)
 			close(cmd->fd_out);
 		if (cmd->args[i][1] == '>')
 			cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
-				0644);
+					0644);
 		else
 			cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
+					0644);
 		return (1);
 	}
 	return (0);
@@ -79,9 +79,4 @@ void	sanitize_command_io(t_command *cmd)
 	}
 	free_2d(cmd->args);
 	cmd->args = tmp;
-	// TODO remove this
-	ft_printf("SANITIZED::\n");
-	i = 0;
-	while (cmd->args[i])
-		ft_printf("%s\n", cmd->args[i++]);
 }
