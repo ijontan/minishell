@@ -6,19 +6,19 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 02:41:23 by itan              #+#    #+#             */
-/*   Updated: 2023/04/03 14:15:06 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/06 15:01:29 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include "minishell.h"
 
-//TODO: should be updated
+// TODO: should be updated
 /**
  * @brief Get the git branch name
- * 
- * @param env 
- * @return char* 
+ *
+ * @param env
+ * @return char*
  */
 static char	*get_gitbranch(char **env)
 {
@@ -57,12 +57,12 @@ static char	*get_gitbranch(char **env)
 	return (tmp);
 }
 
-//TODO: should be updated
+// TODO: should be updated
 /**
  * @brief Get the hostname of the computer, for now
- * 
- * @param env 
- * @return char* 
+ *
+ * @param env
+ * @return char*
  */
 static char	*get_hostname(char **env)
 {
@@ -102,7 +102,7 @@ static char	*get_hostname(char **env)
 
 /**
  * @brief update the prompt data
- * 
+ *
  * @param sh_data minishell data
  */
 void	get_prompt_data(t_sh_data *sh_data)
@@ -117,9 +117,9 @@ void	get_prompt_data(t_sh_data *sh_data)
 
 /**
  * @brief Get the prompt string from the prompt data
- * 
+ *
  * @param sh_data minishell data
- * @return char* 
+ * @return char*
  */
 char	*get_prompt(t_sh_data *sh_data)
 {
@@ -145,14 +145,14 @@ char	*get_prompt(t_sh_data *sh_data)
 		dst = ft_append(dst, " ");
 		dst = ft_append(dst, RESET);
 	}
-	dst = ft_append(dst, "→   ");
+	dst = ft_append(dst, "→  ");
 	dst = ft_append(dst, RESET);
 	return (dst);
 }
 
 /**
  * @brief Free prompt data
- * 
+ *
  * @param prompt the prompt data
  */
 void	free_prompt_data(t_prompt *prompt)
