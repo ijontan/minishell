@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/06 00:47:16 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:38:30 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void	find_all(char *arg, t_sh_data data, struct dirent *filename)
 			tmp = ft_strjoin(tmp, " ");
 	}
 	if (tmp[0])
-	{
 		free(arg);
-	}
 }
 
 char	*find_some(t_sh_data data, struct dirent *filename, char *before,
@@ -76,9 +74,7 @@ void	find_after(char *arg, t_sh_data data, struct dirent *filename)
 		filename = readdir(data->dir);
 	}
 	if (tmp[0])
-	{
 		free(arg);
-	}
 }
 
 void	expand_wildcard(char *arg, t_sh_data data, struct dirent *filename)
@@ -101,11 +97,7 @@ void	expand_wildcard(char *arg, t_sh_data data, struct dirent *filename)
 	else if (!before && after)
 		find_after(arg, data, filename);
 	else
-	{
 		buffer = find_some(data, filename, before, after);
-		if (buffer[0])
-			arg = buffer;
-	}
 }
 
 void	wildcard(char *arg, t_sh_data data)
