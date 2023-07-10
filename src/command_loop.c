@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/06 20:24:53 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/10 20:44:43 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	command_loop(char **env)
 	t_sh_data		data;
 	char			*line;
 	t_command_chunk	*chunks;
+	t_list			*chunk;
 
 	init_sh_data(&data, env);
 	setup_signal();
@@ -53,9 +54,11 @@ void	command_loop(char **env)
 		if (!*line)
 			continue ;
 		chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
-		while (*chunks->chunk)
+		while (chunks->chunk)
 		{
-			ft_printf("chunk: %s\n", chunks->chunk);
+			chunks->commands = setup_commands(chunks->chunk);
+			chunk = ft_lstnew(chunks);
+			exec_commands(&data, chunk);
 			chunks++;
 		}
 	}
