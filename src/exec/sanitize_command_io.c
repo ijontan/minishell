@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 17:50:28 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/10 14:48:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static int	left_arrow(t_command *cmd, int i)
 {
 	if (cmd->args[i][0] == '<')
 	{
-		if (cmd->args[i][1] == '<')
+		if (cmd->args[i][1] == '<' && cmd->args[i][2] == '\0')
 			cmd->fd_in = cmd->latest_heredoc;
-		else
+		else if (cmd->args[i][1] == '\0')
 		{
 			if (cmd->fd_in != 0 && cmd->fd_in != cmd->latest_heredoc)
 				close(cmd->fd_in);
@@ -26,6 +26,8 @@ static int	left_arrow(t_command *cmd, int i)
 				return (1);
 			cmd->fd_in = open(cmd->args[i + 1], O_RDONLY);
 		}
+		else
+			return (0);
 		return (1);
 	}
 	return (0);
@@ -73,7 +75,8 @@ void	sanitize_command_io(t_command *cmd)
 	j = 0;
 	while (++i < num)
 	{
-		if (cmd->args[j] && (cmd->args[j][0] == '<' || cmd->args[j][0] == '>'))
+		if (cmd->args[j] && (cmd->args[j][0] == '<' || cmd->args[j][0] == '>')
+			&& (cmd->args[j][0] == '\0' || cmd->args[j][1] == '\0'))
 			j += 2;
 		tmp[i] = ft_strdup(cmd->args[j++]);
 	}

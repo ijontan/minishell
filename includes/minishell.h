@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 16:16:49 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/10 19:02:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_sh_data
 	t_list		*pipes;
 }				t_sh_data;
 
+void			command_loop(char **env);
+
 /* -------------------------------- build_in -------------------------------- */
 
 void			cd(char **args);
@@ -108,6 +110,7 @@ char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
 
 /* ---------------------------------- setup --------------------------------- */
+char			**split_expand(char **args, char sep);
 char			*env_expension(char *arg, char **env);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
@@ -116,6 +119,7 @@ t_list			*setup_commands(char *command);
 /* --------------------------------- signals -------------------------------- */
 
 void			handle_signal(int signo);
+void			setup_signal(void);
 
 /* ------------------------------ tokenization ------------------------------ */
 

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/03/28 01:54:17 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/06 16:20:45 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	(void)env;
+	command_loop(env);
 	return (0);
 }
