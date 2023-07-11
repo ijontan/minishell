@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 02:41:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/06 15:01:29 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 13:56:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,12 @@
  */
 static char	*get_gitbranch(char **env)
 {
-	int		pipes[2];
-	pid_t	pid;
-	char	**argv;
 	char	*branch;
 	char	*tmp;
 
-	pipe(pipes);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		close(2);
-		tmp = check_program_exist("git", env);
-		argv = ft_split("git branch --show-current", ' ');
-		execve(tmp, argv, env);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-	close(pipes[1]);
-	branch = NULL;
-	tmp = get_next_line(pipes[0]);
-	while (tmp)
-	{
-		branch = ft_append(branch, tmp);
-		free(tmp);
-		tmp = get_next_line(pipes[0]);
-	}
+	branch = prompt_exec(env, "git branch --show-current");
 	tmp = ft_strtrim(branch, "\n");
 	free(branch);
-	close(pipes[0]);
 	return (tmp);
 }
 
@@ -66,37 +40,12 @@ static char	*get_gitbranch(char **env)
  */
 static char	*get_hostname(char **env)
 {
-	int		pipes[2];
-	pid_t	pid;
-	char	**argv;
 	char	*hostname;
 	char	*tmp;
 
-	pipe(pipes);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		tmp = check_program_exist("hostname", env);
-		argv = ft_split(tmp, ' ');
-		execve(tmp, argv, env);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-	close(pipes[1]);
-	hostname = NULL;
-	tmp = get_next_line(pipes[0]);
-	while (tmp)
-	{
-		hostname = ft_append(hostname, tmp);
-		free(tmp);
-		tmp = get_next_line(pipes[0]);
-	}
+	hostname = prompt_exec(env, "hostname");
 	tmp = ft_strtrim(hostname, ".42kl.edu.my\n");
 	free(hostname);
-	close(pipes[0]);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/10 19:02:32 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 13:42:00 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void			sanitize_command_io(t_command *cmd);
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
+char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
 char			**split_expand(char **args, char sep);
