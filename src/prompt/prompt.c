@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 02:41:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 13:56:58 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 14:28:18 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,8 @@ char	*get_prompt(t_sh_data *sh_data)
  */
 void	free_prompt_data(t_prompt *prompt)
 {
-	free(prompt->user);
 	free(prompt->hostname);
 	free(prompt->pwd);
-	free(prompt->home);
+	free(prompt->git_branch);
 	free(prompt);
 }

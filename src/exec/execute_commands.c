@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 17:25:39 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 14:20:02 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,17 @@ static void	setup_pipes(t_sh_data *sh_data, t_command_chunk *command_chunk)
 
 static void	close_pipe(void *pipe)
 {
-	close(((t_pipe *)pipe)->pipe[0]);
-	close(((t_pipe *)pipe)->pipe[1]);
+	t_pipe	*pipe_tmp;
+
+	pipe_tmp = (t_pipe *)pipe;
+	close(pipe_tmp->pipe[0]);
+	close(pipe_tmp->pipe[1]);
+	free(pipe_tmp);
 }
 
 void	close_pipes(t_sh_data *sh_data)
 {
-	ft_lstiter(sh_data->pipes, close_pipe);
+	ft_lstclear(&sh_data->pipes, close_pipe);
 }
 
 /**

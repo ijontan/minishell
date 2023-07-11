@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 13:42:00 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 14:19:04 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ t_list			*tokenize(char *command);
 
 char			**dup_2d(char **args);
 void			free_2d(char **val);
+void			free_t_chunk_list(t_list **list);
+void			free_sh_data(t_sh_data *data);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
