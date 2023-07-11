@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 14:19:04 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 17:34:10 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_sh_data
 {
 	t_prompt	*prompt;
 	char		**env;
-	t_list		*command_chunks;
 	t_list		*pipes;
 }				t_sh_data;
 
@@ -101,7 +100,7 @@ void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
 
-void			exec_commands(t_sh_data *sh_data, t_list *command_chunk);
+void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk);
 void			sanitize_command_io(t_command *cmd);
 /* --------------------------------- prompt --------------------------------- */
 
@@ -122,15 +121,11 @@ t_list			*setup_commands(char *command);
 void			handle_signal(int signo);
 void			setup_signal(void);
 
-/* ------------------------------ tokenization ------------------------------ */
-
-char			*expand_env(char *str, char **env);
-t_list			*tokenize(char *command);
 /* ---------------------------------- utils --------------------------------- */
 
 char			**dup_2d(char **args);
 void			free_2d(char **val);
-void			free_t_chunk_list(t_list **list);
+void			free_t_chunk_array(t_command_chunk *command_chunks);
 void			free_sh_data(t_sh_data *data);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
