@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 17:27:17 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 17:50:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,11 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
  *
  * @param sh_data contains all data needed to execute commands
  */
-void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk)
+void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 {
 	int		i;
 	pid_t	*pids;
 	t_list	*tmp;
-	int		status;
 
 	setup_pipes(sh_data, chunk);
 	tmp = chunk->commands;
@@ -112,6 +111,6 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk)
 	close_pipes(sh_data);
 	i = -1;
 	while (pids[++i])
-		waitpid(pids[i], &status, 0);
+		waitpid(pids[i], status, 0);
 	free(pids);
 }

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 17:34:10 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 17:50:23 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
 
-void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk);
+void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
+					int *status);
 void			sanitize_command_io(t_command *cmd);
 /* --------------------------------- prompt --------------------------------- */
 
@@ -126,7 +127,6 @@ void			setup_signal(void);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 void			free_t_chunk_array(t_command_chunk *command_chunks);
-void			free_sh_data(t_sh_data *data);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
