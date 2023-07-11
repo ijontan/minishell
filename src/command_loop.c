@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/10 20:44:43 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 14:30:40 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_sh_data(t_sh_data *data, char **env)
 {
-	data->env = dup_2d(env);
+	ss data->env = dup_2d(env);
 	data->command_chunks = NULL;
 	data->pipes = NULL;
 	data->prompt = NULL;
@@ -27,6 +27,7 @@ static char	*prompt(t_sh_data *data)
 
 	get_prompt_data(data);
 	prompt_str = get_prompt(data);
+	free_prompt_data(data->prompt);
 	dst = readline(prompt_str);
 	free(prompt_str);
 	return (dst);
@@ -61,5 +62,7 @@ void	command_loop(char **env)
 			exec_commands(&data, chunk);
 			chunks++;
 		}
+		free_t_chunk_list(&chunk);
+		free(line);
 	}
 }
