@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   setup_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/07/06 16:20:45 by itan             ###   ########.fr       */
+/*   Created: 2023/07/06 14:43:57 by itan              #+#    #+#             */
+/*   Updated: 2023/07/06 14:44:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	setup_signal(void)
 {
-	(void)ac;
-	(void)av;
-	command_loop(env);
-	return (0);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
 }

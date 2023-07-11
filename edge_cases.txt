@@ -1,0 +1,16 @@
+
+# pipe and && and || and > and >> and << and |
+
+ls -la | cat -e > ok && cat ok
+ls -la | cat -e > ok && cat ok | cat -e && rm -rf ok
+cat << EOF < ok > ok > ok2 >> ok3 > ok4 && cat ok && cat ok2 && cat ok3 && cat ok4
+
+# redirections
+ls -la > ok
+ls -la >> ok
+ls -la < ok
+
+# pipes
+ls -la | cat -e
+ls -la |
+cat -e

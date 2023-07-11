@@ -6,103 +6,52 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 02:41:23 by itan              #+#    #+#             */
-/*   Updated: 2023/04/03 14:15:06 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 14:28:18 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include "minishell.h"
 
-//TODO: should be updated
+// TODO: should be updated
 /**
  * @brief Get the git branch name
- * 
- * @param env 
- * @return char* 
+ *
+ * @param env
+ * @return char*
  */
 static char	*get_gitbranch(char **env)
 {
-	int		pipes[2];
-	pid_t	pid;
-	char	**argv;
 	char	*branch;
 	char	*tmp;
 
-	pipe(pipes);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		close(2);
-		tmp = check_program_exist("git", env);
-		argv = ft_split("git branch --show-current", ' ');
-		execve(tmp, argv, env);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-	close(pipes[1]);
-	branch = NULL;
-	tmp = get_next_line(pipes[0]);
-	while (tmp)
-	{
-		branch = ft_append(branch, tmp);
-		free(tmp);
-		tmp = get_next_line(pipes[0]);
-	}
+	branch = prompt_exec(env, "git branch --show-current");
 	tmp = ft_strtrim(branch, "\n");
 	free(branch);
-	close(pipes[0]);
 	return (tmp);
 }
 
-//TODO: should be updated
+// TODO: should be updated
 /**
  * @brief Get the hostname of the computer, for now
- * 
- * @param env 
- * @return char* 
+ *
+ * @param env
+ * @return char*
  */
 static char	*get_hostname(char **env)
 {
-	int		pipes[2];
-	pid_t	pid;
-	char	**argv;
 	char	*hostname;
 	char	*tmp;
 
-	pipe(pipes);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		tmp = check_program_exist("hostname", env);
-		argv = ft_split(tmp, ' ');
-		execve(tmp, argv, env);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-	close(pipes[1]);
-	hostname = NULL;
-	tmp = get_next_line(pipes[0]);
-	while (tmp)
-	{
-		hostname = ft_append(hostname, tmp);
-		free(tmp);
-		tmp = get_next_line(pipes[0]);
-	}
+	hostname = prompt_exec(env, "hostname");
 	tmp = ft_strtrim(hostname, ".42kl.edu.my\n");
 	free(hostname);
-	close(pipes[0]);
 	return (tmp);
 }
 
 /**
  * @brief update the prompt data
- * 
+ *
  * @param sh_data minishell data
  */
 void	get_prompt_data(t_sh_data *sh_data)
@@ -117,9 +66,9 @@ void	get_prompt_data(t_sh_data *sh_data)
 
 /**
  * @brief Get the prompt string from the prompt data
- * 
+ *
  * @param sh_data minishell data
- * @return char* 
+ * @return char*
  */
 char	*get_prompt(t_sh_data *sh_data)
 {
@@ -145,21 +94,20 @@ char	*get_prompt(t_sh_data *sh_data)
 		dst = ft_append(dst, " ");
 		dst = ft_append(dst, RESET);
 	}
-	dst = ft_append(dst, "→   ");
+	dst = ft_append(dst, "→  ");
 	dst = ft_append(dst, RESET);
 	return (dst);
 }
 
 /**
  * @brief Free prompt data
- * 
+ *
  * @param prompt the prompt data
  */
 void	free_prompt_data(t_prompt *prompt)
 {
-	free(prompt->user);
 	free(prompt->hostname);
 	free(prompt->pwd);
-	free(prompt->home);
+	free(prompt->git_branch);
 	free(prompt);
 }

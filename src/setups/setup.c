@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/06/28 16:31:44 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/05 16:16:55 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ static void	get_heredoc(t_command *cmd)
 	{
 		if (cmd->args[i][0] == '<' && cmd->args[i][1] == '<'
 			&& cmd->args[i][2] == 0)
-		{
-			if (cmd->heredoc)
-				free(cmd->heredoc);
-			cmd->heredoc = heredoc(cmd->args[i + 1]);
-		}
+			exec_heredoc(cmd, cmd->args[i + 1]);
 		i++;
 	}
 }
@@ -89,6 +85,9 @@ t_list	*setup_commands(char *command)
 	while (args[i])
 	{
 		cmd_tmp = (t_command *)ft_calloc(1, sizeof(t_command));
+		cmd_tmp->fd_in = STDIN_FILENO;
+		cmd_tmp->fd_out = STDOUT_FILENO;
+		cmd_tmp->latest_heredoc = -1;
 		cmd_tmp->args = split_args(args[i++]);
 		get_heredoc(cmd_tmp);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));

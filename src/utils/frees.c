@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env.c                                       :+:      :+:    :+:   */
+/*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/02 21:47:51 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 14:53:30 by itan             ###   ########.fr       */
+/*   Created: 2023/07/11 14:06:56 by itan              #+#    #+#             */
+/*   Updated: 2023/07/11 18:25:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief  (depricated)
- *
- * @param str
- * @param env the current environment variables
- * @return char*
- */
-char	*expand_env(char *str, char **env)
+static void	free_t_command(void *command)
 {
-	(void)str;
-	(void)env;
-	return (NULL);
+	t_command	*tmp;
+
+	tmp = (t_command *)command;
+	free_2d(tmp->args);
+	free(tmp);
+}
+
+void	free_t_chunk_array(t_command_chunk *command_chunks)
+{
+	int	i;
+
+	i = -1;
+	while (command_chunks[++i].chunk)
+	{
+		free(command_chunks[i].chunk);
+		ft_lstclear(&command_chunks[i].commands, free_t_command);
+		if (command_chunks[i].sep)
+			free(command_chunks[i].sep);
+	}
+	free(command_chunks);
 }
