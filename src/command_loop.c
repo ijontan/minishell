@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 17:47:54 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 18:20:17 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,18 @@ static void	execution_procedure(char *line, t_sh_data *data)
 	chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
 	i = -1;
 	while (chunks[++i].chunk)
+		chunks[i].commands = setup_commands(chunks[i].chunk);
+	i = -1;
+	while (chunks[++i].chunk)
 	{
-		chunks->commands = setup_commands(chunks->chunk);
-		exec_commands(data, &chunks[i]);
+		exec_commands(data, &chunks[i], &status);
+		if (chunks[i].sep == NULL)
+			break ;
+		if (status != 0 && ft_strcmp(chunks[i].sep, "&&") != 0)
+			continue ;
+		if (status == 0 && ft_strcmp(chunks[i].sep, "||") != 0)
+			continue ;
+		++i;
 	}
 	free_t_chunk_array(chunks);
 }

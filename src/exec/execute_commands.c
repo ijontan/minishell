@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 17:50:14 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 18:10:17 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	setup_pipes(sh_data, chunk);
 	tmp = chunk->commands;
 	pids = (pid_t *)ft_calloc(ft_lstsize(tmp) + 1, sizeof(pid_t));
-	tmp = chunk->commands;
 	i = 0;
 	while (tmp)
 	{

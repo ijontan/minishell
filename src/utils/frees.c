@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:06:56 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 17:45:58 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/11 18:25:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	free_t_chunk_array(t_command_chunk *command_chunks)
 	{
 		free(command_chunks[i].chunk);
 		ft_lstclear(&command_chunks[i].commands, free_t_command);
+		if (command_chunks[i].sep)
+			free(command_chunks[i].sep);
 	}
 	free(command_chunks);
 }
