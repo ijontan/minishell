@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/06/23 13:11:23 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/06 20:29:29 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 		i += ft_strlen(cache.sep);
 	}
 	if (!str[i])
+	{
 		dst = (t_command_chunk *)ft_calloc(depth + 2, sizeof(t_command_chunk));
+		dst[depth + 1].chunk = 0;
+	}
 	else
 		dst = recurse(str + i, seps, depth + 1);
 	dst[depth] = cache;

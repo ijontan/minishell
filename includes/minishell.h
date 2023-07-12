@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 18:08:02 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:45:50 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-
-# define HEREDOC_NUM -2
 
 /**
  * @brief data for prompt
@@ -68,7 +66,6 @@ typedef struct s_command_chunk
  * @param args arguments for program including program name
  * @param fd_in file descriptor for input
  * @param fd_out file descriptor for output
- * @param heredoc string that heredoc captured, not eof
  */
 typedef struct s_command
 {
@@ -76,7 +73,7 @@ typedef struct s_command
 	char		**args;
 	int			fd_in;
 	int			fd_out;
-	char		*heredoc;
+	int			latest_heredoc;
 }				t_command;
 
 typedef struct s_pipe
@@ -97,7 +94,6 @@ typedef struct s_sh_data
 {
 	t_prompt	*prompt;
 	char		**env;
-	t_list		*command_chunks;
 	t_list		*pipes;
 	DIR			*dir;
 	int			exited;
@@ -119,31 +115,33 @@ void			cd(char **args);
 
 /* ---------------------------------- exec ---------------------------------- */
 
-void			exec_commands(t_sh_data *sh_data, t_list *command_chunk);
+void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
+					int *status);
 void			sanitize_command_io(t_command *cmd);
 /* --------------------------------- prompt --------------------------------- */
 
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
+char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
+char			**split_expand(char **args, char sep);
 char			*env_expension(char *arg, char **env);
 char			*heredoc(char *eof);
+void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */
 
 void			handle_signal(int signo);
+void			setup_signal(void);
 
-/* ------------------------------ tokenization ------------------------------ */
-
-char			*expand_env(char *str, char **env);
-t_list			*tokenize(char *command);
 /* ---------------------------------- utils --------------------------------- */
 
 char			**dup_2d(char **args);
 void			free_2d(char **val);
+void			free_t_chunk_array(t_command_chunk *command_chunks);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			**split_args(char *command);

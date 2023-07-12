@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/02 00:21:35 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:47:25 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,44 @@ char	*env_expension(char *arg, char **env)
 		}
 	}
 	return (dst);
+}
+
+static char	**split_expand_recurse(char **args, char c, int count, int i)
+{
+	char	**cache;
+	char	**dst;
+	int		num;
+
+	if (!*args)
+		return (0);
+	cache = ft_split(args[i], c);
+	num = 0;
+	while (cache[num])
+		++num;
+	if (args[i + 1])
+		dst = split_expand_recurse(args, c, count + num, i + 1);
+	else
+		dst = (char **)ft_calloc(count + num + 1, sizeof(char *));
+	ft_printf("count: %d, num: %d\n", count, num);
+	while (num--)
+		dst[count + num] = cache[num];
+	free(cache);
+	return (dst);
+}
+
+char	**split_expand(char **args, char sep)
+{
+	return (split_expand_recurse(args, sep, 0, 0));
+}
+
+void	expand_all_args(t_command *cmd, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		cmd->args[i] = env_expension(cmd->args[i], env);
+		i++;
+	}
 }
