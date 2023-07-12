@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 22:38:47 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/13 22:51:34 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:32:59 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	env(char **args, char **env)
 	{
 		while (env[i])
 		{
-			if (ft_strchr(env[i], '=') != -1)
+			if ((long)ft_strchr(env[i], '=') != -1)
 				ft_putstr_fd(env[i], 1);
 			i++;
 		}

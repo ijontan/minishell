@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 18:45:33 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:41:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static int	update_oldpwd(char **env)
 	if (!cwd)
 		return (0);
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
-	if (!check_program_exist(oldpwd, env))
-		add_env(oldpwd, env);
+	// ! there is no add_env function
+	// if (!check_program_exist(oldpwd, env))
+	// 	add_env(oldpwd, env);
+	(void)env; // ! this is to remove the warning, set but not used
 	ft_memdel(oldpwd);
 	return (1);
 }
@@ -55,7 +57,7 @@ static int	to_path(int path, t_sh_data *data)
 		update_oldpwd(data->env);
 		env_path = check_program_exist("HOME", data->env);
 		if (env_path == NULL)
-			ft_putendl_fd("minishell : cd : HOME not set", STDERR);
+			ft_putendl_fd("minishell : cd : HOME not set", STDERR_FILENO);
 		if (env_path == NULL)
 			return (1);
 	}
@@ -63,7 +65,7 @@ static int	to_path(int path, t_sh_data *data)
 	{
 		env_path = check_program_exist("OLDPWD", data->env);
 		if (env_path == NULL)
-			ft_putendl_fd("minishell : cd : OLDPWD not set", STDERR);
+			ft_putendl_fd("minishell : cd : OLDPWD not set", STDERR_FILENO);
 		if (env_path == NULL)
 			return (1);
 		update_oldpwd(data->env);
@@ -73,7 +75,7 @@ static int	to_path(int path, t_sh_data *data)
 	return (ret);
 }
 
-static int	check_args(char **args)
+int	check_args(char **args)
 {
 	char	*cwd;
 	char	buffer[4097];
@@ -82,11 +84,13 @@ static int	check_args(char **args)
 	{
 		if (args[1])
 		{
-			ft_putendl_fd("minishell : cd : too many arguments\n", STDERR);
+			ft_putendl_fd("minishell : cd : too many arguments\n",
+							STDERR_FILENO);
 			return (1);
 		}
 		cwd = getcwd(buffer, 4096);
 	}
+	(void)cwd; // ! this is to remove the warning, set but not used
 	return (0);
 }
 
@@ -94,7 +98,8 @@ int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 
-	if (args[0] == NULL || args[0] == "~")
+	if (args[0] == NULL || !ft_strcmp(args[0], "~"))
+		// ! there is no strcmp with "=="" in c
 		return (to_path(0, data));
 	else
 	{
@@ -105,7 +110,7 @@ int	cd(char **args, t_sh_data *data)
 			update_oldpwd(data->env);
 			ret = chdir(args[0]);
 			if (ret != 0)
-				perror(args);
+				perror(args[0]);
 			if (ret < 0)
 				ret *= chdir(args[0]);
 		}

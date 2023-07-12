@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:51:33 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/13 17:33:48 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:33:33 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	echo(char **args)
 	flag = 0;
 	if (!args[i])
 	{
-		write(1, '\n', 1);
+		write(1, "\n", 1);
 		return (1);
 	}
 	else if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
@@ -37,6 +37,6 @@ int	echo(char **args)
 		i++;
 	}
 	if (flag == 0)
-		write(1, '\n', 1);
+		write(1, "\n", 1);
 	return (0);
 }
