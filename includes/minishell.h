@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 18:45:50 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:05:48 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+# define STDERR 2
 
 /**
  * @brief data for prompt
@@ -111,7 +113,14 @@ extern t_sig	g_sig;
 
 /* -------------------------------- build_in -------------------------------- */
 
-void			cd(char **args);
+void			add_env_var(char *args, char **env);
+int				cd(char **args, t_sh_data *data);
+int				echo(char **args);
+int				env(char **args, char **env);
+int				ft_exit(t_sh_data *data, int argc, char **args);
+int				export(char **args, char **env);
+int				pwd(void);
+int				unset(char **args, char **env);
 
 /* ---------------------------------- exec ---------------------------------- */
 

@@ -6,13 +6,21 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 23:32:27 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/26 00:03:51 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:55:45 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit(t_sh_data *data, int argc, char **args)
+int	ft_isnum(char *n)
+{
+	int	i;
+
+	i = 0;
+	
+}
+
+int	ft_exit(t_sh_data *data, int argc, char **args)
 {
 	int	i;
 

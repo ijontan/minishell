@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/06/26 18:45:33 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:12:10 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	update_oldpwd(char **env)
 		return (0);
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
 	if (!check_program_exist(oldpwd, env))
-		add_env(oldpwd, env);
+		add_env_var(oldpwd, env);
 	ft_memdel(oldpwd);
 	return (1);
 }
@@ -94,7 +94,9 @@ int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 
-	if (args[0] == NULL || args[0] == "~")
+	if (check_args(args))
+		return (0);
+	if (args[0] == NULL || ft_strcmp(args[0], "~"))
 		return (to_path(0, data));
 	else
 	{
@@ -105,7 +107,7 @@ int	cd(char **args, t_sh_data *data)
 			update_oldpwd(data->env);
 			ret = chdir(args[0]);
 			if (ret != 0)
-				perror(args);
+				perror(*args);
 			if (ret < 0)
 				ret *= chdir(args[0]);
 		}
