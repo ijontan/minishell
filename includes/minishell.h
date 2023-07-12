@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 18:45:50 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:28:46 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,22 @@ typedef struct s_sig
 
 extern t_sig	g_sig;
 
+void			command_loop(char **env);
+
 /* -------------------------------- build_in -------------------------------- */
 
-void			cd(char **args);
+int				cd(char **args, t_sh_data *data);
+int				echo(char **args);
+int				env(char **args, char **env);
+int				exit_buildin(t_sh_data *data, int argc, char **args);
+int				export(char **args, char **env);
+int				pwd(void);
+int				unset(char **args, char **env);
+
+/* ----------------------------------- env ---------------------------------- */
+int				find_env_pos(char *args, char **env);
+void			sort_env(char **env);
+int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:25:41 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/06 00:18:51 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:11:15 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_strndup(char *str, int n)
 	i = 0;
 	while (str[i] && i < n)
 	{
-		dst[i] = str[i] i++;
+		dst[i] = str[i];
+		i++;
 	}
 	dst[i] = '\0';
 	return (dst);
