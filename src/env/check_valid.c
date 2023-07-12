@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 20:15:34 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/26 00:43:07 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:15:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	find_env_pos(char *args, char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_strjoin(args, '=');
+		tmp = ft_strjoin(args, "=");
 		if (ft_strstart(tmp, env[i]))
 		{
 			free(tmp);
@@ -46,7 +46,7 @@ int	find_env_pos(char *args, char **env)
 	return (i);
 }
 
-int	env_valid(char **env)
+int	env_valid(char *env)
 {
 	int	i;
 

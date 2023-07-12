@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 19:12:10 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 21:15:26 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	to_path(int path, t_sh_data *data)
 		update_oldpwd(data->env);
 		env_path = check_program_exist("HOME", data->env);
 		if (env_path == NULL)
-			ft_putendl_fd("minishell : cd : HOME not set", STDERR);
+			ft_putendl_fd("minishell : cd : HOME not set", STDERR_FILENO);
 		if (env_path == NULL)
 			return (1);
 	}
@@ -63,7 +63,7 @@ static int	to_path(int path, t_sh_data *data)
 	{
 		env_path = check_program_exist("OLDPWD", data->env);
 		if (env_path == NULL)
-			ft_putendl_fd("minishell : cd : OLDPWD not set", STDERR);
+			ft_putendl_fd("minishell : cd : OLDPWD not set", STDERR_FILENO);
 		if (env_path == NULL)
 			return (1);
 		update_oldpwd(data->env);
@@ -73,7 +73,7 @@ static int	to_path(int path, t_sh_data *data)
 	return (ret);
 }
 
-static int	check_args(char **args)
+int	check_args(char **args)
 {
 	char	*cwd;
 	char	buffer[4097];
@@ -82,11 +82,13 @@ static int	check_args(char **args)
 	{
 		if (args[1])
 		{
-			ft_putendl_fd("minishell : cd : too many arguments\n", STDERR);
+			ft_putendl_fd("minishell : cd : too many arguments\n",
+							STDERR_FILENO);
 			return (1);
 		}
 		cwd = getcwd(buffer, 4096);
 	}
+	(void)cwd; // ! this is to remove the warning, set but not used
 	return (0);
 }
 
@@ -94,9 +96,7 @@ int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 
-	if (check_args(args))
-		return (0);
-	if (args[0] == NULL || ft_strcmp(args[0], "~"))
+	if (args[0] == NULL || !ft_strcmp(args[0], "~"))
 		return (to_path(0, data));
 	else
 	{
@@ -107,7 +107,7 @@ int	cd(char **args, t_sh_data *data)
 			update_oldpwd(data->env);
 			ret = chdir(args[0]);
 			if (ret != 0)
-				perror(*args);
+				perror(args[0]);
 			if (ret < 0)
 				ret *= chdir(args[0]);
 		}

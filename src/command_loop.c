@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/11 18:20:17 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/12 22:38:11 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	command_loop(char **env)
 	char		*line;
 
 	init_sh_data(&data, env);
+	init_signal();
 	setup_signal();
 	while (1)
 	{

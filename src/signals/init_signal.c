@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   init_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 22:38:47 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:59:15 by nwai-kea         ###   ########.fr       */
+/*   Created: 2023/07/12 22:33:45 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/07/12 23:13:41 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(char **args, char **env)
-{
-	int	i;
+t_sig	g_sig;
 
-	i = 0;
-	if (!args[0])
-	{
-		while (env[i])
-		{
-			if ((long)ft_strchr(env[i], '=') != -1)
-				ft_putstr_fd(env[i], 1);
-			i++;
-		}
-	}
-	else
-	{
-		ft_putendl_fd("minishell: env: Too many arguments.", 1);
-		return (1);
-	}
-	return (0);
+void	init_signal(void)
+{
+	g_sig.sigint = 0;
+	g_sig.sigquit = 0;
+	g_sig.sigstatus = 0;
+	g_sig.pid = 0;
 }

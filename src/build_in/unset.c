@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 00:04:10 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/26 00:48:01 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:27:41 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	remove_env(char **env, int pos)
 	count = pos + 1;
 	while (env[i + 1])
 	{
-		env[i] = ft_strdup(env[i + 1])
-			free(env[i + 1]);
+		env[i] = ft_strdup(env[i + 1]);
+		free(env[i + 1]);
 		i++;
 		count++;
 	}
@@ -37,7 +37,7 @@ int	unset(char **args, char **env)
 
 	if (!args[1])
 	{
-		ft_putendl("unset: Too few arguments.");
+		ft_printf("unset: Too few arguments.\n");
 		return (1);
 	}
 	i = 1;

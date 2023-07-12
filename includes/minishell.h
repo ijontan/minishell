@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 19:05:48 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 23:14:10 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,16 +111,23 @@ typedef struct s_sig
 
 extern t_sig	g_sig;
 
+void			command_loop(char **env);
+
 /* -------------------------------- build_in -------------------------------- */
 
 void			add_env_var(char *args, char **env);
 int				cd(char **args, t_sh_data *data);
 int				echo(char **args);
 int				env(char **args, char **env);
-int				ft_exit(t_sh_data *data, int argc, char **args);
+int				exit_buildin(t_sh_data *data, int argc, char **args);
 int				export(char **args, char **env);
 int				pwd(void);
 int				unset(char **args, char **env);
+
+/* ----------------------------------- env ---------------------------------- */
+int				find_env_pos(char *args, char **env);
+void			sort_env(char **env);
+int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
 
@@ -143,7 +150,9 @@ t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */
 
+void			init_signal(void);
 void			handle_signal(int signo);
+void			handle_signal_quit(int signo);
 void			setup_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/06 16:38:30 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/12 20:24:06 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	find_all(char *arg, t_sh_data data, struct dirent *filename)
+void	find_all(char *arg, t_sh_data *data, struct dirent *filename)
 {
 	char	*tmp;
 	int		check;
@@ -34,7 +34,7 @@ void	find_all(char *arg, t_sh_data data, struct dirent *filename)
 		free(arg);
 }
 
-char	*find_some(t_sh_data data, struct dirent *filename, char *before,
+char	*find_some(t_sh_data *data, struct dirent *filename, char *before,
 		char *after)
 {
 	char	*tmp;
@@ -46,7 +46,7 @@ char	*find_some(t_sh_data data, struct dirent *filename, char *before,
 		len = ft_strlen(before);
 		if (!ft_strncmp(filename->d_name, before, len))
 		{
-			if (!after || (after && ft_strstr(filename->d_name, after)))
+			if (!after || (after && ft_strnstr(filename->d_name, after, 255)))
 			{
 				if (tmp[0])
 					tmp = ft_strjoin(tmp, " ");
@@ -58,14 +58,15 @@ char	*find_some(t_sh_data data, struct dirent *filename, char *before,
 	return (tmp);
 }
 
-void	find_after(char *arg, t_sh_data data, struct dirent *filename)
+void	find_after(char *arg, t_sh_data *data, struct dirent *filename,
+		char *after)
 {
 	char	*tmp;
 
 	tmp = ft_strdup("");
 	while (filename)
 	{
-		if (ft_strstr(filename->d_name, after))
+		if (ft_strnstr(filename->d_name, after, 255))
 		{
 			if (tmp[0])
 				tmp = ft_strjoin(tmp, " ");
@@ -77,11 +78,12 @@ void	find_after(char *arg, t_sh_data data, struct dirent *filename)
 		free(arg);
 }
 
-void	expand_wildcard(char *arg, t_sh_data data, struct dirent *filename)
+void	expand_wildcard(char *arg, t_sh_data *data, struct dirent *filename)
 {
 	char	*before;
 	char	*after;
 	char	*buffer;
+	int		i;
 
 	before = NULL;
 	after = NULL;
@@ -89,18 +91,19 @@ void	expand_wildcard(char *arg, t_sh_data data, struct dirent *filename)
 	while (arg[i] != '*')
 		i++;
 	if (i > 0)
-		before = ft_strndup(arg, i);
+		before = ft_substr(arg, 0, i);
 	if (arg[i + 1])
 		after = ft_strdup(arg);
 	if (!before && !after)
 		find_all(arg, data, filename);
 	else if (!before && after)
-		find_after(arg, data, filename);
+		find_after(arg, data, filename, after);
 	else
 		buffer = find_some(data, filename, before, after);
+	(void)buffer; // ! remove when need to use
 }
 
-void	wildcard(char *arg, t_sh_data data)
+void	wildcard(char *arg, t_sh_data *data)
 {
 	struct dirent	*filename;
 
