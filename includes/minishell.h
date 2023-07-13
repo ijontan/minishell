@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 23:14:10 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:43:29 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_sh_data
 	t_list		*pipes;
 	DIR			*dir;
 	int			exited;
+	int			status;
 }				t_sh_data;
 
 typedef struct s_sig
@@ -119,7 +120,7 @@ void			add_env_var(char *args, char **env);
 int				cd(char **args, t_sh_data *data);
 int				echo(char **args);
 int				env(char **args, char **env);
-int				exit_buildin(t_sh_data *data, int argc, char **args);
+int				exit_buildin(t_sh_data *data, char **args);
 int				export(char **args, char **env);
 int				pwd(void);
 int				unset(char **args, char **env);
@@ -130,7 +131,7 @@ void			sort_env(char **env);
 int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
-
+int				exec_builtin(char **args, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);

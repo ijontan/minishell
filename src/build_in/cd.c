@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 21:15:26 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/14 00:15:56 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,20 +96,20 @@ int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 
-	if (args[0] == NULL || !ft_strcmp(args[0], "~"))
+	if (args[1] == NULL || ft_strcmp(args[1], "~"))
 		return (to_path(0, data));
 	else
 	{
-		if (args[0][0] == '-' && !args[0][2])
+		if (args[1][0] == '-' && !args[1][2])
 			return (to_path(1, data));
 		else
 		{
 			update_oldpwd(data->env);
-			ret = chdir(args[0]);
+			ret = chdir(args[1]);
 			if (ret != 0)
-				perror(args[0]);
+				perror(args[1]);
 			if (ret < 0)
-				ret *= chdir(args[0]);
+				ret *= chdir(args[1]);
 		}
 	}
 	return (ret);

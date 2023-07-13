@@ -6,28 +6,28 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/06/26 19:28:31 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:46:38 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_check(char *command)
-{
-	if (ft_strcmp(command, "echo") == 0)
-		return (1);
-	if (ft_strcmp(command, "cd") == 0)
-		return (1);
-	if (ft_strcmp(command, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(command, "env") == 0)
-		return (1);
-	if (ft_strcmp(command, "export") == 0)
-		return (1);
-	if (ft_strcmp(command, "unset") == 0)
-		return (1);
-	return (0);
-}
+// int	builtin_check(char *command)
+// {
+// 	if (ft_strcmp(command, "echo") == 0)
+// 		return (1);
+// 	if (ft_strcmp(command, "cd") == 0)
+// 		return (1);
+// 	if (ft_strcmp(command, "pwd") == 0)
+// 		return (1);
+// 	if (ft_strcmp(command, "env") == 0)
+// 		return (1);
+// 	if (ft_strcmp(command, "export") == 0)
+// 		return (1);
+// 	if (ft_strcmp(command, "unset") == 0)
+// 		return (1);
+// 	return (0);
+// }
 
 int	exec_builtin(char **args, t_sh_data *data)
 {
@@ -46,5 +46,11 @@ int	exec_builtin(char **args, t_sh_data *data)
 		result = export(args, data->env);
 	if (ft_strcmp(args[0], "unset") == 0)
 		result = unset(args, data->env);
+	if (ft_strcmp(args[0], "exit") == 0)
+	{
+		result = exit_buildin(data, args);
+		if (data->exited == 1)
+			exit(result);
+	}
 	return (result);
 }

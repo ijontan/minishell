@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 23:32:27 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 21:26:46 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:45:42 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,26 @@ int	ft_isnum(char *n)
 	return (1);
 }
 
-int	exit_buildin(t_sh_data *data, int argc, char **args)
+int	counting(char **args)
 {
-	ft_putstr_fd("exit", 2);
-	if (argc > 2)
+	int	i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
+}
+
+int	exit_buildin(t_sh_data *data, char **args)
+{
+	if (counting(args) > 2)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (1);
 	}
-	while (args[0])
+	data->exited = 1;
+	ft_putstr_fd("exit\n", 2);
+	if (args[1])
 	{
 		if (!ft_isnum(args[1]))
 		{
@@ -44,8 +55,8 @@ int	exit_buildin(t_sh_data *data, int argc, char **args)
 		}
 	}
 	if (args[1])
-		data->exited = ft_atoi(args[1]);
+		data->status = ft_atoi(args[1]);
 	else
-		data->exited = 0;
-	return (0);
+		data->status = 0;
+	return (data->status);
 }

@@ -4,6 +4,10 @@
         "*.h": "cpp",
         "*.c": "c",
         "sstream": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "vector": "c"
     }
 }

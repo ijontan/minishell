@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:30:02 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/14 00:55:37 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ void	add_env_var(char *args, char **env)
 int	export(char **args, char **env)
 {
 	// int	i;
-	if (args[0])
+	if (args[1])
 	{
 		if (!env_valid(args[1]))
 		{
 			ft_putstr_fd("export: not a valid identifier: ", 2);
-			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(args[1], 2);
 			ft_putchar_fd('\n', 2);
 			return (1);
 		}
-		if (env_not_exist(args[0], env) == 1)
-			add_env_var(args[0], env);
+		if (env_not_exist(args[1], env) == 1)
+			add_env_var(args[1], env);
 	}
 	else
 	{

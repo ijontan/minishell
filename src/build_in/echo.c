@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:51:33 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:59:06 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:12:55 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	echo(char **args)
 	int	i;
 	int	flag;
 
-	i = 0;
+	i = 1;
 	flag = 0;
 	if (!args[i])
 	{
