@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 20:15:34 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:15:48 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/14 16:32:28 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strstart(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s2[i])
+	while (s2[i] != '=')
 	{
 		if (s1[i] != s2[i])
 			return (0);

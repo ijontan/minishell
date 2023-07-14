@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/13 21:43:29 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:53:38 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int				pwd(void);
 int				unset(char **args, char **env);
 
 /* ----------------------------------- env ---------------------------------- */
+int				ft_strstart(char *s1, char *s2);
 int				find_env_pos(char *args, char **env);
 void			sort_env(char **env);
 int				env_valid(char *env);

@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:54:03 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/14 00:58:39 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:37:50 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ char	**sorting_env(char **env, int len)
 
 void	sort_env(char **env)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	**tmp;
 
 	i = 0;
 	len = env_len(env);
-	env = sorting_env(env, len);
-	while (env[i])
+	tmp = env;
+	tmp = sorting_env(tmp, len);
+	while (tmp[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(env[i], 1);
+		ft_putendl_fd(tmp[i], 1);
 		i++;
 	}
 }
