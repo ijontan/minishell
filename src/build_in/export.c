@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/14 23:49:22 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:19:11 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	export(char **args, char **env)
 			ft_putchar_fd('\n', 2);
 			return (1);
 		}
-		printf("%d\n", env_not_exist(args[1], env));
 		if (env_not_exist(args[1], env))
 			add_env_var(args[1], env);
 		else

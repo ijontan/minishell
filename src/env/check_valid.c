@@ -6,11 +6,21 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 20:15:34 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/14 16:32:28 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:29:55 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	len_till_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i + 1);
+}
 
 int	ft_strstart(char *s1, char *s2)
 {
