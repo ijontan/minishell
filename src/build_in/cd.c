@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/16 01:18:03 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:13:13 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@ static int	update_oldpwd(char **env)
 	char	*oldpwd;
 	char	*cwd;
 
-	cwd = getcwd(NULL, 1024);
+	cwd = getcwd(NULL, 4096);
 	if (!cwd)
 		return (0);
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd)
 		return (0);
-	if (env_not_exist("OLDPWD", env) == 0)
+	if (env_not_exist("OLDPWD", env))
 		add_env_var(oldpwd, env);
-	ft_memdel(oldpwd);
+	else
+		overwrite_var(oldpwd, env);
+	// ft_memdel(oldpwd);
 	return (1);
 }
 
@@ -53,7 +55,8 @@ static char	*check_env(char *args, char **env, int j)
 			if (!add)
 				return (NULL);
 			k = 0;
-			while (env[j + 1])
+			j += 1;
+			while (env[i][j])
 				add[k++] = env[i][j++];
 			add[k] = '\0';
 			return (add);
@@ -101,21 +104,18 @@ int	cd(char **args, t_sh_data *data)
 		ft_putendl_fd("minishell : cd : too many arguments", STDERR_FILENO);
 		return (1);
 	}
-	if (args[1] == NULL || !ft_strcmp(args[1], "~"))
+	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 		return (to_path(0, data));
+	if (args[1][0] == '-' && !args[1][1])
+		return (to_path(1, data));
 	else
 	{
-		if (args[1][0] == '-' && !args[1][1])
-			return (to_path(1, data));
-		else
-		{
-			update_oldpwd(data->env);
-			ret = chdir(args[1]);
-			if (ret != 0)
-				perror(args[1]);
-			if (ret < 0)
-				ret *= -1;
-		}
+		update_oldpwd(data->env);
+		ret = chdir(args[1]);
+		if (ret != 0)
+			perror(args[1]);
+		if (ret < 0)
+			ret *= -1;
 	}
 	return (ret);
 }

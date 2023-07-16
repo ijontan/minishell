@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/16 01:07:29 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/16 20:37:18 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int				echo(char **args);
 int				env_not_exist(char *args, char **env);
 int				env(char **args, char **env);
 int				exit_buildin(t_sh_data *data, char **args);
+void			overwrite_var(char *args, char **env);
 int				export(char **args, char **env);
 int				pwd(void);
 int				unset(char **args, char **env);
