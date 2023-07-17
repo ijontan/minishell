@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 18:47:25 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:57:27 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ char	**split_expand(char **args, char sep)
 	return (split_expand_recurse(args, sep, 0, 0));
 }
 
-void	expand_all_args(t_command *cmd, char **env)
+void	expand_all_args(t_command *cmd, t_sh_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (cmd->args[i])
 	{
-		cmd->args[i] = env_expension(cmd->args[i], env);
+		cmd->args[i] = env_expension(cmd->args[i], data->env);
+		cmd->args[i] = wildcard(cmd->args[i], data);
 		i++;
 	}
 }
