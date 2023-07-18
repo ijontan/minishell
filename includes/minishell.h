@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/17 22:46:37 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:17:10 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,10 @@ void			free_prompt_data(t_prompt *prompt);
 char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
+void			expand_all_args(char **args, t_sh_data *data);
 char			**split_expand(char **args, char sep);
-char			*env_expension(char *arg, t_sh_data *data);
+char			*env_expension(char *arg, char **env);
+void			wildcard(char *arg, t_sh_data *data);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
