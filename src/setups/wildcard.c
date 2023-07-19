@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/19 01:12:35 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:35:05 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_some(t_sh_data *data, struct dirent *filename, char *before,
 		len = ft_strlen(before);
 		if (!ft_strncmp(filename->d_name, before, len))
 		{
-			if (!after || (after && ft_strnstr(filename->d_name, after, 255)))
+			if (!after || (after && ft_strstr(filename->d_name, after)))
 			{
 				if (tmp[0])
 					tmp = ft_strjoin(tmp, " ");
@@ -66,7 +66,7 @@ void	find_after(char *arg, t_sh_data *data, struct dirent *filename,
 	tmp = ft_strdup("");
 	while (filename)
 	{
-		if (ft_strnstr(filename->d_name, after, 255))
+		if (ft_strstr(filename->d_name, after))
 		{
 			if (tmp[0])
 				tmp = ft_strjoin(tmp, " ");
@@ -87,19 +87,23 @@ void	expand_wildcard(char *arg, t_sh_data *data, struct dirent *filename)
 
 	before = NULL;
 	after = NULL;
+	buffer = NULL;
 	i = 0;
 	while (arg[i] != '*' && arg[i])
 		i++;
 	if (i > 0)
 		before = ft_substr(arg, 0, i);
 	if (arg[i + 1])
-		after = ft_strdup(arg);
+		after = ft_strdup(arg + (i + 1));
 	if (!before && !after)
 		find_all(arg, data, filename);
 	else if (!before && after)
 		find_after(arg, data, filename, after);
 	else
+	{
 		buffer = find_some(data, filename, before, after);
+		// printf("%s\n", buffer);
+	}
 	(void)buffer; // ! remove when need to use
 }
 

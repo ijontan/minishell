@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/18 17:17:10 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/19 22:57:17 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
+char			*ft_strndup(char *str, int n);
+char			*ft_strstr(char const *str, char const *substr);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);
