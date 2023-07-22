@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:13:15 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 18:03:05 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:16:54 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ int	detect_brackets(t_command_chunk *chunk, char *cmd)
 	return (0);
 }
 
-// void	parentheses(t_command_chunk *chunk, char *cmd)
+// char	*parentheses(t_command_chunk *chunk, char *cmd)
 // {
 // 	if (detect_brackets(chunk, cmd))
-
+// 	{
+// 		perror("incomplete parentheses");
+// 		return (NULL);
+// 	}
 // }
