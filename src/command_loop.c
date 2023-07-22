@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 22:38:11 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/21 23:56:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	command_loop(char **env)
 		line = prompt(&data);
 		if (line && *line)
 			add_history(line);
-		if (!line)
+		if (!line || g_sig.sigquit)
 			break ;
 		if (!*line)
 			continue ;

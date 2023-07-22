@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_expension.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
 /*   Updated: 2023/07/22 14:18:22 by nwai-kea         ###   ########.fr       */

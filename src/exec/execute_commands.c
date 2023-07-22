@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 18:47:02 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/21 23:51:39 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 	else if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		if (builtin_check(cmd->args[0]))
+			exit(exec_builtin(cmd->args, sh_data));
 		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
@@ -98,8 +100,14 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	pid_t	*pids;
 	t_list	*tmp;
 
-	setup_pipes(sh_data, chunk);
 	tmp = chunk->commands;
+	if (ft_lstsize(tmp) == 1
+		&& builtin_check(((t_command *)tmp->content)->args[0]))
+	{
+		*status = exec_builtin(((t_command *)tmp->content)->args, sh_data);
+		return ;
+	}
+	setup_pipes(sh_data, chunk);
 	pids = (pid_t *)ft_calloc(ft_lstsize(tmp) + 1, sizeof(pid_t));
 	i = 0;
 	while (tmp)
