@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/21 23:52:47 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/22 14:19:04 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ int	cd(char **args, t_sh_data *data)
 {
 	int	ret;
 
+	if (!args[1] || ft_strcmp(args[1], "~") == 0)
+		return (to_path(0, data));
 	if (args[2])
 	{
 		ft_putendl_fd("minishell : cd : too many arguments", STDERR_FILENO);
 		return (1);
 	}
-	if (!args[1] || ft_strcmp(args[1], "~") == 0)
-		return (to_path(0, data));
 	if (args[1][0] == '-' && !args[1][1])
 		return (to_path(1, data));
 	else
