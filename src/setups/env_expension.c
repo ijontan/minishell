@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expension.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/21 01:22:53 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:50:49 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	expand_all_args(char **args, t_sh_data *data)
 	i = 0;
 	while (args[i])
 	{
-		cmd->args[i] = env_expension(cmd->args[i], data->env);
+		args[i] = env_expension(args[i], data->env);
 		i++;
 	}
 }

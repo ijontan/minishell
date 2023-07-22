@@ -3,31 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/20 17:34:11 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/22 00:57:01 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	builtin_check(char *command)
-// {
-// 	if (ft_strcmp(command, "echo") == 0)
-// 		return (1);
-// 	if (ft_strcmp(command, "cd") == 0)
-// 		return (1);
-// 	if (ft_strcmp(command, "pwd") == 0)
-// 		return (1);
-// 	if (ft_strcmp(command, "env") == 0)
-// 		return (1);
-// 	if (ft_strcmp(command, "export") == 0)
-// 		return (1);
-// 	if (ft_strcmp(command, "unset") == 0)
-// 		return (1);
-// 	return (0);
-// }
+int	builtin_check(char *command)
+{
+	if (ft_strcmp(command, "echo") == 0)
+		return (1);
+	if (ft_strcmp(command, "cd") == 0)
+		return (1);
+	if (ft_strcmp(command, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(command, "env") == 0)
+		return (1);
+	if (ft_strcmp(command, "export") == 0)
+		return (1);
+	if (ft_strcmp(command, "unset") == 0)
+		return (1);
+	if (ft_strcmp(command, "exit") == 0)
+		return (1);
+	return (0);
+}
 
 int	exec_builtin(char **args, t_sh_data *data)
 {

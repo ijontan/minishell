@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/16 22:13:13 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/21 23:52:47 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//TODO: implement update to the env variable
+
+// TODO: implement update to the env variable
 
 /**
  * @brief cd should change the current working directory
- * 
+ *
  * @param args place holder parameter for now
  */
 
@@ -34,6 +35,7 @@ static int	update_oldpwd(char **env)
 		add_env_var(oldpwd, env);
 	else
 		overwrite_var(oldpwd, env);
+	free(cwd);
 	// ft_memdel(oldpwd);
 	return (1);
 }
