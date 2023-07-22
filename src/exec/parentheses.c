@@ -48,36 +48,33 @@ int	detect_brackets(char *cmd)
 {
 	int		count;
 	int		i;
-	char	*line;
-	bool	subshell;
 
 	i = 0;
 	count = 0;
-	line = NULL;
-	subshell = false;
 	while (cmd[i])
 	{
 		if (cmd[i] == '(')
 			count++;
 		if (cmd[i] == ')')
 			count--;
+		if (count < 0)
+			return (-1);
+		if (cmd[i] == ')' && count == 0)
+			return (i);
 		i++;
 	}
-	if (count < 0 || count > 0)
-		return (1);
-	else
-		return (0);
+	return (-1);
 }
 
 char	*parentheses(char *line)
 {
 	int		i;
 	char	*cmd;
-	pid_t	pid;
+	// pid_t	pid;
 
 	// char	**comm;
 	cmd = NULL;
-	if (detect_brackets(line))
+	if (detect_brackets(line) < 0)
 	{
 		perror("incomplete parentheses");
 		return (NULL);
@@ -91,10 +88,10 @@ char	*parentheses(char *line)
 				cmd = subshell(line, i);
 			i++;
 		}
-		pid = fork();
-		if (pid == 0)
-		{
-		}
+		// pid = fork();
+		// if (pid == 0)
+		// {
+		// }
 	}
-	return (NULL);
+	return (cmd);
 }

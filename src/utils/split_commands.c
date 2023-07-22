@@ -46,7 +46,11 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 	i = 0;
 	cache.sep = 0;
 	while (str[i] && (!ft_strcmpn(str + i, seps) || is_quoted))
+	{
+		if (str[i]== '(')
+			i += detect_brackets(str + i);
 		is_quoted = check_quoted(str, i++, is_quoted);
+	}
 	cache.chunk = ft_substr(str, 0, i - !(!is_quoted));
 	if (str[i] && ft_strcmpn(str + i, seps))
 	{

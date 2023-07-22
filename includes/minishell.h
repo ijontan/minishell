@@ -139,6 +139,7 @@ int				exec_builtin(char **args, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);
+int				detect_brackets(char *cmd);
 char			*parentheses(char *line);
 /* --------------------------------- prompt --------------------------------- */
 
