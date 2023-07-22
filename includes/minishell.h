@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/22 14:17:57 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:00:50 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ typedef struct s_command_chunk
 	char		*chunk;
 	char		*sep;
 	t_list		*commands;
-	bool		subshell;
-	int			count;
 }				t_command_chunk;
 
 /**
@@ -140,6 +138,7 @@ int				exec_builtin(char **args, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);
+char			*parentheses(char *line);
 /* --------------------------------- prompt --------------------------------- */
 
 void			get_prompt_data(t_sh_data *sh_data);
