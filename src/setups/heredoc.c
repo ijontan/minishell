@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 16:16:36 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/21 23:17:17 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	exec_heredoc(t_command *cmd, char *eof)
 	if (cmd->latest_heredoc != -1)
 		close(cmd->latest_heredoc);
 	tmp = heredoc(eof);
-	write(fd[1], tmp, ft_strlen(tmp));
-	free(tmp);
+	if (tmp)
+	{
+		write(fd[1], tmp, ft_strlen(tmp));
+		free(tmp);
+	}
 	close(fd[1]);
 	cmd->latest_heredoc = fd[0];
 }
