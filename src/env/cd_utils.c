@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 21:51:33 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/13 18:12:55 by nwai-kea         ###   ########.fr       */
+/*   Created: 2023/07/16 01:07:07 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/07/16 01:07:22 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **args)
+void	*ft_memdel(void *ptr)
 {
-	int	i;
-	int	flag;
-
-	i = 1;
-	flag = 0;
-	if (!args[i])
+	if (ptr)
 	{
-		write(1, "\n", 1);
-		return (1);
+		free(ptr);
+		ptr = NULL;
 	}
-	else if (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
-	{
-		flag = 1;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1])
-			ft_putchar_fd(' ', 1);
-		i++;
-	}
-	if (flag == 0)
-		write(1, "\n", 1);
-	return (0);
+	return (NULL);
 }

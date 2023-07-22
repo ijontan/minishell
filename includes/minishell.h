@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 20:28:46 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/19 22:57:17 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+# define STDERR 2
 
 /**
  * @brief data for prompt
@@ -97,6 +99,7 @@ typedef struct s_sh_data
 	t_list		*pipes;
 	DIR			*dir;
 	int			exited;
+	int			status;
 }				t_sh_data;
 
 typedef struct s_sig
@@ -113,21 +116,27 @@ void			command_loop(char **env);
 
 /* -------------------------------- build_in -------------------------------- */
 
+void			add_env_var(char *args, char **env);
 int				cd(char **args, t_sh_data *data);
 int				echo(char **args);
+int				env_not_exist(char *args, char **env);
 int				env(char **args, char **env);
-int				exit_buildin(t_sh_data *data, int argc, char **args);
+int				exit_buildin(t_sh_data *data, char **args);
+void			overwrite_var(char *args, char **env);
 int				export(char **args, char **env);
 int				pwd(void);
 int				unset(char **args, char **env);
 
 /* ----------------------------------- env ---------------------------------- */
+void			*ft_memdel(void *ptr);
+int				len_till_equal(char *str);
+int				ft_strstart(char *s1, char *s2);
 int				find_env_pos(char *args, char **env);
 void			sort_env(char **env);
 int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
-
+int				exec_builtin(char **args, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);
@@ -139,15 +148,19 @@ void			free_prompt_data(t_prompt *prompt);
 char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
+void			expand_all_args(char **args, t_sh_data *data);
 char			**split_expand(char **args, char sep);
 char			*env_expension(char *arg, char **env);
+void			wildcard(char *arg, t_sh_data *data);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
 
 /* --------------------------------- signals -------------------------------- */
 
+void			init_signal(void);
 void			handle_signal(int signo);
+void			handle_signal_quit(int signo);
 void			setup_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
@@ -159,6 +172,8 @@ char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
+char			*ft_strndup(char *str, int n);
+char			*ft_strstr(char const *str, char const *substr);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);

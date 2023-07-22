@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:30:02 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/16 22:09:55 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,60 @@ int	env_not_exist(char *args, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strcmp(env[i], args) != 0)
-			return (1);
+		if (ft_strstart(env[i], args))
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 void	add_env_var(char *args, char **env)
 {
 	int	i;
-	int	overwrite;
 
 	i = 0;
-	overwrite = 0;
 	while (env[i])
 	{
-		if (ft_strcmp(env[i], args))
+		if (!ft_strstart(env[i], args))
 		{
 			env[i] = args;
-			overwrite = 1;
 			break ;
 		}
 		i++;
 	}
-	if (!overwrite)
-		env[i] = args;
+}
+
+void	overwrite_var(char *args, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strstart(env[i], args))
+		{
+			env[i] = args;
+			break ;
+		}
+		i++;
+	}
 }
 
 int	export(char **args, char **env)
 {
-	// int	i;
-	if (args[0])
+	if (args[1])
 	{
 		if (!env_valid(args[1]))
 		{
 			ft_putstr_fd("export: not a valid identifier: ", 2);
-			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(args[1], 2);
 			ft_putchar_fd('\n', 2);
 			return (1);
 		}
-		if (env_not_exist(args[0], env) == 1)
-			add_env_var(args[0], env);
+		if (env_not_exist(args[1], env))
+			add_env_var(args[1], env);
+		else
+			overwrite_var(args[1], env);
 	}
 	else
 	{

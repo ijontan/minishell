@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:02:38 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 20:42:27 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/12 23:10:48 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
  * 
  * @param signo 
  */
+
+struct g_sig;
+
 void	handle_signal(int signo)
 {
 	(void)signo;

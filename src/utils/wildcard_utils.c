@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:25:41 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:11:15 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/19 23:25:58 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_strstr(char const *str, char const *substr)
 	while (str[i])
 	{
 		j = 0;
-		while ((char)str[i + j] == (char)substr[j])
+		while ((char)str[i + j] == (char)substr[j] && (char)str[i + j])
 			j++;
 		if (!substr[j])
 			return (&((char *)str)[i]);

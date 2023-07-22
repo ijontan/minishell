@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 00:04:10 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 20:27:41 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/14 15:50:36 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	unset(char **args, char **env)
 		pos = find_env_pos(args[i], env);
 		if (env[pos])
 			remove_env(env, pos);
+		i++;
 	}
 	return (1);
 }
