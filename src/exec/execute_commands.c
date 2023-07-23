@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/21 23:51:39 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 00:29:42 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		close_pipes(sh_data);
+		if (cmd->program == NULL)
+			exit(127);
 		execve(cmd->program, cmd->args, sh_data->env);
 		perror("minishell");
 		exit(127);

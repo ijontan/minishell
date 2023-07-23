@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parentheses.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:13:15 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/23 01:22:55 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:39:54 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_cmd_len(char *line, int i)
+int	get_cmd_len(char *line)
 {
 	int	count;
 	int	len;
+	int	i;
 
 	count = 0;
 	len = 0;
+	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '(')
@@ -33,21 +35,26 @@ int	get_cmd_len(char *line, int i)
 	return (len);
 }
 
-char	*subshell(char *line, int i)
+char	*subshell(char *line)
 {
-	char	*sub_cmd;
-	int		len;
+	int	len;
+	int	i;
 
-	len = get_cmd_len(line, i);
-	sub_cmd = (char *)malloc(len * sizeof(char));
-	ft_strlcpy(sub_cmd, &line[i + 1], len);
-	return (sub_cmd);
+	while (*line && *line != '(')
+		if (*line++ != ' ')
+			return (NULL);
+	len = get_cmd_len(line);
+	i = len + 1;
+	while (line[i])
+		if (line[i++] != ' ')
+			return (NULL);
+	return (ft_substr(line, 1, len - 1));
 }
 
 int	detect_brackets(char *cmd)
 {
-	int		count;
-	int		i;
+	int	count;
+	int	i;
 
 	i = 0;
 	count = 0;
@@ -66,32 +73,22 @@ int	detect_brackets(char *cmd)
 	return (-1);
 }
 
-char	*parentheses(char *line)
+int	parentheses(char *line, t_sh_data *data)
 {
-	int		i;
-	char	*cmd;
-	// pid_t	pid;
+	char	*sub_cmd;
+	int		pid;
+	int		status;
 
-	// char	**comm;
-	cmd = NULL;
-	if (detect_brackets(line) < 0)
+	sub_cmd = subshell(line);
+	if (!sub_cmd)
 	{
-		perror("incomplete parentheses");
-		return (NULL);
+		perror("minishell: unexpected token");
+		return (0);
 	}
-	else
-	{
-		i = 0;
-		while (line[i])
-		{
-			if (line[i] == '(')
-				cmd = subshell(line, i);
-			i++;
-		}
-		// pid = fork();
-		// if (pid == 0)
-		// {
-		// }
-	}
-	return (cmd);
+	pid = fork();
+	if (pid == 0)
+		exit(WEXITSTATUS(execution_procedure(sub_cmd, data)));
+	waitpid(pid, &status, 0);
+	free(sub_cmd);
+	return (status);
 }
