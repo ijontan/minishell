@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 02:04:40 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 02:25:47 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void			overwrite_var(char *args, t_sh_data *data);
 int				export(char **args, t_sh_data *data);
 int				pwd(void);
 int				unset(char **args, t_sh_data *data);
-void   			free_data(t_sh_data *data);
 
 /* ----------------------------------- env ---------------------------------- */
 void			*ft_memdel(void *ptr);
@@ -140,6 +139,7 @@ int				env_valid(char *env);
 /* ---------------------------------- exec ---------------------------------- */
 int				builtin_check(char *command);
 int				exec_builtin(char **args, t_sh_data *data);
+int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 00:29:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 02:27:18 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (builtin_check(cmd->args[0]))
-			exit(exec_builtin(cmd->args, sh_data));
+			exit(exec_builtin_redirection(cmd, sh_data));
 		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
@@ -106,7 +106,7 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	if (ft_lstsize(tmp) == 1
 		&& builtin_check(((t_command *)tmp->content)->args[0]))
 	{
-		*status = exec_builtin(((t_command *)tmp->content)->args, sh_data);
+		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
 		return ;
 	}
 	setup_pipes(sh_data, chunk);
