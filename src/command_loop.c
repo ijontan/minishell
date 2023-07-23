@@ -6,18 +6,11 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 00:39:16 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 01:29:00 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	init_sh_data(t_sh_data *data, char **env)
-{
-	data->env = dup_2d(env);
-	data->pipes = NULL;
-	data->prompt = NULL;
-}
 
 static char	*prompt(t_sh_data *data)
 {
@@ -38,11 +31,25 @@ static t_command_chunk	*setup_chunk(char *line)
 	t_command_chunk	*chunks;
 
 	chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
+	if (!chunks)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `)'\n", 2);
+		return (NULL);
+	}
 	i = -1;
 	while (chunks[++i].chunk)
 		if (!chunks[i].is_subshell)
 			chunks[i].commands = setup_commands(chunks[i].chunk);
 	return (chunks);
+}
+
+static bool	check_continue(t_command_chunk *chunk, int status)
+{
+	if (status != 0 && ft_strcmp(chunk->sep, "&&") != 0)
+		return (true);
+	if (status == 0 && ft_strcmp(chunk->sep, "||") != 0)
+		return (true);
+	return (false);
 }
 
 int	execution_procedure(char *line, t_sh_data *data)
@@ -53,6 +60,8 @@ int	execution_procedure(char *line, t_sh_data *data)
 
 	status = 0;
 	chunks = setup_chunk(line);
+	if (!chunks)
+		return (1);
 	i = -1;
 	while (chunks[++i].chunk)
 	{
@@ -63,9 +72,7 @@ int	execution_procedure(char *line, t_sh_data *data)
 		data->status = WEXITSTATUS(status);
 		if (chunks[i].sep == NULL)
 			break ;
-		if (status != 0 && ft_strcmp(chunks[i].sep, "&&") != 0)
-			continue ;
-		if (status == 0 && ft_strcmp(chunks[i].sep, "||") != 0)
+		if (check_continue(&chunks[i], status))
 			continue ;
 		++i;
 	}
@@ -78,7 +85,9 @@ void	command_loop(char **env)
 	t_sh_data	data;
 	char		*line;
 
-	init_sh_data(&data, env);
+	data.env = dup_2d(env);
+	data.pipes = NULL;
+	data.prompt = NULL;
 	init_signal();
 	setup_signal();
 	while (1)
