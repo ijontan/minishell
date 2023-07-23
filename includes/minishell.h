@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/02 21:47:05 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/07 11:21:01 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ char			*find_some(t_sh_data *data, struct dirent *filename,
 char			*find_after(t_sh_data *data, struct dirent *filename,
 					char *after);
 char			*wildcard(char *arg, t_sh_data *data);
-char    		*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename);
+char			*multiple_wildcards(char *arg, t_sh_data *data,
+					struct dirent *filename);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
@@ -198,7 +199,7 @@ char			*ft_strstr(char const *str, char const *substr);
 int				ft_ischar(char *str, char c);
 char			*write_buffer(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
-int 			ft_strrcmp(const char *str1, const char *str2, size_t n);
+int				ft_strrcmp(const char *str1, const char *str2, size_t n);
 
 /* ------------------------------- validation ------------------------------- */
 
