@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/21 23:56:50 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 00:39:16 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,35 @@ static char	*prompt(t_sh_data *data)
 	return (dst);
 }
 
-static void	execution_procedure(char *line, t_sh_data *data)
+static t_command_chunk	*setup_chunk(char *line)
+{
+	int				i;
+	t_command_chunk	*chunks;
+
+	chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
+	i = -1;
+	while (chunks[++i].chunk)
+		if (!chunks[i].is_subshell)
+			chunks[i].commands = setup_commands(chunks[i].chunk);
+	return (chunks);
+}
+
+int	execution_procedure(char *line, t_sh_data *data)
 {
 	t_command_chunk	*chunks;
 	int				i;
 	int				status;
 
 	status = 0;
-	chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
-	i = -1;
-	while (chunks[++i].chunk)
-		chunks[i].commands = setup_commands(chunks[i].chunk);
+	chunks = setup_chunk(line);
 	i = -1;
 	while (chunks[++i].chunk)
 	{
-		exec_commands(data, &chunks[i], &status);
+		if (chunks[i].is_subshell)
+			status = parentheses(chunks[i].chunk, data);
+		else
+			exec_commands(data, &chunks[i], &status);
+		data->status = WEXITSTATUS(status);
 		if (chunks[i].sep == NULL)
 			break ;
 		if (status != 0 && ft_strcmp(chunks[i].sep, "&&") != 0)
@@ -56,6 +70,7 @@ static void	execution_procedure(char *line, t_sh_data *data)
 		++i;
 	}
 	free_t_chunk_array(chunks);
+	return (status);
 }
 
 void	command_loop(char **env)

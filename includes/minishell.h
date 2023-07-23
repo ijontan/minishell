@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/22 17:00:50 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:13:29 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_command_chunk
 	char		*chunk;
 	char		*sep;
 	t_list		*commands;
+	bool		is_subshell;
 }				t_command_chunk;
 
 /**
@@ -110,6 +111,7 @@ typedef struct s_sig
 
 extern t_sig	g_sig;
 
+int				execution_procedure(char *line, t_sh_data *data);
 void			command_loop(char **env);
 
 /* -------------------------------- build_in -------------------------------- */
@@ -140,7 +142,8 @@ void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
 void			sanitize_command_io(t_command *cmd);
 int				detect_brackets(char *cmd);
-char			*parentheses(char *line);
+int				parentheses(char *line, t_sh_data *data);
+
 /* --------------------------------- prompt --------------------------------- */
 
 void			get_prompt_data(t_sh_data *sh_data);

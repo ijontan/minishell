@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/07/06 20:29:29 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/23 23:30:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ static int	check_quoted(char *str, int i, int is_quoted)
 	return (is_quoted);
 }
 
+static int	count_word(char *str, char **seps, int *is_quoted,
+		t_command_chunk *cache)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && (!ft_strcmpn(str + i, seps) || *is_quoted))
+	{
+		if (str[i] == '(')
+		{
+			i += detect_brackets(str + i);
+			cache->is_subshell = true;
+		}
+		*is_quoted = check_quoted(str, i++, *is_quoted);
+	}
+	return (i);
+}
+
 static t_command_chunk	*recurse(char *str, char **seps, int depth)
 {
 	t_command_chunk	*dst;
@@ -43,14 +61,9 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 	int				i;
 
 	is_quoted = 0;
-	i = 0;
 	cache.sep = 0;
-	while (str[i] && (!ft_strcmpn(str + i, seps) || is_quoted))
-	{
-		if (str[i]== '(')
-			i += detect_brackets(str + i);
-		is_quoted = check_quoted(str, i++, is_quoted);
-	}
+	cache.is_subshell = false;
+	i = count_word(str, seps, &is_quoted, &cache);
 	cache.chunk = ft_substr(str, 0, i - !(!is_quoted));
 	if (str[i] && ft_strcmpn(str + i, seps))
 	{
