@@ -45,9 +45,9 @@ int	exec_builtin(char **args, t_sh_data *data)
 	if (ft_strcmp(args[0], "env") == 0)
 		result = env(args, data->env);
 	if (ft_strcmp(args[0], "export") == 0)
-		result = export(args, data->env);
+		result = export(args, data);
 	if (ft_strcmp(args[0], "unset") == 0)
-		result = unset(args, data->env);
+		result = unset(args, data);
 	if (ft_strcmp(args[0], "exit") == 0)
 	{
 		result = exit_buildin(data, args);

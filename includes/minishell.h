@@ -114,20 +114,21 @@ void			command_loop(char **env);
 
 /* -------------------------------- build_in -------------------------------- */
 
-void			add_env_var(char *args, char **env);
+void			add_env_var(char *args, t_sh_data *data);
 int				cd(char **args, t_sh_data *data);
 int				echo(char **args);
 int				env_not_exist(char *args, char **env);
 int				env(char **args, char **env);
 int				exit_buildin(t_sh_data *data, char **args);
-void			overwrite_var(char *args, char **env);
-int				export(char **args, char **env);
+void			overwrite_var(char *args, t_sh_data *data);
+int				export(char **args, t_sh_data *data);
 int				pwd(void);
-int				unset(char **args, char **env);
+int				unset(char **args, t_sh_data *data);
 void   			free_data(t_sh_data *data);
 
 /* ----------------------------------- env ---------------------------------- */
 void			*ft_memdel(void *ptr);
+int				env_len(char **env);
 int				len_till_equal(char *str);
 int				ft_strstart(char *s1, char *s2);
 int				find_env_pos(char *args, char **env);
