@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:05:57 by itan              #+#    #+#             */
-/*   Updated: 2023/07/14 00:36:30 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/24 00:02:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*check_path_exist(char *program_name, char **envp)
  */
 char	*check_program_exist(char *program_name, char **env)
 {
-	if (program_name[0] == '/' || program_name[0] == '.')
+	if (ft_strchr(program_name, '/'))
 	{
 		if (!access(program_name, F_OK))
 			return (program_name);
