@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 16:16:55 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 06:18:01 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,24 @@ static void	get_heredoc(t_command *cmd)
 	}
 }
 
+static void	check_split_error(t_command *cmd)
+{
+	int	i;
+
+	i = -1;
+	while (cmd->args[++i])
+	{
+		if (!ft_strcmp(cmd->args[i],
+				"SOme RanDom Error COde that wiLL never be used"))
+		{
+			ft_putstr_fd("minishell: syntax error", 2);
+			ft_putstr_fd(cmd->args[i], 2);
+			ft_putstr_fd("'\n", 2);
+			cmd->error = true;
+		}
+	}
+}
+
 /**
  * @brief Set the up commands object
  *
@@ -91,6 +109,7 @@ t_list	*setup_commands(char *command)
 		cmd_tmp->args = split_args(args[i++]);
 		get_heredoc(cmd_tmp);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
+		check_split_error(cmd_tmp);
 	}
 	free_2d(args);
 	return (dst);

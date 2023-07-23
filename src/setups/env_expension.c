@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/22 14:18:22 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/24 05:11:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,26 @@ char	*env_expension(char *arg, char **env)
 {
 	char	*dst;
 	char	*tmp;
-	char	*tmp2;
 	int		i;
-	int		len;
 
-	dst = ft_strdup("");
+	dst = NULL;
 	i = -1;
 	while (arg[++i])
 	{
+		while (arg[i] && arg[i] != '$')
+			i++;
+		tmp = ft_substr(arg, 0, i);
 		if (arg[i] == '$')
 		{
-			tmp = ft_substr(arg, 0, i);
-			tmp2 = ft_append(dst, tmp);
+			dst = ft_append(dst, tmp);
 			free(tmp);
-			len = len_till_space(arg + i + 1);
 			tmp = get_env(env, arg + i + 1);
-			dst = ft_append(tmp2, tmp);
-			free(tmp);
-			arg += i + len + 1;
-			i = -1;
-			continue ;
+			arg += len_till_space(arg + i + 1) + 1;
 		}
+		dst = ft_append(dst, tmp);
+		free(tmp);
+		arg += i;
+		i = -1;
 	}
 	return (dst);
 }
@@ -88,12 +87,22 @@ char	**split_expand(char **args, char sep)
 
 void	expand_all_args(char **args, t_sh_data *data)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (args[i])
 	{
+		ft_printf("args[%d]: %s\n", i, args[i]);
+		tmp = args[i];
 		args[i] = env_expension(args[i], data->env);
+		free(tmp);
+		i++;
+	}
+	i = 0;
+	while (args[i])
+	{
+		ft_printf("args[%d]: %s\n", i, args[i]);
 		i++;
 	}
 }

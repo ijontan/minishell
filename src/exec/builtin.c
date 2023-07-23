@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/24 02:32:22 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 06:39:42 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	builtin_check(char *command)
 {
+	if (!command)
+		return (0);
 	if (ft_strcmp(command, "echo") == 0)
 		return (1);
 	if (ft_strcmp(command, "cd") == 0)
@@ -65,7 +67,10 @@ int	exec_builtin_redirection(t_command *cmd, t_sh_data *data)
 
 	old_stdout = dup(STDOUT_FILENO);
 	old_stdin = dup(STDIN_FILENO);
-	sanitize_command_io(cmd);
+	sanitize_command_io(cmd, data->env);
+	if (cmd->error)
+		return (1);
+	expand_all_args(cmd->args, data);
 	dup2(cmd->fd_in, STDIN_FILENO);
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	result = exec_builtin(cmd->args, data);

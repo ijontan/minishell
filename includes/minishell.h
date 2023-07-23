@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 02:25:47 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 05:59:52 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_command
 	int			fd_in;
 	int			fd_out;
 	int			latest_heredoc;
+	int			error;
 }				t_command;
 
 typedef struct s_pipe
@@ -142,7 +143,7 @@ int				exec_builtin(char **args, t_sh_data *data);
 int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
-void			sanitize_command_io(t_command *cmd);
+void			sanitize_command_io(t_command *cmd, char **env);
 int				detect_brackets(char *cmd);
 int				parentheses(char *line, t_sh_data *data);
 
