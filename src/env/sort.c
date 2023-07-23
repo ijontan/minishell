@@ -57,12 +57,20 @@ void	sort_env(char **env)
 
 	i = 0;
 	len = env_len(env);
-	tmp = env;
+	tmp = (char **)malloc((len + 1) * sizeof(char *));
+	while (env[i])
+	{
+		tmp[i] = env[i];
+		i++;
+	}
+	tmp[i] = 0;
 	tmp = sorting_env(tmp, len);
+	i = 0;
 	while (tmp[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
 		ft_putendl_fd(tmp[i], 1);
 		i++;
 	}
+	free(tmp);
 }

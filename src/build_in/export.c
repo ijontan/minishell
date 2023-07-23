@@ -75,9 +75,6 @@ int	export(char **args, char **env)
 			overwrite_var(args[1], env);
 	}
 	else
-	{
 		sort_env(env);
-		return (0);
-	}
 	return (0);
 }

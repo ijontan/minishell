@@ -36,7 +36,7 @@ static int	update_oldpwd(char **env)
 	else
 		overwrite_var(oldpwd, env);
 	free(cwd);
-	// ft_memdel(oldpwd);
+	// free(oldpwd);
 	return (1);
 }
 

@@ -124,6 +124,7 @@ void			overwrite_var(char *args, char **env);
 int				export(char **args, char **env);
 int				pwd(void);
 int				unset(char **args, char **env);
+void   			free_data(t_sh_data *data);
 
 /* ----------------------------------- env ---------------------------------- */
 void			*ft_memdel(void *ptr);

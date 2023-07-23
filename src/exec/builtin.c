@@ -52,7 +52,10 @@ int	exec_builtin(char **args, t_sh_data *data)
 	{
 		result = exit_buildin(data, args);
 		if (data->exited == 1)
-			exit(result);
+		{
+			g_sig.sigquit = 1;
+			// free_data(data);
+		}
 	}
 	return (result);
 }
