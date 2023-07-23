@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:13:15 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/24 00:39:54 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 01:33:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*subshell(char *line)
 			return (NULL);
 	len = get_cmd_len(line);
 	i = len + 1;
+	if (line[len] != ')')
+		return (NULL);
 	while (line[i])
 		if (line[i++] != ' ')
 			return (NULL);
@@ -82,8 +84,8 @@ int	parentheses(char *line, t_sh_data *data)
 	sub_cmd = subshell(line);
 	if (!sub_cmd)
 	{
-		perror("minishell: unexpected token");
-		return (0);
+		ft_putstr_fd("minishell: syntax error near unexpected token `('\n", 2);
+		return (127);
 	}
 	pid = fork();
 	if (pid == 0)

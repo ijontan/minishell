@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/07/23 23:30:32 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 01:32:47 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,21 @@ static int	count_word(char *str, char **seps, int *is_quoted,
 		t_command_chunk *cache)
 {
 	int	i;
+	int	len;
 
 	i = 0;
 	while (str[i] && (!ft_strcmpn(str + i, seps) || *is_quoted))
 	{
-		if (str[i] == '(')
+		*is_quoted = check_quoted(str, i, *is_quoted);
+		if (str[i] == '(' || str[i] == ')')
 		{
-			i += detect_brackets(str + i);
+			len = detect_brackets(str + i);
+			if (len == -1 || len < 2)
+				return (-1);
+			i += len;
 			cache->is_subshell = true;
 		}
-		*is_quoted = check_quoted(str, i++, *is_quoted);
+		i++;
 	}
 	return (i);
 }
@@ -64,6 +69,8 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 	cache.sep = 0;
 	cache.is_subshell = false;
 	i = count_word(str, seps, &is_quoted, &cache);
+	if (i == -1)
+		return (NULL);
 	cache.chunk = ft_substr(str, 0, i - !(!is_quoted));
 	if (str[i] && ft_strcmpn(str + i, seps))
 	{
@@ -71,10 +78,7 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 		i += ft_strlen(cache.sep);
 	}
 	if (!str[i])
-	{
 		dst = (t_command_chunk *)ft_calloc(depth + 2, sizeof(t_command_chunk));
-		dst[depth + 1].chunk = 0;
-	}
 	else
 		dst = recurse(str + i, seps, depth + 1);
 	dst[depth] = cache;
