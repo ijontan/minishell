@@ -67,7 +67,7 @@ int	exec_builtin_redirection(t_command *cmd, t_sh_data *data)
 
 	old_stdout = dup(STDOUT_FILENO);
 	old_stdin = dup(STDIN_FILENO);
-	sanitize_command_io(cmd, data->env);
+	sanitize_command_io(cmd, data);
 	if (cmd->error)
 		return (1);
 	expand_all_args(cmd->args, data);

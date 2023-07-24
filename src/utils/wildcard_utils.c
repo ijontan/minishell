@@ -12,6 +12,37 @@
 
 #include "minishell.h"
 
+
+char	*write_buffer(t_sh_data *data, struct dirent *filename, char *before, char *after)
+{
+	char *buffer;
+
+	buffer = NULL;
+	if (!before && !after)
+		buffer = find_all(data, filename);
+	else if (!before && after)
+		buffer = find_after(data, filename, after);
+	else
+		buffer = find_some(data, filename, before, after);
+	return (buffer);
+}
+
+int		ft_ischar(char *str, char c)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*ft_strndup(char *str, int n)
 {
 	char	*dst;
