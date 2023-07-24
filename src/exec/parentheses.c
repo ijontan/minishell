@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:13:15 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/24 02:06:09 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 16:27:23 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	parentheses(char *line, t_sh_data *data)
 	}
 	pid = fork();
 	if (pid == 0)
-		exit(WEXITSTATUS(execution_procedure(sub_cmd, data)));
+	{
+		status = execution_procedure(sub_cmd, data);
+		exit(WEXITSTATUS(status));
+	}
 	waitpid(pid, &status, 0);
 	free(sub_cmd);
 	return (status);

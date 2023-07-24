@@ -26,6 +26,11 @@
 
 # define STDERR 2
 
+# define PARSE_ERROR 1
+# define SYNTAX_ERROR 2
+# define NO_SUCH_FILE 3
+# define NO_SUCH_DIR 4
+
 /**
  * @brief data for prompt
  *

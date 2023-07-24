@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 05:11:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 16:29:07 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,9 @@ void	expand_all_args(char **args, t_sh_data *data)
 	i = 0;
 	while (args[i])
 	{
-		ft_printf("args[%d]: %s\n", i, args[i]);
 		tmp = args[i];
 		args[i] = env_expension(args[i], data->env);
 		free(tmp);
-		i++;
-	}
-	i = 0;
-	while (args[i])
-	{
-		ft_printf("args[%d]: %s\n", i, args[i]);
 		i++;
 	}
 }
