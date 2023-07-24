@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 06:18:01 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 17:44:42 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,7 @@ static void	check_split_error(t_command *cmd)
 	{
 		if (!ft_strcmp(cmd->args[i],
 				"SOme RanDom Error COde that wiLL never be used"))
-		{
-			ft_putstr_fd("minishell: syntax error", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putstr_fd("'\n", 2);
 			cmd->error = true;
-		}
 	}
 }
 
@@ -96,10 +91,12 @@ t_list	*setup_commands(char *command)
 	char		**args;
 	int			i;
 	t_command	*cmd_tmp;
+	int			j;
 
 	args = split_commands(command);
 	dst = 0;
 	i = 0;
+	j = -1;
 	while (args[i])
 	{
 		cmd_tmp = (t_command *)ft_calloc(1, sizeof(t_command));

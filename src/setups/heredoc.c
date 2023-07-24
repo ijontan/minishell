@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/07/21 23:17:17 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/24 16:36:49 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	exec_heredoc(t_command *cmd, char *eof)
 	int		fd[2];
 	char	*tmp;
 
+	if (!eof || !*eof)
+	{
+		cmd->error = 1;
+		return ;
+	}
 	if (pipe(fd) == -1)
 		return ;
 	if (cmd->latest_heredoc != -1)
