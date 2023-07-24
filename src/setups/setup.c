@@ -91,12 +91,10 @@ t_list	*setup_commands(char *command)
 	char		**args;
 	int			i;
 	t_command	*cmd_tmp;
-	int			j;
 
 	args = split_commands(command);
 	dst = 0;
 	i = 0;
-	j = -1;
 	while (args[i])
 	{
 		cmd_tmp = (t_command *)ft_calloc(1, sizeof(t_command));
