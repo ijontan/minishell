@@ -95,17 +95,32 @@ static void	remove_redirection(t_command *cmd, int num, int size)
  * also open the files for the command
  * @param cmd
  */
-void	sanitize_command_io(t_command *cmd, char **env)
+void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 {
-	int	i;
-	int	num;
+	int		i;
+	int		num;
+	char	*tmp;
+	char	**tmp2d;
 
 	i = -1;
 	num = 0;
 	while (cmd->args[++i])
 	{
-		num += left_arrow(cmd, i, env);
-		num += right_arrow(cmd, i, env);
+		num += left_arrow(cmd, i, data->env);
+		num += right_arrow(cmd, i, data->env);
 	}
 	remove_redirection(cmd, i - num, i - num + 1);
+	i = -1;
+	while (cmd->args[++i])
+	{
+		if (cmd->args[i] && ft_strchr(cmd->args[i], '*'))
+		{
+			tmp = cmd->args[i];
+			cmd->args[i] = wildcard(tmp, data);
+			free(tmp);
+		}
+	}
+	tmp2d = cmd->args;
+	cmd->args = split_expand(tmp2d, ' ');
+	free_2d(tmp2d);
 }

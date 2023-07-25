@@ -36,7 +36,7 @@ static void	setup_pipes(t_sh_data *sh_data, t_command_chunk *command_chunk)
 		{
 			cmd->fd_out = STDOUT_FILENO;
 		}
-		sanitize_command_io(cmd, sh_data->env);
+		sanitize_command_io(cmd, sh_data);
 		tmp = tmp->next;
 	}
 }

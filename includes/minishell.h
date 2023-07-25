@@ -148,7 +148,7 @@ int				exec_builtin(char **args, t_sh_data *data);
 int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
-void			sanitize_command_io(t_command *cmd, char **env);
+void			sanitize_command_io(t_command *cmd, t_sh_data *data);
 int				detect_brackets(char *cmd);
 int				parentheses(char *line, t_sh_data *data);
 
@@ -163,6 +163,10 @@ char			*prompt_exec(char **env, char *command);
 void			expand_all_args(t_command *cmd, t_sh_data *data);
 char			**split_expand(char **args, char sep);
 char			*env_expension(char *arg, char **env);
+char			*find_all(t_sh_data *data, struct dirent *filename);
+char			*find_some(t_sh_data *data, struct dirent *filename, char *before,
+				char *after);
+char			*find_after(t_sh_data *data, struct dirent *filename, char *after);
 char			*wildcard(char *arg, t_sh_data *data);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
@@ -186,6 +190,8 @@ char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 char			*ft_strndup(char *str, int n);
 char			*ft_strstr(char const *str, char const *substr);
+int				ft_ischar(char *str, char c);
+char			*write_buffer(t_sh_data *data, struct dirent *filename, char *before, char *after);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);
