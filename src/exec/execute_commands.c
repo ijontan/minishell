@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 16:47:52 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/25 17:38:07 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 {
 	pid_t	pid;
 
-	expand_all_args(cmd->args, sh_data);
+	expand_all_args(cmd, sh_data);
 	pid = fork();
 	if (pid < 0)
 	{

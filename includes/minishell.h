@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 05:59:52 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/25 17:52:12 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void			free_prompt_data(t_prompt *prompt);
 char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
-void			expand_all_args(char **args, t_sh_data *data);
+void			expand_all_args(t_command *cmd, t_sh_data *data);
 char			**split_expand(char **args, char sep);
 char			*env_expension(char *arg, char **env);
 char			*wildcard(char *arg, t_sh_data *data);

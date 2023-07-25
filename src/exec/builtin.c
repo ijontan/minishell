@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/24 06:39:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/25 17:38:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	exec_builtin_redirection(t_command *cmd, t_sh_data *data)
 	sanitize_command_io(cmd, data->env);
 	if (cmd->error)
 		return (1);
-	expand_all_args(cmd->args, data);
+	expand_all_args(cmd, data);
 	dup2(cmd->fd_in, STDIN_FILENO);
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	result = exec_builtin(cmd->args, data);
