@@ -12,6 +12,44 @@
 
 #include "minishell.h"
 
+char	*check_quotations(char *args)
+{
+	int	i;
+	int	count;
+	int	j;
+	char	*tmp;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		if (args[i] == '"')
+			count++;
+		i++;
+	}
+	i = 0;
+	j = 0;
+	if (count % 2 == 0 && count != 0)
+	{
+		while (args[i])
+		{
+			tmp = (char *)malloc(sizeof(char) *(((int)ft_strlen(args) + 1)));
+			if (!tmp)
+				return (args);
+			if (args[i] != '"')
+			{
+				tmp[j] = args[i];
+				j++;
+			}
+			i++;
+		}
+		tmp[j] = '\0';
+		return (tmp);
+	}
+	else
+		return (args);
+}
+
 int	env_not_exist(char *args, char **env)
 {
 	int	i;
@@ -40,6 +78,7 @@ void	add_env_var(char *args, t_sh_data *data)
 		tmp[i] = data->env[i];
 		i++;
 	}
+	// printf("%s\n", check_quotations(args));
 	tmp[i] = ft_strdup(args);
 	free(data->env);
 	data->env = tmp;
@@ -51,6 +90,7 @@ void	overwrite_var(char *args, t_sh_data *data)
 	char	*tmp;
 
 	i = 0;
+	// printf("%s\n", check_quotations(args));
 	while (data->env[i])
 	{
 		if (ft_strstart(data->env[i], args))
@@ -73,6 +113,8 @@ int	export(char **args, t_sh_data *data)
 	{
 		while (args[i])
 		{
+			args[i] = check_quotations(args[i]);
+			// printf("%s\n", args[i]);
 			if (!env_valid(args[i]))
 			{
 				ft_putstr_fd("export: not a valid identifier: ", 2);
