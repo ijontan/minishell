@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/25 17:52:12 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:18:10 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,13 @@ char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
 void			expand_all_args(t_command *cmd, t_sh_data *data);
-char			**split_expand(char **args, char sep);
+void			split_expand(char ***args, char sep);
 char			*env_expension(char *arg, char **env);
 char			*find_all(t_sh_data *data, struct dirent *filename);
-char			*find_some(t_sh_data *data, struct dirent *filename, char *before,
-				char *after);
-char			*find_after(t_sh_data *data, struct dirent *filename, char *after);
+char			*find_some(t_sh_data *data, struct dirent *filename,
+					char *before, char *after);
+char			*find_after(t_sh_data *data, struct dirent *filename,
+					char *after);
 char			*wildcard(char *arg, t_sh_data *data);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
@@ -191,7 +192,8 @@ t_command_chunk	*split_command_chunks(char *str, char **seps);
 char			*ft_strndup(char *str, int n);
 char			*ft_strstr(char const *str, char const *substr);
 int				ft_ischar(char *str, char c);
-char			*write_buffer(t_sh_data *data, struct dirent *filename, char *before, char *after);
+char			*write_buffer(t_sh_data *data, struct dirent *filename,
+					char *before, char *after);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 17:15:04 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 19:48:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ static int	left_arrow(t_command *cmd, int i, char **env)
 
 	if (cmd->args[i][0] != '<')
 		return (0);
+	if (!cmd->args[i + 1] || cmd->args[i + 1][0] == '\0')
+	{
+		cmd->error = 1;
+		return (1);
+	}
 	if (cmd->args[i][1] == '<' && cmd->args[i][2] == '\0')
 		cmd->fd_in = cmd->latest_heredoc;
 	else if (cmd->args[i][1] == '\0')
 	{
-		if (!cmd->args[i + 1] || cmd->args[i + 1][0] == '\0')
-		{
-			cmd->error = 1;
-			return (1);
-		}
 		tmp = cmd->args[i + 1];
 		cmd->args[i + 1] = env_expension(cmd->args[i + 1], env);
 		free(tmp);
@@ -100,7 +100,6 @@ void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 	int		i;
 	int		num;
 	char	*tmp;
-	char	**tmp2d;
 
 	i = -1;
 	num = 0;
@@ -120,7 +119,5 @@ void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 			free(tmp);
 		}
 	}
-	tmp2d = cmd->args;
-	cmd->args = split_expand(tmp2d, ' ');
-	free_2d(tmp2d);
+	split_expand(&(cmd->args), ' ');
 }

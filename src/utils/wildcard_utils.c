@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:25:41 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/19 23:25:58 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:51:23 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-char	*write_buffer(t_sh_data *data, struct dirent *filename, char *before, char *after)
+char	*write_buffer(t_sh_data *data, struct dirent *filename, char *before,
+		char *after)
 {
-	char *buffer;
+	char	*buffer;
 
 	buffer = NULL;
 	if (!before && !after)
@@ -27,7 +27,7 @@ char	*write_buffer(t_sh_data *data, struct dirent *filename, char *before, char 
 	return (buffer);
 }
 
-int		ft_ischar(char *str, char c)
+int	ft_ischar(char *str, char c)
 {
 	int	i;
 

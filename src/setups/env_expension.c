@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/25 17:57:03 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:22:28 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,13 @@ static char	**split_expand_recurse(char **args, char c, int count, int i)
 	return (dst);
 }
 
-char	**split_expand(char **args, char sep)
+void	split_expand(char ***args, char sep)
 {
-	return (split_expand_recurse(args, sep, 0, 0));
+	char	**tmp2d;
+
+	tmp2d = *args;
+	*args = split_expand_recurse(*args, sep, 0, 0);
+	free_2d(tmp2d);
 }
 
 void	expand_all_args(t_command *cmd, t_sh_data *data)
@@ -108,6 +112,5 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 		args[i] = env_expension(args[i], data->env);
 		free(tmp);
 	}
-	cmd->args = split_expand(args, ' ');
-	free_2d(args);
+	split_expand(&(cmd->args), ' ');
 }
