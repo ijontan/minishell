@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 15:58:10 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:39:57 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,18 @@ static t_command_chunk	*setup_chunk(char *line)
 	}
 	i = -1;
 	while (chunks[++i].chunk)
+	{
 		if (!chunks[i].is_subshell)
 			chunks[i].commands = setup_commands(chunks[i].chunk);
+		if (!chunks[i + 1].chunk && chunks[i].sep)
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(chunks[i].sep, 2);
+			ft_putstr_fd("'\n", 2);
+			free_t_chunk_array(chunks);
+			return (NULL);
+		}
+	}
 	return (chunks);
 }
 

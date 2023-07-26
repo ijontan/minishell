@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:06:56 by itan              #+#    #+#             */
-/*   Updated: 2023/07/23 23:21:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:35:55 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	free_t_command(void *command)
 	t_command	*tmp;
 
 	tmp = (t_command *)command;
-	free_2d(tmp->args);
+	if (tmp->args)
+		free_2d(tmp->args);
 	free(tmp);
 }
 

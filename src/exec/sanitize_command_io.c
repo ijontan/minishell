@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:04:11 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:34:37 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	left_arrow(t_command *cmd, int i, char **env)
 		if (!cmd->args[i + 1])
 			return (1);
 		cmd->fd_in = open(cmd->args[i + 1], O_RDONLY);
+		if (cmd->fd_in == -1)
+			cmd->error = 1;
 	}
 	return (2);
 }
@@ -57,10 +59,10 @@ static int	right_arrow(t_command *cmd, int i, char **env)
 	free(tmp);
 	if (cmd->args[i][1] == '>' && cmd->args[i][2] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
-				0644);
+			0644);
 	else if (cmd->args[i][1] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
+			0644);
 	return (2);
 }
 
