@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/25 17:38:07 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 15:56:21 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 		&& builtin_check(((t_command *)tmp->content)->args[0]))
 	{
 		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
+		ft_lstclear(&sh_data->pipes, close_pipe);
 		return (true);
 	}
 	return (false);
