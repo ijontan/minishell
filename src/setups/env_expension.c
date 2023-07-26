@@ -102,5 +102,4 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 		args[i] = remove_quote(args[i], cmd, data);
 		free(tmp);
 	}
-	split_expand(&(cmd->args));
 }
