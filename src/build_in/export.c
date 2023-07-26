@@ -19,31 +19,30 @@ char	*check_quotations(char *args)
 	int	j;
 	char	*tmp;
 
-	i = 0;
+	i = -1;
 	count = 0;
-	while (args[i])
-	{
+	while (args[++i])
 		if (args[i] == '"')
 			count++;
-		i++;
-	}
 	i = 0;
 	j = 0;
 	if (count % 2 == 0 && count != 0)
 	{
+		tmp = (char *)ft_calloc(sizeof(char) ,(((int)ft_strlen(args) - count + 1)));
 		while (args[i])
 		{
-			tmp = (char *)malloc(sizeof(char) *(((int)ft_strlen(args) + 1)));
-			if (!tmp)
-				return (args);
 			if (args[i] != '"')
 			{
 				tmp[j] = args[i];
+				printf("%c\n", tmp[j]);
+				i++;
 				j++;
 			}
-			i++;
+			else
+				i++;
 		}
 		tmp[j] = '\0';
+		j = 0;
 		return (tmp);
 	}
 	else
@@ -113,7 +112,7 @@ int	export(char **args, t_sh_data *data)
 	{
 		while (args[i])
 		{
-			args[i] = check_quotations(args[i]);
+			// args[i] = check_quotations(args[i]);
 			// printf("%s\n", args[i]);
 			if (!env_valid(args[i]))
 			{

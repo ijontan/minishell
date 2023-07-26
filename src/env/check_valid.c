@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+int	ft_hasequal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	len_till_equal(char *str)
 {
 	int	i;
@@ -44,13 +58,21 @@ int	find_env_pos(char *args, char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_strjoin(args, "=");
-		if (ft_strstart(tmp, env[i]))
+		if (!ft_hasequal(env[i]))
 		{
-			free(tmp);
-			return (i);
+			if (ft_strcmp(args, env[i]) == 0)
+				return (i);
 		}
-		free(tmp);
+		else
+		{
+			tmp = ft_strjoin(args, "=");
+			if (ft_strstart(tmp, env[i]))
+			{
+				free(tmp);
+				return (i);
+			}
+			free(tmp);
+		}
 		i++;
 	}
 	return (i);

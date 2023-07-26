@@ -138,6 +138,7 @@ void			*ft_memdel(void *ptr);
 int				env_len(char **env);
 int				len_till_equal(char *str);
 int				ft_strstart(char *s1, char *s2);
+int				ft_hasequal(char *str);
 int				find_env_pos(char *args, char **env);
 void			sort_env(char **env);
 int				env_valid(char *env);
