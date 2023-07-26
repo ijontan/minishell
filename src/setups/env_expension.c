@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 16:22:28 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:32:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*env_expension(char *arg, char **env)
 	return (dst);
 }
 
-static char	**split_expand_recurse(char **args, char c, int count, int i)
+static char	**split_expand_recurse(char **args, int count, int i)
 {
 	char	**cache;
 	char	**dst;
@@ -65,12 +65,12 @@ static char	**split_expand_recurse(char **args, char c, int count, int i)
 
 	if (!*args)
 		return (0);
-	cache = ft_split(args[i], c);
+	cache = split_args(args[i]);
 	num = 0;
 	while (cache[num])
 		++num;
 	if (args[i + 1])
-		dst = split_expand_recurse(args, c, count + num, i + 1);
+		dst = split_expand_recurse(args, count + num, i + 1);
 	else
 		dst = (char **)ft_calloc(count + num + 1, sizeof(char *));
 	while (num--)
@@ -79,12 +79,12 @@ static char	**split_expand_recurse(char **args, char c, int count, int i)
 	return (dst);
 }
 
-void	split_expand(char ***args, char sep)
+void	split_expand(char ***args)
 {
 	char	**tmp2d;
 
 	tmp2d = *args;
-	*args = split_expand_recurse(*args, sep, 0, 0);
+	*args = split_expand_recurse(*args, 0, 0);
 	free_2d(tmp2d);
 }
 
@@ -93,24 +93,14 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	int		i;
 	char	*tmp;
 	char	**args;
-	char	first_char;
 
 	args = cmd->args;
 	i = -1;
 	while (args[++i])
 	{
-		first_char = args[i][0];
-		if (first_char == '\'' || first_char == '"')
-		{
-			tmp = args[i];
-			args[i] = ft_substr(args[i], 1, ft_strlen(args[i]) - 2);
-			free(tmp);
-		}
-		if (first_char == '\'')
-			continue ;
 		tmp = args[i];
-		args[i] = env_expension(args[i], data->env);
+		args[i] = remove_quote(args[i], cmd, data);
 		free(tmp);
 	}
-	split_expand(&(cmd->args), ' ');
+	split_expand(&(cmd->args));
 }

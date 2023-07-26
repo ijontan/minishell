@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:22:47 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 06:55:40 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:00:53 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	**recurse(char *str, char **seps, int dept)
 	i = 0;
 	while (str[i] && (!ft_strcmpn(str + i, seps) || is_quoted))
 		is_quoted = check_quoted(str, i++, is_quoted);
-	cache = ft_substr(str, 0, i - !(!is_quoted));
+	cache = ft_substr(str, 0, i);
 	sep = move_to_next(str, &i, seps, &dept);
 	if (!str[i])
 		dst = (char **)ft_calloc(dept + 2, sizeof(char *));
