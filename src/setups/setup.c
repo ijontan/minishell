@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 17:44:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:49:12 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,23 @@ static char	**split_recurse(char *command, int depth)
 
 static char	**split_commands(char *command)
 {
+	int	i;
+
 	if (!command)
 		return (0);
-	while (*command && *command == '|')
+	i = ft_strlen(command) - 1;
+	while (i >= 0 && (command[i] == ' ' || command[i] == '|'))
+	{
+		if (command[i] == '|')
+			return (0);
+		i--;
+	}
+	while (*command && (*command == '|' || *command == ' '))
+	{
+		if (*(command) == '|')
+			return (0);
 		command++;
+	}
 	if (!*command)
 		return (ft_calloc(1, sizeof(char *)));
 	return (split_recurse(command, 0));
@@ -93,6 +106,8 @@ t_list	*setup_commands(char *command)
 	t_command	*cmd_tmp;
 
 	args = split_commands(command);
+	if (!args)
+		return (0);
 	dst = 0;
 	i = 0;
 	while (args[i])
