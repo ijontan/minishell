@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:25:41 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/26 19:51:23 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/29 23:02:06 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,20 @@ char	*ft_strstr(char const *str, char const *substr)
 		i++;
 	}
 	return (0);
+}
+
+int	count_wc(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '*')
+			count++;
+		i++;
+	}
+	return (count);
 }

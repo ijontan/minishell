@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:04:01 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/27 22:52:31 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char			*find_some(t_sh_data *data, struct dirent *filename,
 char			*find_after(t_sh_data *data, struct dirent *filename,
 					char *after);
 char			*wildcard(char *arg, t_sh_data *data);
+char    		*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
@@ -183,6 +184,7 @@ void			setup_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
 
+int				count_wc(char *str);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 void			free_t_chunk_array(t_command_chunk *command_chunks);
