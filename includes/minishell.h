@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/27 22:52:31 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:47:05 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ char			*ft_strstr(char const *str, char const *substr);
 int				ft_ischar(char *str, char c);
 char			*write_buffer(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
+int 			ft_strrcmp(const char *str1, const char *str2, size_t n);
+
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);

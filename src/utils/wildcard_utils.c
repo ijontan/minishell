@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:25:41 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/29 23:02:06 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:02:48 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ char	*ft_strstr(char const *str, char const *substr)
 		while ((char)str[i + j] == (char)substr[j] && (char)str[i + j])
 			j++;
 		if (!substr[j])
+		{
+			printf("%s\n", &((char *)str)[i]);
 			return (&((char *)str)[i]);
+		}
 		i++;
 	}
 	return (0);
