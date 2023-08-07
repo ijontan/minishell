@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:27:00 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 03:56:16 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 18:25:33 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	len_till_space(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '$')
+	while (str[i] && str[i] != ' ' && str[i] != '"' && str[i] != '$')
 		i++;
 	return (i);
 }
