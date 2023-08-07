@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 01:29:00 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 13:54:50 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,27 @@ static char	*prompt(t_sh_data *data)
 static t_command_chunk	*setup_chunk(char *line)
 {
 	int				i;
+	bool			err;
 	t_command_chunk	*chunks;
 
+	err = false;
 	chunks = split_command_chunks(line, (char *[]){"&&", "||", NULL});
 	if (!chunks)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `)'\n", 2);
-		return (NULL);
-	}
+		err = true;
 	i = -1;
-	while (chunks[++i].chunk)
+	while (!err && chunks[++i].chunk)
+	{
 		if (!chunks[i].is_subshell)
 			chunks[i].commands = setup_commands(chunks[i].chunk);
+		if ((!chunks[i + 1].chunk && chunks[i].sep) || !chunks[i].commands)
+			err = true;
+	}
+	if (err)
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		free_t_chunk_array(chunks);
+		return (NULL);
+	}
 	return (chunks);
 }
 
@@ -90,12 +99,12 @@ void	command_loop(char **env)
 	data.prompt = NULL;
 	init_signal();
 	setup_signal();
-	while (1)
+	while (!g_sig.sigquit)
 	{
 		line = prompt(&data);
 		if (line && *line)
 			add_history(line);
-		if (!line || g_sig.sigquit)
+		if (!line)
 			break ;
 		if (!*line)
 			continue ;

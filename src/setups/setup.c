@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/07/05 16:16:55 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:49:12 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,23 @@ static char	**split_recurse(char *command, int depth)
 
 static char	**split_commands(char *command)
 {
+	int	i;
+
 	if (!command)
 		return (0);
-	while (*command && *command == '|')
+	i = ft_strlen(command) - 1;
+	while (i >= 0 && (command[i] == ' ' || command[i] == '|'))
+	{
+		if (command[i] == '|')
+			return (0);
+		i--;
+	}
+	while (*command && (*command == '|' || *command == ' '))
+	{
+		if (*(command) == '|')
+			return (0);
 		command++;
+	}
 	if (!*command)
 		return (ft_calloc(1, sizeof(char *)));
 	return (split_recurse(command, 0));
@@ -66,6 +79,19 @@ static void	get_heredoc(t_command *cmd)
 	}
 }
 
+static void	check_split_error(t_command *cmd)
+{
+	int	i;
+
+	i = -1;
+	while (cmd->args[++i])
+	{
+		if (!ft_strcmp(cmd->args[i],
+				"SOme RanDom Error COde that wiLL never be used"))
+			cmd->error = true;
+	}
+}
+
 /**
  * @brief Set the up commands object
  *
@@ -80,6 +106,8 @@ t_list	*setup_commands(char *command)
 	t_command	*cmd_tmp;
 
 	args = split_commands(command);
+	if (!args)
+		return (0);
 	dst = 0;
 	i = 0;
 	while (args[i])
@@ -91,6 +119,7 @@ t_list	*setup_commands(char *command)
 		cmd_tmp->args = split_args(args[i++]);
 		get_heredoc(cmd_tmp);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
+		check_split_error(cmd_tmp);
 	}
 	free_2d(args);
 	return (dst);

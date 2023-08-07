@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 00:29:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 13:55:01 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	setup_pipes(t_sh_data *sh_data, t_command_chunk *command_chunk)
 		{
 			cmd->fd_out = STDOUT_FILENO;
 		}
+		sanitize_command_io(cmd, sh_data);
 		tmp = tmp->next;
 	}
 }
@@ -50,9 +51,29 @@ static void	close_pipe(void *pipe)
 	free(pipe_tmp);
 }
 
-void	close_pipes(t_sh_data *sh_data)
+bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 {
-	ft_lstclear(&sh_data->pipes, close_pipe);
+	t_list	*tmp;
+
+	tmp = cmd_lst;
+	while (tmp)
+	{
+		if (((t_command *)tmp->content)->error)
+		{
+			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
+			ft_lstclear(&sh_data->pipes, close_pipe);
+			return (true);
+		}
+		tmp = tmp->next;
+	}
+	tmp = cmd_lst;
+	if (ft_lstsize(tmp) == 1
+		&& builtin_check(((t_command *)tmp->content)->args[0]))
+	{
+		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
+		return (true);
+	}
+	return (false);
 }
 
 /**
@@ -66,7 +87,7 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 {
 	pid_t	pid;
 
-	sanitize_command_io(cmd);
+	expand_all_args(cmd, sh_data);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -77,11 +98,11 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (builtin_check(cmd->args[0]))
-			exit(exec_builtin(cmd->args, sh_data));
+			exit(exec_builtin_redirection(cmd, sh_data));
 		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
-		close_pipes(sh_data);
+		ft_lstclear(&sh_data->pipes, close_pipe);
 		if (cmd->program == NULL)
 			exit(127);
 		execve(cmd->program, cmd->args, sh_data->env);
@@ -103,21 +124,18 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	t_list	*tmp;
 
 	tmp = chunk->commands;
-	if (ft_lstsize(tmp) == 1
-		&& builtin_check(((t_command *)tmp->content)->args[0]))
-	{
-		*status = exec_builtin(((t_command *)tmp->content)->args, sh_data);
-		return ;
-	}
 	setup_pipes(sh_data, chunk);
+	if (not_pipe(tmp, status, sh_data))
+		return ;
 	pids = (pid_t *)ft_calloc(ft_lstsize(tmp) + 1, sizeof(pid_t));
 	i = 0;
+	tmp = chunk->commands;
 	while (tmp)
 	{
 		pids[i++] = exec_command(sh_data, (t_command *)tmp->content);
 		tmp = tmp->next;
 	}
-	close_pipes(sh_data);
+	ft_lstclear(&sh_data->pipes, close_pipe);
 	i = -1;
 	while (pids[++i])
 		waitpid(pids[i], status, 0);

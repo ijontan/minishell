@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/22 14:19:04 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/31 23:09:05 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param args place holder parameter for now
  */
 
-static int	update_oldpwd(char **env)
+static int	update_oldpwd(t_sh_data *data)
 {
 	char	*oldpwd;
 	char	*cwd;
@@ -31,12 +31,12 @@ static int	update_oldpwd(char **env)
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd)
 		return (0);
-	if (env_not_exist("OLDPWD", env))
-		add_env_var(oldpwd, env);
+	if (env_not_exist("OLDPWD=", data->env))
+		add_env_var(oldpwd, data);
 	else
-		overwrite_var(oldpwd, env);
+		overwrite_var(oldpwd, data);
 	free(cwd);
-	// ft_memdel(oldpwd);
+	free(oldpwd);
 	return (1);
 }
 
@@ -76,7 +76,7 @@ static int	to_path(int path, t_sh_data *data)
 	env_path = NULL;
 	if (path == 0)
 	{
-		update_oldpwd(data->env);
+		update_oldpwd(data);
 		env_path = check_env("HOME", data->env, 4);
 		if (env_path == NULL)
 			ft_putendl_fd("minishell : cd : HOME not set", STDERR_FILENO);
@@ -90,7 +90,7 @@ static int	to_path(int path, t_sh_data *data)
 			ft_putendl_fd("minishell : cd : OLDPWD not set", STDERR_FILENO);
 		if (env_path == NULL)
 			return (1);
-		update_oldpwd(data->env);
+		update_oldpwd(data);
 	}
 	ret = chdir(env_path);
 	ft_memdel(env_path);
@@ -112,7 +112,7 @@ int	cd(char **args, t_sh_data *data)
 		return (to_path(1, data));
 	else
 	{
-		update_oldpwd(data->env);
+		update_oldpwd(data);
 		ret = chdir(args[1]);
 		if (ret != 0)
 			perror(args[1]);

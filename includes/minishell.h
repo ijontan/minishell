@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/23 23:13:29 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 13:54:06 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # include <sys/wait.h>
 
 # define STDERR 2
+
+# define PARSE_ERROR 1
+# define SYNTAX_ERROR 2
+# define NO_SUCH_FILE 3
+# define NO_SUCH_DIR 4
 
 /**
  * @brief data for prompt
@@ -75,6 +80,7 @@ typedef struct s_command
 	int			fd_in;
 	int			fd_out;
 	int			latest_heredoc;
+	int			error;
 }				t_command;
 
 typedef struct s_pipe
@@ -116,21 +122,23 @@ void			command_loop(char **env);
 
 /* -------------------------------- build_in -------------------------------- */
 
-void			add_env_var(char *args, char **env);
+void			add_env_var(char *args, t_sh_data *data);
 int				cd(char **args, t_sh_data *data);
 int				echo(char **args);
 int				env_not_exist(char *args, char **env);
 int				env(char **args, char **env);
 int				exit_buildin(t_sh_data *data, char **args);
-void			overwrite_var(char *args, char **env);
-int				export(char **args, char **env);
+void			overwrite_var(char *args, t_sh_data *data);
+int				export(char **args, t_sh_data *data);
 int				pwd(void);
-int				unset(char **args, char **env);
+int				unset(char **args, t_sh_data *data);
 
 /* ----------------------------------- env ---------------------------------- */
 void			*ft_memdel(void *ptr);
+int				env_len(char **env);
 int				len_till_equal(char *str);
 int				ft_strstart(char *s1, char *s2);
+int				ft_hasequal(char *str);
 int				find_env_pos(char *args, char **env);
 void			sort_env(char **env);
 int				env_valid(char *env);
@@ -138,9 +146,10 @@ int				env_valid(char *env);
 /* ---------------------------------- exec ---------------------------------- */
 int				builtin_check(char *command);
 int				exec_builtin(char **args, t_sh_data *data);
+int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
 					int *status);
-void			sanitize_command_io(t_command *cmd);
+void			sanitize_command_io(t_command *cmd, t_sh_data *data);
 int				detect_brackets(char *cmd);
 int				parentheses(char *line, t_sh_data *data);
 
@@ -152,10 +161,17 @@ void			free_prompt_data(t_prompt *prompt);
 char			*prompt_exec(char **env, char *command);
 
 /* ---------------------------------- setup --------------------------------- */
-void			expand_all_args(char **args, t_sh_data *data);
-char			**split_expand(char **args, char sep);
+void			expand_all_args(t_command *cmd, t_sh_data *data);
+void			split_expand(char ***args);
 char			*env_expension(char *arg, char **env);
+char			*find_all(t_sh_data *data, struct dirent *filename);
+char			*find_some(t_sh_data *data, struct dirent *filename,
+					char *before, char *after);
+char			*find_after(t_sh_data *data, struct dirent *filename,
+					char *after);
 char			*wildcard(char *arg, t_sh_data *data);
+char			*multiple_wildcards(char *arg, t_sh_data *data,
+					struct dirent *filename);
 char			*heredoc(char *eof);
 void			exec_heredoc(t_command *cmd, char *eof);
 t_list			*setup_commands(char *command);
@@ -169,15 +185,22 @@ void			setup_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
 
+int				count_wc(char *str);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 void			free_t_chunk_array(t_command_chunk *command_chunks);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
+char			*remove_quote(char *str, t_command *cmd);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 char			*ft_strndup(char *str, int n);
 char			*ft_strstr(char const *str, char const *substr);
+int				ft_ischar(char *str, char c);
+char			*write_buffer(t_sh_data *data, struct dirent *filename,
+					char *before, char *after);
+int				ft_strrcmp(const char *str1, const char *str2, size_t n);
+
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);

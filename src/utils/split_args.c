@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:22:47 by itan              #+#    #+#             */
-/*   Updated: 2023/06/28 20:58:23 by itan             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:00:53 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ static char	*move_to_next(char *str, int *i, char **seps, int *dept)
 	}
 	while (str[*i] && str[*i] == ' ')
 		(*i)++;
+	if (str[*i] == '<' || str[*i] == '>')
+	{
+		free(sep);
+		return (ft_strdup("SOme RanDom Error COde that wiLL never be used"));
+	}
 	return (sep);
 }
 
@@ -66,7 +71,7 @@ static char	**recurse(char *str, char **seps, int dept)
 	i = 0;
 	while (str[i] && (!ft_strcmpn(str + i, seps) || is_quoted))
 		is_quoted = check_quoted(str, i++, is_quoted);
-	cache = ft_substr(str, 0, i - !(!is_quoted));
+	cache = ft_substr(str, 0, i);
 	sep = move_to_next(str, &i, seps, &dept);
 	if (!str[i])
 		dst = (char **)ft_calloc(dept + 2, sizeof(char *));
@@ -80,10 +85,18 @@ static char	**recurse(char *str, char **seps, int dept)
 
 char	**split_args(char *command)
 {
+	int		dept;
+	int		i;
 	char	**seps;
+	char	*sep;
+	char	**dst;
 
+	i = 0;
+	dept = 0;
 	seps = (char *[]){"<<", ">>", "<", ">", " ", NULL};
-	while (*command && ft_strcmpn(command, seps))
-		command += ft_strlen(ft_strcmpn(command, seps));
-	return (recurse(command, seps, 0));
+	sep = move_to_next(command, &i, seps, &dept);
+	dst = recurse(command + i, seps, dept);
+	if (sep)
+		dst[0] = sep;
+	return (dst);
 }

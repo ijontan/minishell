@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:02:38 by itan              #+#    #+#             */
-/*   Updated: 2023/07/12 23:10:48 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:50:13 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 /**
  * @brief handle interruption signals
- * 
- * @param signo 
+ *
+ * @param signo
  */
-
-struct g_sig;
-
 void	handle_signal(int signo)
 {
 	(void)signo;
-	// ! g_sig is not defined
 	g_sig.sigint = 1;
 	if (g_sig.pid == 0)
 	{
@@ -52,7 +48,5 @@ void	handle_signal_quit(int signo)
 	}
 	else
 		ft_putstr_fd("\b\b  \b\b", STDERR_FILENO);
-	// ft_memdel(nbr);
-	// ! not sure what this suppose to do, below is what I replace with
 	free(nbr);
 }
