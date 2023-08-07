@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 22:06:03 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 11:05:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_command_chunk	*setup_chunk(char *line)
 	if (!chunks)
 		err = true;
 	i = -1;
-	while (chunks[++i].chunk)
+	while (!err && chunks[++i].chunk)
 	{
 		if (!chunks[i].is_subshell)
 			chunks[i].commands = setup_commands(chunks[i].chunk);
