@@ -6,14 +6,15 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/25 17:38:14 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 19:12:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_check(char *command)
+int	builtin_check(char *command, t_sh_data *data)
 {
+	command = env_expension(command, data->env);
 	if (!command)
 		return (0);
 	if (ft_strcmp(command, "echo") == 0)
@@ -30,6 +31,7 @@ int	builtin_check(char *command)
 		return (1);
 	if (ft_strcmp(command, "exit") == 0)
 		return (1);
+	free(command);
 	return (0);
 }
 

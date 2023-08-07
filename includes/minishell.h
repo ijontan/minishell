@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 13:54:06 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 19:11:53 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void			sort_env(char **env);
 int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
-int				builtin_check(char *command);
+int				builtin_check(char *command, t_sh_data *data);
 int				exec_builtin(char **args, t_sh_data *data);
 int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,

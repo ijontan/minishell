@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:57:47 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 11:59:01 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 19:07:02 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static char	*substr_append(char *dst, char **src, int *i, char *quote)
 	free(tmp);
 	if ((*src)[*i] == *quote)
 		*quote = 0;
-	*quote = (*src)[*i];
+	else
+		*quote = (*src)[*i];
 	(*src) += *i + 1;
 	(*i) = -1;
 	return (dst);
@@ -40,7 +41,7 @@ char	*remove_quote(char *str, t_command *cmd)
 		if (str[i] == '"' || str[i] == '\'')
 			dst = substr_append(dst, &str, &i, &quote);
 	dst = ft_append(dst, str);
-	if (quote != 0)
+	if (quote)
 		cmd->error = 1;
 	return (dst);
 }
