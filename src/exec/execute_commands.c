@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 19:12:02 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 19:15:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 	if (ft_lstsize(tmp) == 1
 		&& builtin_check(((t_command *)tmp->content)->args[0], sh_data))
 	{
-		ft_printf("builtin: %s.\n", ((t_command *)tmp->content)->args[0]);
 		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
 		return (true);
 	}
