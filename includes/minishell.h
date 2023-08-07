@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 11:21:01 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 11:57:49 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void			free_2d(char **val);
 void			free_t_chunk_array(t_command_chunk *command_chunks);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
-char			*remove_quote(char *str, t_command *cmd, t_sh_data *data);
+char			*remove_quote(char *str, t_command *cmd);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 char			*ft_strndup(char *str, int n);

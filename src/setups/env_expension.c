@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:32:58 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/07 12:27:00 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,7 @@ static int	len_till_space(char *str)
 	return (i);
 }
 
-/**
- * @brief Expends the env variables in the argument
- *
- * @param arg argument to be expended
- * @param env env variables
- * @return char* expended argument
- */
-char	*env_expension(char *arg, char **env)
+char	*env_expension_len(char *arg, int len, char **env)
 {
 	char	*dst;
 	char	*tmp;
@@ -37,9 +30,9 @@ char	*env_expension(char *arg, char **env)
 
 	dst = NULL;
 	i = -1;
-	while (arg[++i])
+	while (arg[++i] && i < len)
 	{
-		while (arg[i] && arg[i] != '$')
+		while (arg[i] && arg[i] != '$' && i < len)
 			i++;
 		tmp = ft_substr(arg, 0, i);
 		if (arg[i] == '$')
@@ -57,35 +50,52 @@ char	*env_expension(char *arg, char **env)
 	return (dst);
 }
 
-static char	**split_expand_recurse(char **args, int count, int i)
+static int	len_till_quote(char *str)
 {
-	char	**cache;
-	char	**dst;
-	int		num;
+	int	i;
 
-	if (!*args)
-		return (0);
-	cache = split_args(args[i]);
-	num = 0;
-	while (cache[num])
-		++num;
-	if (args[i + 1])
-		dst = split_expand_recurse(args, count + num, i + 1);
-	else
-		dst = (char **)ft_calloc(count + num + 1, sizeof(char *));
-	while (num--)
-		dst[count + num] = cache[num];
-	free(cache);
-	return (dst);
+	i = 0;
+	if (str[i] == '"' || str[i] == '\'')
+		i++;
+	while (str[i] && str[i] != '"' && str[i] != '\'')
+		i++;
+	return (i);
 }
 
-void	split_expand(char ***args)
+/**
+ * @brief Expends the env variables in the argument
+ *
+ * @param arg argument to be expended
+ * @param env env variables
+ * @return char* expended argument
+ */
+char	*env_expension(char *arg, char **env)
 {
-	char	**tmp2d;
+	int		i;
+	int		len;
+	char	*tmp;
+	char	*dst;
 
-	tmp2d = *args;
-	*args = split_expand_recurse(*args, 0, 0);
-	free_2d(tmp2d);
+	i = 0;
+	dst = NULL;
+	while (arg[i])
+	{
+		len = len_till_quote(arg + i) - 1;
+		if (arg[i] == '\'')
+			tmp = ft_substr(arg + i, 0, len);
+		else
+			tmp = env_expension_len(arg + i, len, env);
+		ft_printf("src: %s\n", arg + i);
+		ft_printf("len: %d\n", len);
+		ft_printf("tmp: %s\n", tmp);
+		ft_printf("dst: %s\n\n", dst);
+		i += len + 1;
+		dst = ft_append(dst, tmp);
+		free(tmp);
+		if (!arg[i] || len == 0)
+			break ;
+	}
+	return (dst);
 }
 
 void	expand_all_args(t_command *cmd, t_sh_data *data)
@@ -99,7 +109,16 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	while (args[++i])
 	{
 		tmp = args[i];
-		args[i] = remove_quote(args[i], cmd, data);
+		args[i] = env_expension(args[i], data->env);
+		free(tmp);
+	}
+	split_expand(&(cmd->args));
+	args = cmd->args;
+	i = -1;
+	while (args[++i])
+	{
+		tmp = args[i];
+		args[i] = remove_quote(args[i], cmd);
 		free(tmp);
 	}
 }
