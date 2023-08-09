@@ -6,48 +6,47 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/23 01:34:25 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:48:36 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*check_quotations(char *args)
-{
-	int	i;
-	int	count;
-	int	j;
-	char	*tmp;
+// char	*check_quotations(char *args)
+// {
+// 	int	i;
+// 	int	count;
+// 	int	j;
+// 	char	*tmp;
 
-	i = -1;
-	count = 0;
-	while (args[++i])
-		if (args[i] == '"')
-			count++;
-	i = 0;
-	j = 0;
-	if (count % 2 == 0 && count != 0)
-	{
-		tmp = (char *)ft_calloc(sizeof(char) ,(((int)ft_strlen(args) - count + 1)));
-		while (args[i])
-		{
-			if (args[i] != '"')
-			{
-				tmp[j] = args[i];
-				printf("%c\n", tmp[j]);
-				i++;
-				j++;
-			}
-			else
-				i++;
-		}
-		tmp[j] = '\0';
-		j = 0;
-		return (tmp);
-	}
-	else
-		return (args);
-}
+// 	i = -1;
+// 	count = 0;
+// 	while (args[++i])
+// 		if (args[i] == '"')
+// 			count++;
+// 	i = 0;
+// 	j = 0;
+// 	if (count % 2 == 0 && count != 0)
+// 	{
+// 		tmp = (char *)ft_calloc(sizeof(char) ,(((int)ft_strlen(args) - count + 1)));
+// 		while (args[i])
+// 		{
+// 			if (args[i] != '"')
+// 			{
+// 				tmp[j] = args[i];
+// 				i++;
+// 				j++;
+// 			}
+// 			else
+// 				i++;
+// 		}
+// 		tmp[j] = '\0';
+// 		j = 0;
+// 		return (tmp);
+// 	}
+// 	else
+// 		return (args);
+// }
 
 int	env_not_exist(char *args, char **env)
 {

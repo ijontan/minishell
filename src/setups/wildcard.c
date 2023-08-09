@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/31 23:09:17 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/03 23:36:04 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,5 @@ char	*wildcard(char *arg, t_sh_data *data)
 	else
 		result = multiple_wildcards(arg, data, filename);
 	closedir(data->dir);
-	if (result != NULL)
-		return (result);
-	else
-		return (arg);
+	return (result);
 }

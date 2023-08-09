@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/02 22:30:59 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:23:55 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,19 @@ char	*ft_strrstr(char const *str, char const *substr)
 	return (0);
 }
 
+char	*first_wc(char **chr, char *dname)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	if (ft_strchr(dname, chr[i][0]))
+		tmp = ft_strchr(dname, chr[i][0]);
+	else
+		return (0);
+	return (tmp);
+}
+
 int	compare_str(char *arg, char **chr, char *dname)
 {
 	int	i;
@@ -66,12 +79,7 @@ int	compare_str(char *arg, char **chr, char *dname)
 	if (arg[0] != '*' && (ft_strncmp(dname, chr[0], ft_strlen(chr[0])) != 0))
 		return (-1);
 	if (arg[0] == '*')
-	{
-		if (ft_strchr(dname, chr[i][0]))
-			tmp = ft_strchr(dname, chr[i][0]);
-		else
-			return (-1);
-	}
+		tmp = first_wc(chr, dname);
 	tmp = dname;
 	while (chr[i])
 	{
