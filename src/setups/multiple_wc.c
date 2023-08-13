@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/03 21:23:55 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/13 00:12:06 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*first_wc(char **chr, char *dname)
 
 int	compare_str(char *arg, char **chr, char *dname)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;
@@ -93,17 +93,18 @@ int	compare_str(char *arg, char **chr, char *dname)
 		else
 			i++;
 	}
-	if ((arg[ft_strlen(arg) - 1] != '*' && (ft_strrcmp(tmp, chr[i], ft_strlen(chr[i])) != 0)) ||
-		((arg[ft_strlen(arg) - 1] == '*' && (ft_strrstr(tmp, chr[i]) == 0))))
+	if ((arg[ft_strlen(arg) - 1] != '*' && (ft_strrcmp(tmp, chr[i],
+					ft_strlen(chr[i])) != 0)) || ((arg[ft_strlen(arg)
+				- 1] == '*' && (ft_strrstr(tmp, chr[i]) == 0))))
 		return (-1);
 	else
 		return (1);
 }
 
-char    *multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
+char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 {
-    char	**c;
-	char	*tmp;
+	char **c;
+	char *tmp;
 
 	c = ft_split(arg, '*');
 	tmp = ft_strdup("");

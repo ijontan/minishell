@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/10 15:11:50 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:53:37 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	builtin_check(char *command, t_sh_data *data)
 {
-	command = env_expension(command, data->env);
+	command = env_expension(command, data);
 	if (!command)
 		return (0);
 	if (ft_strcmp(command, "echo") == 0)

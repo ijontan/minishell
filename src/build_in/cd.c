@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:06 by itan              #+#    #+#             */
-/*   Updated: 2023/07/31 23:09:05 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:37:30 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	to_path(int path, t_sh_data *data)
 		update_oldpwd(data);
 		env_path = check_env("HOME", data->env, 4);
 		if (env_path == NULL)
-			ft_putendl_fd("minishell : cd : HOME not set", STDERR_FILENO);
+			env_path = ft_strdup(getenv("HOME"));
 		if (env_path == NULL)
 			return (1);
 	}

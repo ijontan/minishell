@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expension.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 19:12:44 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/13 21:49:52 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,22 @@ static int	len_till_space(char *str)
 	return (i);
 }
 
-char	*env_expension_len(char *arg, char **env)
+static char	*dollar_return(char *arg, int i, t_sh_data *data)
+{
+	char	*tmp;
+
+	if (arg[i + 1] == '?')
+		tmp = ft_itoa(data->status);
+	else if (arg[i + 1] == '$')
+		tmp = ft_itoa(g_sig.pid);
+	else if (!arg[i + 1])
+		tmp = ft_strdup("$");
+	else
+		tmp = get_env(data->env, arg + i + 1);
+	return (tmp);
+}
+
+char	*env_expension_len(char *arg, t_sh_data *data)
 {
 	char	*dst;
 	char	*tmp;
@@ -39,7 +54,9 @@ char	*env_expension_len(char *arg, char **env)
 		{
 			dst = ft_append(dst, tmp);
 			free(tmp);
-			tmp = get_env(env, arg + i + 1);
+			tmp = dollar_return(arg, i, data);
+			if (arg[i + 1] == '?' || arg[i + 1] == '$' || !arg[i + 1])
+				i++;
 			arg += len_till_space(arg + i + 1) + 1;
 		}
 		dst = ft_append(dst, tmp);
@@ -50,7 +67,7 @@ char	*env_expension_len(char *arg, char **env)
 	return (dst);
 }
 
-static char	*substr_append(char *dst, char **src, int *i, char **env)
+static char	*substr_append(char *dst, char **src, int *i, t_sh_data *data)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -58,7 +75,7 @@ static char	*substr_append(char *dst, char **src, int *i, char **env)
 	tmp = ft_substr(*src, 0, *i);
 	if ((*src)[*i] != '\'' || **src != '\'')
 	{
-		tmp2 = env_expension_len(tmp, env);
+		tmp2 = env_expension_len(tmp, data);
 		free(tmp);
 		tmp = tmp2;
 	}
@@ -69,7 +86,7 @@ static char	*substr_append(char *dst, char **src, int *i, char **env)
 	return (dst);
 }
 
-char	*env_expension(char *str, char **env)
+char	*env_expension(char *str, t_sh_data *data)
 {
 	int		i;
 	char	*dst;
@@ -84,16 +101,18 @@ char	*env_expension(char *str, char **env)
 		{
 			i++;
 			quote = -1;
-			dst = substr_append(dst, &str, &i, env);
+			dst = substr_append(dst, &str, &i, data);
 		}
+		else if ((str[i] == '"' || str[i] == '\'') && str[0])
+			quote = str[i];
 		else if ((str[i] == '"' || str[i] == '\''))
 		{
 			quote = str[i];
-			dst = substr_append(dst, &str, &i, env);
+			dst = substr_append(dst, &str, &i, data);
 			i++;
 		}
 	}
-	dst = substr_append(dst, &str, &i, env);
+	dst = substr_append(dst, &str, &i, data);
 	return (dst);
 }
 
@@ -167,7 +186,7 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	while (args[++i])
 	{
 		tmp = args[i];
-		args[i] = env_expension(args[i], data->env);
+		args[i] = env_expension(args[i], data);
 		free(tmp);
 	}
 	split_expand(&(cmd->args));

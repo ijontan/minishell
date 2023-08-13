@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/09 21:23:18 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/12 23:56:32 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*wildcard(char *arg, t_sh_data *data)
 	filename = readdir(data->dir);
 	if (ft_ischar(arg, '*'))
 		arg = "*";
-	if (count_wc(arg) <= 1 && *arg == '*')
+	if (count_wc(arg) <= 1 && *arg == '*' && ft_strlen(arg) == 1)
 		result = expand_wildcard(arg, data, filename);
 	else
 		result = multiple_wildcards(arg, data, filename);

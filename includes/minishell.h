@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 19:11:53 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/14 00:42:03 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -163,7 +164,7 @@ char			*prompt_exec(char **env, char *command);
 /* ---------------------------------- setup --------------------------------- */
 void			expand_all_args(t_command *cmd, t_sh_data *data);
 void			split_expand(char ***args);
-char			*env_expension(char *arg, char **env);
+char			*env_expension(char *arg, t_sh_data *data);
 char			*find_all(t_sh_data *data, struct dirent *filename);
 char			*find_some(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
