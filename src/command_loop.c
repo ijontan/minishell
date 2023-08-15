@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 01:32:09 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 02:22:45 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*prompt(t_sh_data *data)
 	return (dst);
 }
 
-static t_command_chunk	*setup_chunk(char *line)
+static t_command_chunk	*setup_chunk(char *line, t_sh_data *data)
 {
 	int				i;
 	bool			err;
@@ -39,7 +39,7 @@ static t_command_chunk	*setup_chunk(char *line)
 	while (!err && chunks[++i].chunk)
 	{
 		if (!chunks[i].is_subshell)
-			chunks[i].commands = setup_commands(chunks[i].chunk);
+			chunks[i].commands = setup_commands(chunks[i].chunk, data);
 		if (!chunks[i].commands)
 			chunks[i].error = 1;
 		if (!chunks[i + 1].chunk && chunks[i].sep)
@@ -70,7 +70,7 @@ int	execution_procedure(char *line, t_sh_data *data)
 	int				status;
 
 	status = 0;
-	chunks = setup_chunk(line);
+	chunks = setup_chunk(line, data);
 	if (!chunks)
 		return (1);
 	i = -1;

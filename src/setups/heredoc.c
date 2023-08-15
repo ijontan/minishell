@@ -6,13 +6,13 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/07/24 16:36:49 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 02:20:45 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*heredoc(char *eof)
+char	*heredoc(char *eof, t_sh_data *data)
 {
 	char	*dst;
 	char	*tmp;
@@ -31,10 +31,13 @@ char	*heredoc(char *eof)
 		}
 	}
 	free(tmp);
+	tmp = dst;
+	dst = env_expension_len(dst, data);
+	free(tmp);
 	return (dst);
 }
 
-void	exec_heredoc(t_command *cmd, char *eof)
+void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 {
 	int		fd[2];
 	char	*tmp;
@@ -48,7 +51,7 @@ void	exec_heredoc(t_command *cmd, char *eof)
 		return ;
 	if (cmd->latest_heredoc != -1)
 		close(cmd->latest_heredoc);
-	tmp = heredoc(eof);
+	tmp = heredoc(eof, data);
 	if (tmp)
 	{
 		write(fd[1], tmp, ft_strlen(tmp));
