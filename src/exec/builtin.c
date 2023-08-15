@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/14 00:53:37 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 00:15:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,28 @@
 
 int	builtin_check(char *command, t_sh_data *data)
 {
+	int	ret;
+
+	ret = 0;
 	command = env_expension(command, data);
 	if (!command)
-		return (0);
-	if (ft_strcmp(command, "echo") == 0)
-		return (1);
-	if (ft_strcmp(command, "cd") == 0)
-		return (1);
-	if (ft_strcmp(command, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(command, "env") == 0)
-		return (1);
-	if (ft_strcmp(command, "export") == 0)
-		return (1);
-	if (ft_strcmp(command, "unset") == 0)
-		return (1);
-	if (ft_strcmp(command, "exit") == 0)
-		return (1);
+		ret = 0;
+	else if (ft_strcmp(command, "echo") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "cd") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "pwd") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "env") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "export") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "unset") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "exit") == 0)
+		ret = 1;
 	free(command);
-	return (0);
+	return (ret);
 }
 
 int	exec_builtin(char **args, t_sh_data *data)

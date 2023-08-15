@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/15 23:37:34 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 00:22:38 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,13 @@ char	*env_expension(char *str, t_sh_data *data)
 	quote = 0;
 	while (str[++i])
 	{
-		if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+		if ((str[i] == '"' || str[i] == '\'') && !quote)
 			quote = str[i];
 		else if (str[i] == quote)
+		{
+			quote = 0;
 			dst = substr_append(dst, &str, &i, data);
+		}
 	}
 	dst = substr_append(dst, &str, &i, data);
 	return (dst);
