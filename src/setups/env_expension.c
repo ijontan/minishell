@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expension.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/15 17:35:34 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/15 23:37:34 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ static int	len_till_space(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '"' && str[i] != '$')
+	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"'
+		&& str[i] != '$')
 		i++;
 	return (i);
 }
 
-static char	*dollar_return(char *arg, int i, t_sh_data *data)
+static char	*dollar_return(char *arg, char *prev, int i, t_sh_data *data)
 {
 	char	*tmp;
 
+	free(prev);
 	if (arg[i + 1] == '?')
 		tmp = ft_itoa(data->status);
+	// can I know what this does?
 	else if (arg[i + 1] == '$')
 		tmp = ft_itoa(g_sig.pid);
 	else if (!arg[i + 1] || arg[i + 1] == ' ' || !ft_strcmp(arg, "\"$\""))
@@ -53,8 +56,7 @@ char	*env_expension_len(char *arg, t_sh_data *data)
 		if (arg[i] == '$')
 		{
 			dst = ft_append(dst, tmp);
-			free(tmp);
-			tmp = dollar_return(arg, i, data);
+			tmp = dollar_return(arg, tmp, i, data);
 			if (arg[i + 1] == '?' || arg[i + 1] == '$' || !arg[i + 1])
 				i++;
 			arg += len_till_space(arg + i + 1) + 1;
@@ -72,8 +74,10 @@ static char	*substr_append(char *dst, char **src, int *i, t_sh_data *data)
 	char	*tmp;
 	char	*tmp2;
 
+	if (**src == '\'' || **src == '"')
+		(*i)++;
 	tmp = ft_substr(*src, 0, *i);
-	if ((*src)[*i - 1] != '\'' && **src != '\'')
+	if ((*src)[*i - 1] != '\'' || **src != '\'')
 	{
 		tmp2 = env_expension_len(tmp, data);
 		free(tmp);
@@ -94,23 +98,13 @@ char	*env_expension(char *str, t_sh_data *data)
 
 	i = -1;
 	dst = NULL;
-	quote = -1;
+	quote = 0;
 	while (str[++i])
 	{
-		if ((str[i] == '"' || str[i] == '\'') && str[i] == quote)
-		{
-			i++;
-			quote = -1;
-			dst = substr_append(dst, &str, &i, data);
-		}
-		else if ((str[i] == '"' || str[i] == '\'') && str[0])
+		if ((str[i] == '"' || str[i] == '\'') && quote == 0)
 			quote = str[i];
-		else if ((str[i] == '"' || str[i] == '\''))
-		{
-			quote = str[i];
+		else if (str[i] == quote)
 			dst = substr_append(dst, &str, &i, data);
-			i++;
-		}
 	}
 	dst = substr_append(dst, &str, &i, data);
 	return (dst);
