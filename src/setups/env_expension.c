@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 00:22:38 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 01:57:29 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static char	*dollar_return(char *arg, char *prev, int i, t_sh_data *data)
 	free(prev);
 	if (arg[i + 1] == '?')
 		tmp = ft_itoa(data->status);
-	// can I know what this does?
 	else if (arg[i + 1] == '$')
 		tmp = ft_itoa(g_sig.pid);
 	else if (!arg[i + 1] || arg[i + 1] == ' ' || !ft_strcmp(arg, "\"$\""))
@@ -77,7 +76,7 @@ static char	*substr_append(char *dst, char **src, int *i, t_sh_data *data)
 	if (**src == '\'' || **src == '"')
 		(*i)++;
 	tmp = ft_substr(*src, 0, *i);
-	if ((*src)[*i - 1] != '\'' || **src != '\'')
+	if ((*src)[*i - **src == '\'' || **src == '"'] != '\'' || **src != '\'')
 	{
 		tmp2 = env_expension_len(tmp, data);
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 00:15:48 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 01:33:19 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	builtin_check(char *command, t_sh_data *data)
 {
-	int	ret;
+	int		ret;
+	char	*tmp;
 
 	ret = 0;
-	command = env_expension(command, data);
+	tmp = env_expension(command, data);
+	command = remove_quote(tmp, NULL);
 	if (!command)
 		ret = 0;
 	else if (ft_strcmp(command, "echo") == 0)
@@ -35,6 +37,7 @@ int	builtin_check(char *command, t_sh_data *data)
 	else if (ft_strcmp(command, "exit") == 0)
 		ret = 1;
 	free(command);
+	free(tmp);
 	return (ret);
 }
 

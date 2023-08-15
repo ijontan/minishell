@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/14 00:42:03 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 00:57:39 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_command_chunk
 	char		*sep;
 	t_list		*commands;
 	bool		is_subshell;
+	bool		error;
 }				t_command_chunk;
 
 /**
