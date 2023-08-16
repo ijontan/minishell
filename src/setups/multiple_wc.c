@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_wc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/13 00:12:06 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:06:00 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	compare_str(char *arg, char **chr, char *dname)
 
 char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 {
-	char **c;
-	char *tmp;
+	char	**c;
+	char	*tmp;
 
 	c = ft_split(arg, '*');
 	tmp = ft_strdup("");
