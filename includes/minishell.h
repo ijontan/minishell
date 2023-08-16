@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 14:20:14 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 17:48:30 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ char			*ft_strstr(char const *str, char const *substr);
 int				ft_ischar(char *str, char c);
 char			*write_buffer(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
-int				ft_strrcmp(const char *str1, const char *str2, size_t n);
+int				ft_strrcmp(const char *str1, const char *str2);
 
 /* ------------------------------- validation ------------------------------- */
 
