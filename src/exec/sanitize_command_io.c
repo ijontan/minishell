@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize_command_io.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:34:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/14 00:56:32 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	left_arrow(t_command *cmd, int i, char **env)
+static int	left_arrow(t_command *cmd, int i, t_sh_data *data)
 {
 	char	*tmp;
 
@@ -28,7 +28,7 @@ static int	left_arrow(t_command *cmd, int i, char **env)
 	else if (cmd->args[i][1] == '\0')
 	{
 		tmp = cmd->args[i + 1];
-		cmd->args[i + 1] = env_expension(cmd->args[i + 1], env);
+		cmd->args[i + 1] = env_expension(cmd->args[i + 1], data);
 		free(tmp);
 		if (cmd->fd_in != 0 && cmd->fd_in != cmd->latest_heredoc)
 			close(cmd->fd_in);
@@ -41,7 +41,7 @@ static int	left_arrow(t_command *cmd, int i, char **env)
 	return (2);
 }
 
-static int	right_arrow(t_command *cmd, int i, char **env)
+static int	right_arrow(t_command *cmd, int i, t_sh_data *data)
 {
 	char	*tmp;
 
@@ -55,14 +55,14 @@ static int	right_arrow(t_command *cmd, int i, char **env)
 		return (1);
 	}
 	tmp = cmd->args[i + 1];
-	cmd->args[i + 1] = env_expension(cmd->args[i + 1], env);
+	cmd->args[i + 1] = env_expension(cmd->args[i + 1], data);
 	free(tmp);
 	if (cmd->args[i][1] == '>' && cmd->args[i][2] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
-				0644);
+			0644);
 	else if (cmd->args[i][1] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
+			0644);
 	return (2);
 }
 
@@ -107,8 +107,8 @@ void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 	num = 0;
 	while (cmd->args[++i])
 	{
-		num += left_arrow(cmd, i, data->env);
-		num += right_arrow(cmd, i, data->env);
+		num += left_arrow(cmd, i, data);
+		num += right_arrow(cmd, i, data);
 	}
 	remove_redirection(cmd, i - num, i - num + 1);
 	i = -1;

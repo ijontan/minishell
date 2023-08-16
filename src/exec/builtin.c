@@ -6,31 +6,39 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/25 17:38:14 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 01:33:19 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_check(char *command)
+int	builtin_check(char *command, t_sh_data *data)
 {
+	int		ret;
+	char	*tmp;
+
+	ret = 0;
+	tmp = env_expension(command, data);
+	command = remove_quote(tmp, NULL);
 	if (!command)
-		return (0);
-	if (ft_strcmp(command, "echo") == 0)
-		return (1);
-	if (ft_strcmp(command, "cd") == 0)
-		return (1);
-	if (ft_strcmp(command, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(command, "env") == 0)
-		return (1);
-	if (ft_strcmp(command, "export") == 0)
-		return (1);
-	if (ft_strcmp(command, "unset") == 0)
-		return (1);
-	if (ft_strcmp(command, "exit") == 0)
-		return (1);
-	return (0);
+		ret = 0;
+	else if (ft_strcmp(command, "echo") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "cd") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "pwd") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "env") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "export") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "unset") == 0)
+		ret = 1;
+	else if (ft_strcmp(command, "exit") == 0)
+		ret = 1;
+	free(command);
+	free(tmp);
+	return (ret);
 }
 
 int	exec_builtin(char **args, t_sh_data *data)

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:49:12 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 02:22:05 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	**split_commands(char *command)
 	return (split_recurse(command, 0));
 }
 
-static void	get_heredoc(t_command *cmd)
+static void	get_heredoc(t_command *cmd, t_sh_data *data)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ static void	get_heredoc(t_command *cmd)
 	{
 		if (cmd->args[i][0] == '<' && cmd->args[i][1] == '<'
 			&& cmd->args[i][2] == 0)
-			exec_heredoc(cmd, cmd->args[i + 1]);
+			exec_heredoc(cmd, cmd->args[i + 1], data);
 		i++;
 	}
 }
@@ -87,7 +87,7 @@ static void	check_split_error(t_command *cmd)
 	while (cmd->args[++i])
 	{
 		if (!ft_strcmp(cmd->args[i],
-				"SOme RanDom Error COde that wiLL never be used"))
+						"SOme RanDom Error COde that wiLL never be used"))
 			cmd->error = true;
 	}
 }
@@ -98,7 +98,7 @@ static void	check_split_error(t_command *cmd)
  * @param command the command string
  * @return t_list* the void pointer in each t_list contains the a t_command
  */
-t_list	*setup_commands(char *command)
+t_list	*setup_commands(char *command, t_sh_data *data)
 {
 	t_list		*dst;
 	char		**args;
@@ -117,7 +117,7 @@ t_list	*setup_commands(char *command)
 		cmd_tmp->fd_out = STDOUT_FILENO;
 		cmd_tmp->latest_heredoc = -1;
 		cmd_tmp->args = split_args(args[i++]);
-		get_heredoc(cmd_tmp);
+		get_heredoc(cmd_tmp, data);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
 		check_split_error(cmd_tmp);
 	}

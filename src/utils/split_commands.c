@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 13:55:35 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 02:10:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 	i = count_word(str, seps, &is_quoted, &cache);
 	if (i == -1)
 		return (NULL);
-	cache.chunk = ft_substr(str, 0, i - !(!is_quoted));
+	cache.chunk = ft_substr(str, 0, i);
 	if (str[i] && ft_strcmpn(str + i, seps))
 	{
 		cache.sep = ft_strdup(ft_strcmpn(str + i, seps));
 		i += ft_strlen(cache.sep);
 	}
 	if (!str[i])
-		dst = (t_command_chunk *)ft_calloc(depth + 2, sizeof(t_command_chunk));
+		dst = (t_command_chunk *)ft_calloc(depth + 3, sizeof(t_command_chunk));
 	else
 		dst = recurse(str + i, seps, depth + 1);
 	dst[depth] = cache;
@@ -87,8 +87,13 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 
 t_command_chunk	*split_command_chunks(char *str, char **seps)
 {
+	while (*str == ' ' || *str == '\t')
+		str++;
 	while (*str && ft_strcmpn(str, seps))
+	{
 		str += ft_strlen(ft_strcmpn(str, seps));
+		return (NULL);
+	}
 	return (recurse(str, seps, 0));
 }
 

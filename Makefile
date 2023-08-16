@@ -6,7 +6,7 @@
 #    By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 20:55:16 by itan              #+#    #+#              #
-#    Updated: 2023/03/28 02:26:42 by itan             ###   ########.fr        #
+#    Updated: 2023/08/16 14:10:26 by itan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ RM		= rm -f
 INC		= $(addprefix -I , $(shell find includes -type d -name includes))
 
 LIBDIR	= includes/libft
-LIB		= -L$(LIBDIR) -lft -lreadline
+LIB		= -L$(LIBDIR) -lft -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 LIBNAME	= libft.a
 # this is for debugging
 DNAME	= d.out

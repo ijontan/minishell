@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 12:27:00 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 01:57:29 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,29 @@ static int	len_till_space(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '$')
+	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"'
+		&& str[i] != '$')
 		i++;
 	return (i);
 }
 
-char	*env_expension_len(char *arg, int len, char **env)
+static char	*dollar_return(char *arg, char *prev, int i, t_sh_data *data)
+{
+	char	*tmp;
+
+	free(prev);
+	if (arg[i + 1] == '?')
+		tmp = ft_itoa(data->status);
+	else if (arg[i + 1] == '$')
+		tmp = ft_itoa(g_sig.pid);
+	else if (!arg[i + 1] || arg[i + 1] == ' ' || !ft_strcmp(arg, "\"$\""))
+		tmp = ft_strdup("$");
+	else
+		tmp = get_env(data->env, arg + i + 1);
+	return (tmp);
+}
+
+char	*env_expension_len(char *arg, t_sh_data *data)
 {
 	char	*dst;
 	char	*tmp;
@@ -30,16 +47,17 @@ char	*env_expension_len(char *arg, int len, char **env)
 
 	dst = NULL;
 	i = -1;
-	while (arg[++i] && i < len)
+	while (arg[++i])
 	{
-		while (arg[i] && arg[i] != '$' && i < len)
+		while (arg[i] && arg[i] != '$')
 			i++;
 		tmp = ft_substr(arg, 0, i);
 		if (arg[i] == '$')
 		{
 			dst = ft_append(dst, tmp);
-			free(tmp);
-			tmp = get_env(env, arg + i + 1);
+			tmp = dollar_return(arg, tmp, i, data);
+			if (arg[i + 1] == '?' || arg[i + 1] == '$' || !arg[i + 1])
+				i++;
 			arg += len_till_space(arg + i + 1) + 1;
 		}
 		dst = ft_append(dst, tmp);
@@ -50,17 +68,67 @@ char	*env_expension_len(char *arg, int len, char **env)
 	return (dst);
 }
 
-static int	len_till_quote(char *str)
+static char	*substr_append(char *dst, char **src, int *i, t_sh_data *data)
 {
-	int	i;
+	char	*tmp;
+	char	*tmp2;
 
-	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		i++;
-	while (str[i] && str[i] != '"' && str[i] != '\'')
-		i++;
-	return (i);
+	if (**src == '\'' || **src == '"')
+		(*i)++;
+	tmp = ft_substr(*src, 0, *i);
+	if ((*src)[*i - **src == '\'' || **src == '"'] != '\'' || **src != '\'')
+	{
+		tmp2 = env_expension_len(tmp, data);
+		free(tmp);
+		tmp = tmp2;
+	}
+	dst = ft_append(dst, tmp);
+	free(tmp);
+	(*src) += *i;
+	(*i) = -1;
+	return (dst);
 }
+
+char	*env_expension(char *str, t_sh_data *data)
+{
+	int		i;
+	char	*dst;
+	char	quote;
+
+	i = -1;
+	dst = NULL;
+	quote = 0;
+	while (str[++i])
+	{
+		if ((str[i] == '"' || str[i] == '\'') && !quote)
+			quote = str[i];
+		else if (str[i] == quote)
+		{
+			quote = 0;
+			dst = substr_append(dst, &str, &i, data);
+		}
+	}
+	dst = substr_append(dst, &str, &i, data);
+	return (dst);
+}
+
+// static int	len_till_quote(char *str, char quote)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (quote == 0)
+// 	{
+// 		while (str[i] && str[i] != '"' && str[i] != '\'')
+// 			i++;
+// 		return (i);
+// 	}
+// 	if (str[i] == quote)
+// 		i++;
+// 	while (str[i] && str[i] != quote)
+// 		i++;
+// 	return (i);
+// }
 
 /**
  * @brief Expends the env variables in the argument
@@ -69,34 +137,39 @@ static int	len_till_quote(char *str)
  * @param env env variables
  * @return char* expended argument
  */
-char	*env_expension(char *arg, char **env)
-{
-	int		i;
-	int		len;
-	char	*tmp;
-	char	*dst;
+// char	*env_expension(char *arg, char **env)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*tmp;
+// 	char	*dst;
+// 	char	quote;
 
-	i = 0;
-	dst = NULL;
-	while (arg[i])
-	{
-		len = len_till_quote(arg + i) - 1;
-		if (arg[i] == '\'')
-			tmp = ft_substr(arg + i, 0, len);
-		else
-			tmp = env_expension_len(arg + i, len, env);
-		ft_printf("src: %s\n", arg + i);
-		ft_printf("len: %d\n", len);
-		ft_printf("tmp: %s\n", tmp);
-		ft_printf("dst: %s\n\n", dst);
-		i += len + 1;
-		dst = ft_append(dst, tmp);
-		free(tmp);
-		if (!arg[i] || len == 0)
-			break ;
-	}
-	return (dst);
-}
+// 	i = 0;
+// 	dst = NULL;
+// 	quote = 0;
+// 	while (arg[i])
+// 	{
+// 		if (arg[i] == '\'' || arg[i] == '"')
+// 			quote = arg[i];
+// 		len = len_till_quote(arg + i, quote);
+// 		tmp = ft_substr(arg + i, 0, len);
+// 		if (quote == '"')
+// 		{
+// 			tmp = env_expension_len(tmp, env);
+// 		}
+// 		ft_printf("src: %s\n", arg + i);
+// 		ft_printf("len: %d\n", len);
+// 		ft_printf("tmp: %s\n", tmp);
+// 		ft_printf("dst: %s\n\n", dst);
+// 		i += len + 1;
+// 		dst = ft_append(dst, tmp);
+// 		free(tmp);
+// 		if (len == 0)
+// 			break ;
+// 	}
+// 	return (dst);
+// }
 
 void	expand_all_args(t_command *cmd, t_sh_data *data)
 {
@@ -109,7 +182,7 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	while (args[++i])
 	{
 		tmp = args[i];
-		args[i] = env_expension(args[i], data->env);
+		args[i] = env_expension(args[i], data);
 		free(tmp);
 	}
 	split_expand(&(cmd->args));

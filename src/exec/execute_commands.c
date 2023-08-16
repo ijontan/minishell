@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 13:55:01 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 14:28:26 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,29 @@ static void	close_pipe(void *pipe)
 bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 {
 	t_list	*tmp;
+	bool	ret;
 
+	tmp = cmd_lst;
+	if (ft_lstsize(tmp) == 1
+		&& builtin_check(((t_command *)tmp->content)->args[0], sh_data))
+	{
+		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
+		ret = true;
+	}
 	tmp = cmd_lst;
 	while (tmp)
 	{
+		expand_all_args((t_command *)tmp->content, sh_data);
 		if (((t_command *)tmp->content)->error)
 		{
 			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 			ft_lstclear(&sh_data->pipes, close_pipe);
-			return (true);
+			ret = true;
+			break ;
 		}
 		tmp = tmp->next;
 	}
-	tmp = cmd_lst;
-	if (ft_lstsize(tmp) == 1
-		&& builtin_check(((t_command *)tmp->content)->args[0]))
-	{
-		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
-		return (true);
-	}
-	return (false);
+	return (ret);
 }
 
 /**
@@ -87,7 +90,6 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 {
 	pid_t	pid;
 
-	expand_all_args(cmd, sh_data);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -96,8 +98,7 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		if (builtin_check(cmd->args[0]))
+		if (builtin_check(cmd->args[0], sh_data))
 			exit(exec_builtin_redirection(cmd, sh_data));
 		cmd->program = check_program_exist(cmd->args[0], sh_data->env);
 		dup2(cmd->fd_in, STDIN_FILENO);
@@ -124,6 +125,7 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	t_list	*tmp;
 
 	tmp = chunk->commands;
+	clear_signal();
 	setup_pipes(sh_data, chunk);
 	if (not_pipe(tmp, status, sh_data))
 		return ;

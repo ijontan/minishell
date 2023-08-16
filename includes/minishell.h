@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 13:54:06 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 14:20:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -63,6 +64,7 @@ typedef struct s_command_chunk
 	char		*sep;
 	t_list		*commands;
 	bool		is_subshell;
+	bool		error;
 }				t_command_chunk;
 
 /**
@@ -144,7 +146,7 @@ void			sort_env(char **env);
 int				env_valid(char *env);
 
 /* ---------------------------------- exec ---------------------------------- */
-int				builtin_check(char *command);
+int				builtin_check(char *command, t_sh_data *data);
 int				exec_builtin(char **args, t_sh_data *data);
 int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
 void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
@@ -163,7 +165,8 @@ char			*prompt_exec(char **env, char *command);
 /* ---------------------------------- setup --------------------------------- */
 void			expand_all_args(t_command *cmd, t_sh_data *data);
 void			split_expand(char ***args);
-char			*env_expension(char *arg, char **env);
+char			*env_expension_len(char *arg, t_sh_data *data);
+char			*env_expension(char *arg, t_sh_data *data);
 char			*find_all(t_sh_data *data, struct dirent *filename);
 char			*find_some(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
@@ -172,9 +175,9 @@ char			*find_after(t_sh_data *data, struct dirent *filename,
 char			*wildcard(char *arg, t_sh_data *data);
 char			*multiple_wildcards(char *arg, t_sh_data *data,
 					struct dirent *filename);
-char			*heredoc(char *eof);
-void			exec_heredoc(t_command *cmd, char *eof);
-t_list			*setup_commands(char *command);
+char			*heredoc(char *eof, t_sh_data *data);
+void			exec_heredoc(t_command *cmd, char *eof, t_sh_data *data);
+t_list			*setup_commands(char *command, t_sh_data *data);
 
 /* --------------------------------- signals -------------------------------- */
 
@@ -182,6 +185,7 @@ void			init_signal(void);
 void			handle_signal(int signo);
 void			handle_signal_quit(int signo);
 void			setup_signal(void);
+void			clear_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
 
@@ -204,5 +208,5 @@ int				ft_strrcmp(const char *str1, const char *str2, size_t n);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);
-
+void			rl_replace_line(const char *s, int i);
 #endif
