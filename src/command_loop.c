@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 02:22:45 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 14:05:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	command_loop(char **env)
 	data.pipes = NULL;
 	data.prompt = NULL;
 	init_signal();
-	setup_signal();
 	while (!g_sig.sigquit)
 	{
+		setup_signal();
 		line = prompt(&data);
 		if (line && *line)
 			add_history(line);

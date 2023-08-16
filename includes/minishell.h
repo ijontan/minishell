@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 02:22:15 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 14:20:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void			init_signal(void);
 void			handle_signal(int signo);
 void			handle_signal_quit(int signo);
 void			setup_signal(void);
+void			clear_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
 
@@ -207,5 +208,5 @@ int				ft_strrcmp(const char *str1, const char *str2, size_t n);
 /* ------------------------------- validation ------------------------------- */
 
 char			*check_program_exist(char *program_name, char **env);
-
+void			rl_replace_line(const char *s, int i);
 #endif
