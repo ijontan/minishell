@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 14:05:32 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 14:53:26 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ void	command_loop(char **env)
 			add_history(line);
 		if (!line)
 			break ;
-		if (!*line)
-			continue ;
-		execution_procedure(line, &data);
+		if (*line)
+			execution_procedure(line, &data);
 		free(line);
 	}
+	clear_history();
 	free_2d(data.env);
 }
