@@ -3,50 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/03 22:48:36 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:03:39 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*check_quotations(char *args)
-// {
-// 	int	i;
-// 	int	count;
-// 	int	j;
-// 	char	*tmp;
-
-// 	i = -1;
-// 	count = 0;
-// 	while (args[++i])
-// 		if (args[i] == '"')
-// 			count++;
-// 	i = 0;
-// 	j = 0;
-// 	if (count % 2 == 0 && count != 0)
-// 	{
-// 		tmp = (char *)ft_calloc(sizeof(char) ,(((int)ft_strlen(args) - count + 1)));
-// 		while (args[i])
-// 		{
-// 			if (args[i] != '"')
-// 			{
-// 				tmp[j] = args[i];
-// 				i++;
-// 				j++;
-// 			}
-// 			else
-// 				i++;
-// 		}
-// 		tmp[j] = '\0';
-// 		j = 0;
-// 		return (tmp);
-// 	}
-// 	else
-// 		return (args);
-// }
 
 int	env_not_exist(char *args, char **env)
 {
@@ -64,9 +28,9 @@ int	env_not_exist(char *args, char **env)
 
 void	add_env_var(char *args, t_sh_data *data)
 {
-	int	i;
-	int	len;
-	char **tmp;
+	int		i;
+	int		len;
+	char	**tmp;
 
 	len = env_len(data->env);
 	tmp = (char **)ft_calloc(len + 2, sizeof(char *));
@@ -76,7 +40,6 @@ void	add_env_var(char *args, t_sh_data *data)
 		tmp[i] = data->env[i];
 		i++;
 	}
-	// printf("%s\n", check_quotations(args));
 	tmp[i] = ft_strdup(args);
 	free(data->env);
 	data->env = tmp;
@@ -84,11 +47,10 @@ void	add_env_var(char *args, t_sh_data *data)
 
 void	overwrite_var(char *args, t_sh_data *data)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;
-	// printf("%s\n", check_quotations(args));
 	while (data->env[i])
 	{
 		if (ft_strstart(data->env[i], args))
@@ -111,8 +73,6 @@ int	export(char **args, t_sh_data *data)
 	{
 		while (args[i])
 		{
-			// args[i] = check_quotations(args[i]);
-			// printf("%s\n", args[i]);
 			if (!env_valid(args[i]))
 			{
 				ft_putstr_fd("export: not a valid identifier: ", 2);

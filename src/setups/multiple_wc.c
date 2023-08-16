@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_wc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 17:51:45 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:01:57 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ int	compare_str(char *arg, char **chr, char *dname)
 			return (-1);
 		else if (!chr[i + 1])
 			break ;
-		else
-			i++;
+		i++;
 	}
 	if ((arg[ft_strlen(arg) - 1] != '*' && (ft_strrcmp(tmp, chr[i]) != 0))
 		|| ((arg[ft_strlen(arg) - 1] == '*' && (ft_strrstr(tmp, chr[i]) == 0))))

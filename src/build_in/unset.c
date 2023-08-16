@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 00:04:10 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/14 15:50:36 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:03:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static void	remove_env_no_equal(char *args, t_sh_data *data, char **tmp)
 
 int	unset(char **args, t_sh_data *data)
 {
-	int	i;
-	int	pos;
-	int	len;
+	int		i;
+	int		pos;
+	int		len;
 	char	**tmp;
 
 	if (!args[1])

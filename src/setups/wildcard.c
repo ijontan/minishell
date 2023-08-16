@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/12 23:56:32 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:02:25 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ char	*expand_wildcard(char *arg, t_sh_data *data, struct dirent *filename)
 
 char	*wildcard(char *arg, t_sh_data *data)
 {
-	struct dirent *filename;
-	char *result;
+	struct dirent	*filename;
+	char			*result;
 
 	result = NULL;
 	data->dir = opendir(".");

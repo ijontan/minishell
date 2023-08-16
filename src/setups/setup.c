@@ -87,7 +87,7 @@ static void	check_split_error(t_command *cmd)
 	while (cmd->args[++i])
 	{
 		if (!ft_strcmp(cmd->args[i],
-						"SOme RanDom Error COde that wiLL never be used"))
+				"SOme RanDom Error COde that wiLL never be used"))
 			cmd->error = true;
 	}
 }
