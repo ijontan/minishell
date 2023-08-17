@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 00:04:10 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 18:03:48 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/17 16:53:49 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ static void	remove_env_no_equal(char *args, t_sh_data *data, char **tmp)
 	}
 }
 
+int	print_error(void)
+{
+	ft_printf("unset: Too few arguments.\n");
+	return (1);
+}
+
 int	unset(char **args, t_sh_data *data)
 {
 	int		i;
@@ -54,10 +60,7 @@ int	unset(char **args, t_sh_data *data)
 	char	**tmp;
 
 	if (!args[1])
-	{
-		ft_printf("unset: Too few arguments.\n");
-		return (1);
-	}
+		print_error();
 	i = 1;
 	len = env_len(data->env);
 	tmp = (char **)ft_calloc(len, sizeof(char *));

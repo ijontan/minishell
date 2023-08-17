@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 17:48:30 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:56:16 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int				count_wc(char *str);
 char			**dup_2d(char **args);
 void			free_2d(char **val);
 void			free_t_chunk_array(t_command_chunk *command_chunks);
+int				len_till_space(char *str);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			*remove_quote(char *str, t_command *cmd);
