@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:27:00 by itan              #+#    #+#             */
-/*   Updated: 2023/08/15 23:32:18 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/17 17:09:07 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	len_till_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"'
-		&& str[i] != '$')
-		i++;
-	return (i);
-}
 
 /**
  * @brief Get the env object
