@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/17 16:56:16 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/18 04:11:42 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int				ft_hasequal(char *str);
 int				find_env_pos(char *args, char **env);
 void			sort_env(char **env);
 int				env_valid(char *env);
+void			shlvl(t_sh_data *data);
 
 /* ---------------------------------- exec ---------------------------------- */
 int				builtin_check(char *command, t_sh_data *data);

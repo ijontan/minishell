@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 22:38:47 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/18 02:56:21 by nwai-kea         ###   ########.fr       */
+/*   Created: 2023/08/18 03:51:58 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/08/18 04:23:43 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(char **args, char **env)
+void	shlvl(t_sh_data *data)
 {
-	int	i;
+	int level_digit;
+	char *lvl;
+	char *arg;
+	char *new_lvl;
 
-	i = 0;
-	if (!args[1])
-	{
-		while (env[i])
-		{
-			if ((long)ft_strchr(env[i], '=') != -1)
-				ft_putendl_fd(env[i], 1);
-			i++;
-		}
-	}
-	else
-	{
-		ft_putendl_fd("minishell: env: Too many arguments.", 1);
-		return (1);
-	}
-	return (0);
+	lvl = get_env(data->env, "SHLVL");
+	level_digit = ft_atoi(lvl) + 1;
+	new_lvl = ft_itoa(level_digit);
+	arg = ft_strjoin("SHLVL=", new_lvl);
+	overwrite_var(arg, data);
+	free(lvl);
+	free(new_lvl);
+	free(arg);
 }
