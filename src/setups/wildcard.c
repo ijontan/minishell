@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 18:02:25 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/19 00:09:25 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,7 @@ char	*wildcard(char *arg, t_sh_data *data)
 	else
 		result = multiple_wildcards(arg, data, filename);
 	closedir(data->dir);
+	if (ft_strcmp(arg, "*") != 0 && ft_strcmp(result, "") == 0)
+		return (ft_strdup(arg));
 	return (result);
 }
