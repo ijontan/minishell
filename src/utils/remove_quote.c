@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:57:47 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 00:23:43 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/19 20:13:06 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*remove_quote(char *str, t_command *cmd)
 	{
 		if ((str[i] == '"' || str[i] == '\'') && !quote)
 			quote = str[i];
-		else if (str[i] == quote)
+		if (str[i] == quote)
 		{
 			quote = 0;
 			dst = substr_append(dst, &str, &i);
