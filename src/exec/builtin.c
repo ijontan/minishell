@@ -14,12 +14,10 @@
 
 int	builtin_check(char *command, t_sh_data *data)
 {
-	int		ret;
-	char	*tmp;
+	int	ret;
 
 	ret = 0;
-	tmp = env_expension(command, data);
-	command = remove_quote(tmp, NULL);
+	(void)data;
 	if (!command)
 		ret = 0;
 	else if (ft_strcmp(command, "echo") == 0)
@@ -36,8 +34,6 @@ int	builtin_check(char *command, t_sh_data *data)
 		ret = 1;
 	else if (ft_strcmp(command, "exit") == 0)
 		ret = 1;
-	free(command);
-	free(tmp);
 	return (ret);
 }
 
