@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expension.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/17 16:56:17 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 04:59:32 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*substr_append(char *dst, char **src, int *i, t_sh_data *data)
 	char	*tmp;
 	char	*tmp2;
 
-	if (**src == '\'' || **src == '"')
+	if ((**src == '\'' || **src == '"') && (*i) != 0)
 		(*i)++;
 	tmp = ft_substr(*src, 0, *i);
 	if ((*src)[*i - **src == '\'' || **src == '"'] != '\'' || **src != '\'')
@@ -90,7 +90,11 @@ char	*env_expension(char *str, t_sh_data *data)
 	while (str[++i])
 	{
 		if ((str[i] == '"' || str[i] == '\'') && !quote)
+		{
 			quote = str[i];
+			if (i != 0)
+				dst = substr_append(dst, &str, &i, data);
+		}
 		else if (str[i] == quote)
 		{
 			quote = 0;
@@ -122,6 +126,7 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	{
 		tmp = args[i];
 		args[i] = remove_quote(args[i], cmd);
+		ft_printf("args[%d] = %s\n", i, args[i]);
 		free(tmp);
 	}
 }
