@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 03:51:58 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/18 04:23:43 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 02:23:16 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	shlvl(t_sh_data *data)
 {
-	int level_digit;
-	char *lvl;
-	char *arg;
-	char *new_lvl;
+	int		level_digit;
+	char	*lvl;
+	char	*arg;
+	char	*new_lvl;
 
 	lvl = get_env(data->env, "SHLVL");
 	level_digit = ft_atoi(lvl) + 1;
