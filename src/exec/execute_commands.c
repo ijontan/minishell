@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 01:43:13 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 02:18:59 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 	tmp = cmd_lst;
 	while (tmp)
 	{
+		expand_all_args((t_command *)tmp->content, sh_data);
 		if (!((t_command *)tmp->content)->args)
 			((t_command *)tmp->content)->error = true;
 		if (((t_command *)tmp->content)->error)
@@ -66,7 +67,6 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 			ft_lstclear(&sh_data->pipes, close_pipe);
 			return (true);
 		}
-		expand_all_args((t_command *)tmp->content, sh_data);
 		tmp = tmp->next;
 	}
 	tmp = cmd_lst;
