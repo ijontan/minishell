@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 02:20:45 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 00:40:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*heredoc(char *eof, t_sh_data *data)
 	while (1)
 	{
 		tmp = readline("> ");
-		if (ft_strcmp(tmp, eof) == 0)
+		if (tmp && ft_strcmp(tmp, eof) == 0)
 			break ;
 		else
 		{
@@ -32,6 +32,8 @@ char	*heredoc(char *eof, t_sh_data *data)
 	}
 	free(tmp);
 	tmp = dst;
+	if (!dst)
+		return (dst);
 	dst = env_expension_len(dst, data);
 	free(tmp);
 	return (dst);
