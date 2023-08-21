@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/18 04:11:42 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 01:56:13 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ char			*find_after(t_sh_data *data, struct dirent *filename,
 char			*wildcard(char *arg, t_sh_data *data);
 char			*multiple_wildcards(char *arg, t_sh_data *data,
 					struct dirent *filename);
-char			*heredoc(char *eof, t_sh_data *data);
 void			exec_heredoc(t_command *cmd, char *eof, t_sh_data *data);
 t_list			*setup_commands(char *command, t_sh_data *data);
 

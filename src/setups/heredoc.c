@@ -3,46 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 00:40:44 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 02:07:09 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*heredoc(char *eof, t_sh_data *data)
+void	heredoc(char *eof, int fd[2])
 {
-	char	*dst;
 	char	*tmp;
 
-	dst = 0;
 	while (1)
 	{
 		tmp = readline("> ");
 		if (tmp && ft_strcmp(tmp, eof) == 0)
 			break ;
+		else if (!tmp)
+		{
+			ft_printf("minishell: warning: heredoc delimited by eof\n");
+			exit(1);
+		}
 		else
 		{
-			tmp = ft_append(tmp, "\n");
-			dst = ft_append(dst, tmp);
-			free(tmp);
+			ft_putstr_fd(tmp, fd[1]);
+			ft_putstr_fd("\n", fd[1]);
 		}
 	}
-	free(tmp);
-	tmp = dst;
-	if (!dst)
-		return (dst);
-	dst = env_expension_len(dst, data);
-	free(tmp);
-	return (dst);
+	exit(1);
 }
 
 void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 {
 	int		fd[2];
-	char	*tmp;
+	pid_t	pid;
 
 	if (!eof || !*eof)
 	{
@@ -53,12 +49,16 @@ void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 		return ;
 	if (cmd->latest_heredoc != -1)
 		close(cmd->latest_heredoc);
-	tmp = heredoc(eof, data);
-	if (tmp)
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
 	{
-		write(fd[1], tmp, ft_strlen(tmp));
-		free(tmp);
+		signal(SIGINT, SIG_DFL);
+		heredoc(eof, fd);
 	}
+	waitpid(pid, &(data->status), 0);
+	setup_signal();
 	close(fd[1]);
 	cmd->latest_heredoc = fd[0];
 }
