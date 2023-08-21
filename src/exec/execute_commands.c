@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 01:22:58 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 01:43:13 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	close_pipe(void *pipe)
 bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 {
 	t_list	*tmp;
-	bool	ret;
 
 	tmp = cmd_lst;
 	while (tmp)
@@ -65,19 +64,19 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 		{
 			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 			ft_lstclear(&sh_data->pipes, close_pipe);
-			ret = true;
-			break ;
+			return (true);
 		}
 		expand_all_args((t_command *)tmp->content, sh_data);
 		tmp = tmp->next;
 	}
+	tmp = cmd_lst;
 	if (ft_lstsize(tmp) == 1 && !((t_command *)tmp->content)->error
 		&& builtin_check(((t_command *)tmp->content)->args[0], sh_data))
 	{
 		*status = exec_builtin_redirection((t_command *)tmp->content, sh_data);
-		ret = true;
+		return (true);
 	}
-	return (ret);
+	return (false);
 }
 
 /**
