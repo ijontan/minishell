@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 02:22:05 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 02:39:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static char	**split_recurse(char *command, int depth)
 		is_quoted = *command;
 	i = 0;
 	while ((command[i] != '|' || is_quoted) && command[i])
-		if (command[i++] == is_quoted)
-			break ;
+		if (command[++i] == is_quoted)
+			is_quoted = 0;
+	if (is_quoted)
+		i++;
 	str = ft_substr(command, 0, i);
 	while (command[i] && command[i] == '|')
 		i++;
