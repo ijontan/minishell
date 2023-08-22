@@ -23,7 +23,6 @@ static void	remove_env(char *args, t_sh_data *data)
 	tmp = (char **)ft_calloc(env_len(data->env) + 1, sizeof(char *));
 	while (data->env[i])
 	{
-		// printf("%s\n", data->env[i]);
 		if (ft_strstart(args, data->env[i]))
 			i++;
 		if (data->env[i])
