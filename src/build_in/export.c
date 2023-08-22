@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 22:58:36 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/18 23:05:28 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:10:10 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	export(char **args, t_sh_data *data)
 			}
 			if (env_not_exist(args[i], data->env))
 				add_env_var(args[i], data);
-			else
+			else if (!env_not_exist(args[i], data->env) && ft_strchr(args[i],
+					'='))
 				overwrite_var(args[i], data);
 			i++;
 		}

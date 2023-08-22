@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 20:15:34 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/16 00:29:55 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:39:33 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_strstart(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s2[i] != '=')
+	while (s2[i] != '=' && s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])
 			return (0);
