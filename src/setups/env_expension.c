@@ -126,7 +126,6 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	{
 		tmp = args[i];
 		args[i] = remove_quote(args[i], cmd);
-		ft_printf("args[%d] = %s\n", i, args[i]);
 		free(tmp);
 	}
 }
