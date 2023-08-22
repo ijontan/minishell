@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize_command_io.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/19 00:09:48 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:03:26 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ static int	right_arrow(t_command *cmd, int i, t_sh_data *data)
 	}
 	tmp = cmd->args[i + 1];
 	cmd->args[i + 1] = env_expension(cmd->args[i + 1], data);
+	free(tmp);
+	tmp = cmd->args[i + 1];
+	cmd->args[i + 1] = remove_quote(cmd->args[i + 1], cmd);
 	free(tmp);
 	if (cmd->args[i][1] == '>' && cmd->args[i][2] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
