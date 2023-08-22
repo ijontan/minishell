@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 04:59:32 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 21:33:58 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,12 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 	split_expand(&(cmd->args));
 	args = cmd->args;
 	i = -1;
-	while (args[++i])
+	while (args && args[++i])
 	{
 		tmp = args[i];
 		args[i] = remove_quote(args[i], cmd);
 		free(tmp);
 	}
+	if (!args)
+		cmd->error = true;
 }
