@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 17:06:00 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/16 18:01:57 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,10 @@ int	compare_str(char *arg, char **chr, char *dname)
 			return (-1);
 		else if (!chr[i + 1])
 			break ;
-		else
-			i++;
+		i++;
 	}
-	if ((arg[ft_strlen(arg) - 1] != '*' && (ft_strrcmp(tmp, chr[i],
-					ft_strlen(chr[i])) != 0)) || ((arg[ft_strlen(arg)
-				- 1] == '*' && (ft_strrstr(tmp, chr[i]) == 0))))
+	if ((arg[ft_strlen(arg) - 1] != '*' && (ft_strrcmp(tmp, chr[i]) != 0))
+		|| ((arg[ft_strlen(arg) - 1] == '*' && (ft_strrstr(tmp, chr[i]) == 0))))
 		return (-1);
 	else
 		return (1);
@@ -113,8 +111,8 @@ char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 		if (compare_str(arg, c, filename->d_name) > 0)
 		{
 			if (tmp[0])
-				tmp = ft_strjoin(tmp, " ");
-			tmp = ft_strjoin(tmp, filename->d_name);
+				tmp = ft_append(tmp, " ");
+			tmp = ft_append(tmp, filename->d_name);
 		}
 		filename = readdir(data->dir);
 	}

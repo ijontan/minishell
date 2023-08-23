@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:25:00 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/16 14:59:06 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/22 15:54:56 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	builtin_check(char *command, t_sh_data *data)
 {
-	int		ret;
-	char	*tmp;
+	int	ret;
 
 	ret = 0;
-	tmp = env_expension(command, data);
-	command = remove_quote(tmp, NULL);
+	(void)data;
 	if (!command)
 		ret = 0;
 	else if (ft_strcmp(command, "echo") == 0)
@@ -36,8 +34,6 @@ int	builtin_check(char *command, t_sh_data *data)
 		ret = 1;
 	else if (ft_strcmp(command, "exit") == 0)
 		ret = 1;
-	free(command);
-	free(tmp);
 	return (ret);
 }
 
@@ -75,10 +71,8 @@ int	exec_builtin_redirection(t_command *cmd, t_sh_data *data)
 
 	old_stdout = dup(STDOUT_FILENO);
 	old_stdin = dup(STDIN_FILENO);
-	sanitize_command_io(cmd, data);
 	if (cmd->error)
 		return (1);
-	expand_all_args(cmd, data);
 	dup2(cmd->fd_in, STDIN_FILENO);
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	if (cmd->error)

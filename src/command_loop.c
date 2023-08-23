@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 14:53:26 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/18 04:24:41 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	command_loop(char **env)
 	data.pipes = NULL;
 	data.prompt = NULL;
 	init_signal();
+	shlvl(&data);
 	while (!g_sig.sigquit)
 	{
 		setup_signal();

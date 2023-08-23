@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:51:33 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/12 19:17:57 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/18 02:03:05 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ static int	check_n(char *args)
 	if (!args || !args[i])
 		return (1);
 	if (args[i] == '-')
+	{
 		i++;
-	while (args[i] && args[i] == 'n')
-		i++;
+		while (args[i] && args[i] == 'n')
+			i++;
+	}
 	if (!args[i])
 		return (0);
 	return (1);

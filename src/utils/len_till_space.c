@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   len_till_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 02:23:51 by itan             ###   ########.fr       */
+/*   Created: 2023/08/17 16:55:29 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/08/17 16:56:27 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	len_till_space(char *str)
 {
-	(void)ac;
-	(void)av;
-	command_loop(env);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"'
+		&& str[i] != '$')
+		i++;
+	return (i);
 }
-// system("leaks -q minishell");

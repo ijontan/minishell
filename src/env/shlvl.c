@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 02:23:51 by itan             ###   ########.fr       */
+/*   Created: 2023/08/18 03:51:58 by nwai-kea          #+#    #+#             */
+/*   Updated: 2023/08/22 02:23:16 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	shlvl(t_sh_data *data)
 {
-	(void)ac;
-	(void)av;
-	command_loop(env);
-	return (0);
+	int		level_digit;
+	char	*lvl;
+	char	*arg;
+	char	*new_lvl;
+
+	lvl = get_env(data->env, "SHLVL");
+	level_digit = ft_atoi(lvl) + 1;
+	new_lvl = ft_itoa(level_digit);
+	arg = ft_strjoin("SHLVL=", new_lvl);
+	overwrite_var(arg, data);
+	free(lvl);
+	free(new_lvl);
+	free(arg);
 }
-// system("leaks -q minishell");
