@@ -31,7 +31,7 @@ static void	remove_env(char *args, t_sh_data *data)
 			i++;
 		}
 	}
-	tmp[j] = '\0';
+	tmp[j] = NULL;
 	free_2d(data->env);
 	data->env = tmp;
 }
@@ -55,7 +55,7 @@ static void	remove_env_no_equal(char *args, t_sh_data *data)
 			i++;
 		}
 	}
-	tmp[j] = '\0';
+	tmp[j] = NULL;
 	free_2d(data->env);
 	data->env = tmp;
 }
