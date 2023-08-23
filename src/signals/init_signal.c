@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:33:45 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/07/12 23:13:41 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:52:54 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,4 @@ void	init_signal(void)
 	g_sig.sigint = 0;
 	g_sig.sigquit = 0;
 	g_sig.sigstatus = 0;
-	g_sig.pid = 0;
 }

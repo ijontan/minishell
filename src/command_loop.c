@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/18 04:24:41 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 01:53:24 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_command_chunk	*setup_chunk(char *line, t_sh_data *data)
 	}
 	if (err)
 	{
-		ft_putstr_fd("minishell: syntax error1\n", 2);
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		free_t_chunk_array(chunks);
 		return (NULL);
 	}
@@ -56,9 +56,9 @@ static t_command_chunk	*setup_chunk(char *line, t_sh_data *data)
 
 static bool	check_continue(t_command_chunk *chunk, int status)
 {
-	if ((status != 0 || !chunk->error) && ft_strcmp(chunk->sep, "&&") != 0)
+	if ((status == 0 && !chunk->error) && ft_strcmp(chunk->sep, "&&") == 0)
 		return (true);
-	if ((status == 0 || chunk->error) && ft_strcmp(chunk->sep, "||") != 0)
+	if ((status != 0 || chunk->error) && ft_strcmp(chunk->sep, "||") == 0)
 		return (true);
 	return (false);
 }

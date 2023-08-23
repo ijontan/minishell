@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/08/16 02:10:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 00:37:44 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ static char	*ft_strcmpn(char *str, char **seps)
 	return (0);
 }
 
-static int	check_quoted(char *str, int i, int is_quoted)
-{
-	if ((str[i] == '"' || str[i] == '\'') && !is_quoted)
-		is_quoted = str[i];
-	else if (str[i] == is_quoted)
-		is_quoted = 0;
-	return (is_quoted);
-}
-
 static int	count_word(char *str, char **seps, int *is_quoted,
 		t_command_chunk *cache)
 {
@@ -42,6 +33,10 @@ static int	count_word(char *str, char **seps, int *is_quoted,
 	int	len;
 
 	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (ft_strcmpn(str + i, (char *[]){"&", "|", NULL}))
+		cache->error = true;
 	while (str[i] && (!ft_strcmpn(str + i, seps) || *is_quoted))
 	{
 		*is_quoted = check_quoted(str, i, *is_quoted);
@@ -68,6 +63,8 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 	is_quoted = 0;
 	cache.sep = 0;
 	cache.is_subshell = false;
+	cache.commands = NULL;
+	cache.error = false;
 	i = count_word(str, seps, &is_quoted, &cache);
 	if (i == -1)
 		return (NULL);
@@ -87,12 +84,25 @@ static t_command_chunk	*recurse(char *str, char **seps, int depth)
 
 t_command_chunk	*split_command_chunks(char *str, char **seps)
 {
+	t_command_chunk	*dst;
+	int				i;
+
 	while (*str == ' ' || *str == '\t')
 		str++;
 	while (*str && ft_strcmpn(str, seps))
 	{
 		str += ft_strlen(ft_strcmpn(str, seps));
 		return (NULL);
+	}
+	dst = recurse(str, seps, 0);
+	i = -1;
+	while (dst[++i].chunk)
+	{
+		if (dst[i].error)
+		{
+			free_t_chunk_array(dst);
+			return (NULL);
+		}
 	}
 	return (recurse(str, seps, 0));
 }

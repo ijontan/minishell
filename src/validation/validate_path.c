@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:05:57 by itan              #+#    #+#             */
-/*   Updated: 2023/08/07 13:55:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 00:25:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ char	*check_path_exist(char *program_name, char **envp)
 		if (dst)
 			free(dst);
 	}
-	ft_printf("program_name: %s\n", program_name);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(program_name + 1, 2);
+	ft_putstr_fd(": command not found\n", 2);
 	free(program_name);
 	free_2d(paths);
-	perror("program doesn't exist in path");
 	return (NULL);
 }
 

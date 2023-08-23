@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 01:56:13 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 01:45:22 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define SYNTAX_ERROR 2
 # define NO_SUCH_FILE 3
 # define NO_SUCH_DIR 4
+# define NO_INPUT_FILE 5
+# define AMBIGUOUS_REDIRECT 6
+# define HEREDOC_NOTFOULD 7
 
 /**
  * @brief data for prompt
@@ -114,7 +117,6 @@ typedef struct s_sig
 	int			sigint;
 	int			sigstatus;
 	int			sigquit;
-	pid_t		pid;
 }				t_sig;
 
 extern t_sig	g_sig;
@@ -158,6 +160,7 @@ int				parentheses(char *line, t_sh_data *data);
 
 /* --------------------------------- prompt --------------------------------- */
 
+void			handle_error(int error_code);
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
@@ -189,6 +192,8 @@ void			clear_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
 
+int				check_quoted(char *str, int i, int is_quoted);
+int				countchr(char *str, char c);
 int				count_wc(char *str);
 char			**dup_2d(char **args);
 void			free_2d(char **val);

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:22:35 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 02:39:30 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 01:15:55 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,9 @@ static char	**split_recurse(char *command, int depth)
 	is_quoted = 0;
 	while (*command == '|')
 		command++;
-	if (*command == '"' || *command == '\'')
-		is_quoted = *command;
 	i = 0;
-	while ((command[i] != '|' || is_quoted) && command[i])
-		if (command[++i] == is_quoted)
-			is_quoted = 0;
-	if (is_quoted)
-		i++;
+	while (command[i] && (command[i] != '|' || is_quoted))
+		is_quoted = check_quoted(command, i++, is_quoted);
 	str = ft_substr(command, 0, i);
 	while (command[i] && command[i] == '|')
 		i++;
@@ -81,7 +76,7 @@ static void	get_heredoc(t_command *cmd, t_sh_data *data)
 	}
 }
 
-static void	check_split_error(t_command *cmd)
+static void	check_split_error(char *command, t_command *cmd)
 {
 	int	i;
 
@@ -90,8 +85,18 @@ static void	check_split_error(t_command *cmd)
 	{
 		if (!ft_strcmp(cmd->args[i],
 				"SOme RanDom Error COde that wiLL never be used"))
-			cmd->error = true;
+			cmd->error = SYNTAX_ERROR;
 	}
+	i = 0;
+	while (command[i] == ' ')
+		++i;
+	if (command[i] == '|')
+		cmd->error = SYNTAX_ERROR;
+	i = ft_strlen(command) - 1;
+	while (command[i] == ' ')
+		--i;
+	if (command[i] == '|')
+		cmd->error = SYNTAX_ERROR;
 }
 
 /**
@@ -121,7 +126,7 @@ t_list	*setup_commands(char *command, t_sh_data *data)
 		cmd_tmp->args = split_args(args[i++]);
 		get_heredoc(cmd_tmp, data);
 		ft_lstadd_back(&dst, ft_lstnew(cmd_tmp));
-		check_split_error(cmd_tmp);
+		check_split_error(command, cmd_tmp);
 	}
 	free_2d(args);
 	return (dst);

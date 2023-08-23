@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 02:07:09 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:56:34 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc(char *eof, int fd[2])
+void	heredoc(char *eof, int fd[2], t_sh_data *data)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	while (1)
 	{
@@ -28,8 +29,11 @@ void	heredoc(char *eof, int fd[2])
 		}
 		else
 		{
-			ft_putstr_fd(tmp, fd[1]);
+			tmp2 = env_expension(tmp, data);
+			ft_putstr_fd(tmp2, fd[1]);
 			ft_putstr_fd("\n", fd[1]);
+			free(tmp);
+			free(tmp2);
 		}
 	}
 	exit(1);
@@ -42,7 +46,7 @@ void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 
 	if (!eof || !*eof)
 	{
-		cmd->error = 1;
+		cmd->error = HEREDOC_NOTFOULD;
 		return ;
 	}
 	if (pipe(fd) == -1)
@@ -55,7 +59,7 @@ void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		heredoc(eof, fd);
+		heredoc(eof, fd, data);
 	}
 	waitpid(pid, &(data->status), 0);
 	setup_signal();

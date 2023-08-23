@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/22 21:33:58 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 01:04:53 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*dollar_return(char *arg, char *prev, int i, t_sh_data *data)
 	if (arg[i + 1] == '?')
 		tmp = ft_itoa(data->status);
 	else if (arg[i + 1] == '$')
-		tmp = ft_itoa(g_sig.pid);
+		tmp = ft_itoa(0);
 	else if (!arg[i + 1] || arg[i + 1] == ' ' || !ft_strcmp(arg, "\"$\""))
 		tmp = ft_strdup("$");
 	else
@@ -129,5 +129,5 @@ void	expand_all_args(t_command *cmd, t_sh_data *data)
 		free(tmp);
 	}
 	if (!args)
-		cmd->error = true;
+		cmd->error = SYNTAX_ERROR;
 }

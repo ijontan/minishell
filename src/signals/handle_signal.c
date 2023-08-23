@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:02:38 by itan              #+#    #+#             */
-/*   Updated: 2023/08/19 22:56:55 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:41:55 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,11 @@ void	handle_signal(int signo)
 {
 	(void)signo;
 	g_sig.sigint = 1;
-	if (g_sig.pid == 0)
-	{
-		ft_putstr_fd("\n", STDERR_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_sig.sigstatus = 1;
-	}
-	else
-	{
-		ft_putstr_fd("\n", STDERR_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_sig.sigstatus = 130;
-	}
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_sig.sigstatus = 1;
 }
 
 // void	handle_signal_quit(int signo)

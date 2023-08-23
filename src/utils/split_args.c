@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:22:47 by itan              #+#    #+#             */
-/*   Updated: 2023/07/26 21:00:53 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 00:37:38 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ static char	*ft_strcmpn(char *str, char **seps)
 		i++;
 	}
 	return (0);
-}
-
-static int	check_quoted(char *str, int i, int is_quoted)
-{
-	if ((str[i] == '"' || str[i] == '\'') && !is_quoted)
-		is_quoted = str[i];
-	else if (str[i] == is_quoted)
-		is_quoted = 0;
-	return (is_quoted);
 }
 
 static char	*move_to_next(char *str, int *i, char **seps, int *dept)
