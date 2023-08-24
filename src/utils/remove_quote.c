@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:57:47 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 00:57:40 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:35:49 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*remove_quote(char *str, t_command *cmd)
 		}
 	}
 	dst = ft_append(dst, str);
-	if (quote)
+	if (quote && cmd)
 		cmd->error = SYNTAX_ERROR;
 	return (dst);
 }

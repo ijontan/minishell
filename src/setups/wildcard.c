@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/24 17:28:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:36:27 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ char	*find_all(t_sh_data *data, struct dirent *filename)
 {
 	char	*tmp;
 	int		check;
+	char	*new;
 
 	tmp = ft_strdup("");
 	check = 0;
 	while (filename)
 	{
+		new = ft_proc_sep(filename->d_name);
 		if (filename->d_name[0] != '.')
 		{
-			tmp = ft_append(tmp, filename->d_name);
+			tmp = ft_append(tmp, new);
 			check = 1;
 		}
+		free(new);
 		filename = readdir(data->dir);
 		if (filename && check)
 			tmp = ft_append(tmp, " ");
@@ -120,10 +123,10 @@ char	*wildcard(char *arg, t_sh_data *data)
 	filename = readdir(data->dir);
 	if (ft_ischar(arg, '*'))
 		arg = "*";
-	if (count_wc(arg) <= 1 && *arg == '*' && ft_strlen(arg) == 1)
-		result = expand_wildcard(arg, data, filename);
-	else
-		result = multiple_wildcards(arg, data, filename);
+	arg = ft_proc_sep_2(arg);
+	replace_free(&arg, remove_quote(arg, NULL));
+	result = multiple_wildcards(arg, data, filename);
+	free(arg);
 	closedir(data->dir);
 	if (ft_strcmp(result, "") == 0)
 	{

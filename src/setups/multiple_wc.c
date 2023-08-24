@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_wc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/24 17:05:57 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:06:41 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,11 @@ char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 {
 	char	**c;
 	char	*tmp;
+	char	*new;
 
-	c = ft_split(arg, '*');
+	if (count_wc(arg) <= 1 && *arg == '*' && ft_strlen(arg) == 1)
+		return (expand_wildcard(arg, data, filename));
+	c = wildcard_split(arg);
 	tmp = ft_strdup("");
 	while (filename)
 	{
@@ -111,7 +114,9 @@ char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 		{
 			if (tmp[0])
 				tmp = ft_append(tmp, " ");
-			tmp = ft_append(tmp, filename->d_name);
+			new = ft_proc_sep(filename->d_name);
+			tmp = ft_append(tmp, new);
+			free(new);
 		}
 		filename = readdir(data->dir);
 	}
