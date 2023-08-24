@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 01:51:42 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 15:51:05 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	expend_check(char **arg, t_command *cmd, t_sh_data *data)
 
 	tmp = *arg;
 	*arg = env_expension(*arg, data);
-	free(tmp);
 	tmp2 = *arg;
 	*arg = remove_quote(*arg, cmd);
 	free(tmp2);
@@ -28,6 +27,7 @@ void	expend_check(char **arg, t_command *cmd, t_sh_data *data)
 	free(tmp2);
 	if (countchr(*arg, ' ') > countchr(tmp, ' '))
 		cmd->error = AMBIGUOUS_REDIRECT;
+	free(tmp);
 }
 
 static int	left_arrow(t_command *cmd, int i, t_sh_data *data)
@@ -69,10 +69,10 @@ static int	right_arrow(t_command *cmd, int i, t_sh_data *data)
 	expend_check(&(cmd->args[i + 1]), cmd, data);
 	if (cmd->args[i][1] == '>' && cmd->args[i][2] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
-			0644);
+				0644);
 	else if (cmd->args[i][1] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC,
-			0644);
+				0644);
 	return (2);
 }
 
