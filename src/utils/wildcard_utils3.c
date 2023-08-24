@@ -6,7 +6,7 @@
 /*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 20:08:27 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/24 20:33:16 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:45:13 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,21 @@ char	*ft_proc_sep_2(char *path)
 {
 	int		i;
 	char	*tmp;
+	char	quote;
 
 	i = -1;
+	quote = 0;
 	tmp = ft_strdup("");
 	while (path[++i])
 	{
-		if (path[i] == '*')
+		if ((path[i] == '\'' || path[i] == '"') && !quote)
+			quote = path[i];
+		else if (path[i] == quote)
+			quote = 0;
+		if (path[i] == '*' && quote == '"')
 			tmp = ft_append(tmp, "\'*\'");
+		else if (path[i] == '*' && quote == '\'')
+			tmp = ft_append(tmp, "\"*\"");
 		else
 			tmp = ft_joinchar(tmp, path[i]);
 	}
