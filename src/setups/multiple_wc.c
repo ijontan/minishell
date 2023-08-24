@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_wc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/24 20:06:41 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:13:34 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char	*multiple_wildcards(char *arg, t_sh_data *data, struct dirent *filename)
 	char	*tmp;
 	char	*new;
 
+	if (ft_ischar(arg, '*'))
+		arg = "*";
 	if (count_wc(arg) <= 1 && *arg == '*' && ft_strlen(arg) == 1)
 		return (expand_wildcard(arg, data, filename));
 	c = wildcard_split(arg);

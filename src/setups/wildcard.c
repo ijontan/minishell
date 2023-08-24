@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/24 20:36:27 by nwai-kea         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:13:26 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ char	*wildcard(char *arg, t_sh_data *data)
 		exit(-1);
 	}
 	filename = readdir(data->dir);
-	if (ft_ischar(arg, '*'))
-		arg = "*";
 	arg = ft_proc_sep_2(arg);
 	replace_free(&arg, remove_quote(arg, NULL));
 	result = multiple_wildcards(arg, data, filename);
