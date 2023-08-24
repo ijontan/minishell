@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 00:37:44 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:18:37 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_command_chunk	*split_command_chunks(char *str, char **seps)
 			return (NULL);
 		}
 	}
-	return (recurse(str, seps, 0));
+	return (dst);
 }
 
 // t_command_chunk	*split_commands(char *command)

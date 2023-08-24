@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 15:51:05 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 16:29:11 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,8 @@ static void	remove_redirection(t_command *cmd, int num, int size)
  */
 void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 {
-	int		i;
-	int		num;
-	char	*tmp;
+	int	i;
+	int	num;
 
 	i = -1;
 	num = 0;
@@ -121,15 +120,4 @@ void	sanitize_command_io(t_command *cmd, t_sh_data *data)
 		num += right_arrow(cmd, i, data);
 	}
 	remove_redirection(cmd, i - num, i - num + 1);
-	i = -1;
-	while (cmd->args[++i])
-	{
-		if (cmd->args[i] && ft_strchr(cmd->args[i], '*'))
-		{
-			tmp = cmd->args[i];
-			cmd->args[i] = wildcard(tmp, data);
-			free(tmp);
-		}
-	}
-	split_expand(&(cmd->args));
 }

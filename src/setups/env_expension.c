@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 16:25:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 01:04:53 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 16:48:09 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,26 +108,21 @@ char	*env_expension(char *str, t_sh_data *data)
 void	expand_all_args(t_command *cmd, t_sh_data *data)
 {
 	int		i;
-	char	*tmp;
 	char	**args;
 
 	args = cmd->args;
 	i = -1;
 	while (args[++i])
 	{
-		tmp = args[i];
-		args[i] = env_expension(args[i], data);
-		free(tmp);
+		replace_free(&(args[i]), env_expension(args[i], data));
+		if (args[i] && ft_strchr(args[i], '*'))
+			replace_free(&(args[i]), wildcard(args[i], data));
 	}
 	split_expand(&(cmd->args));
 	args = cmd->args;
 	i = -1;
 	while (args && args[++i])
-	{
-		tmp = args[i];
-		args[i] = remove_quote(args[i], cmd);
-		free(tmp);
-	}
+		replace_free(&(args[i]), remove_quote(args[i], cmd));
 	if (!args)
 		cmd->error = SYNTAX_ERROR;
 }

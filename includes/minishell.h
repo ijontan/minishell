@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 01:45:22 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:48:26 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,15 +152,14 @@ void			shlvl(t_sh_data *data);
 int				builtin_check(char *command, t_sh_data *data);
 int				exec_builtin(char **args, t_sh_data *data);
 int				exec_builtin_redirection(t_command *cmd, t_sh_data *data);
-void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk,
-					int *status);
+void			exec_commands(t_sh_data *sh_data, t_command_chunk *chunk);
 void			sanitize_command_io(t_command *cmd, t_sh_data *data);
 int				detect_brackets(char *cmd);
 int				parentheses(char *line, t_sh_data *data);
 
 /* --------------------------------- prompt --------------------------------- */
 
-void			handle_error(int error_code);
+void			handle_error(t_command *cmd, t_sh_data *data);
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
@@ -186,7 +185,7 @@ t_list			*setup_commands(char *command, t_sh_data *data);
 
 void			init_signal(void);
 void			handle_signal(int signo);
-void			handle_signal_quit(int signo);
+void			interrupt_signal(int signo);
 void			setup_signal(void);
 void			clear_signal(void);
 
@@ -202,6 +201,7 @@ int				len_till_space(char *str);
 char			*get_current_dir(void);
 char			*get_env(char **envp, char *name);
 char			*remove_quote(char *str, t_command *cmd);
+void			replace_free(char **dst, char *src);
 char			**split_args(char *command);
 t_command_chunk	*split_command_chunks(char *str, char **seps);
 char			*ft_strndup(char *str, int n);

@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   replace_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 23:52:12 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 17:13:21 by itan             ###   ########.fr       */
+/*   Created: 2023/08/24 16:10:47 by itan              #+#    #+#             */
+/*   Updated: 2023/08/24 16:44:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	replace_free(char **dst, char *src)
 {
-	(void)ac;
-	(void)av;
-	command_loop(env);
-	return (0);
+	free(*dst);
+	*dst = src;
 }
-// system("leaks -q minishell");

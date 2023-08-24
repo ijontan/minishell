@@ -21,7 +21,7 @@ make -C "$PRGPATH"  && > "$LOGFILE" || exit 1
 
 function ohno()
 {
-    local	prompt="[1;36mitan@91z08s0 ([1;37mseantest[1;36m) [1;31m⌥ master [0m→  [0m"
+    local	prompt="minishell$ "
     local	errorPrompt="🐚:"
     
     varMini="${varMini#$prompt$command$'\n'}"

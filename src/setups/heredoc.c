@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 15:43:16 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 00:56:34 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:51:21 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ void	exec_heredoc(t_command *cmd, char *eof, t_sh_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, interrupt_signal);
 		heredoc(eof, fd, data);
 	}
 	waitpid(pid, &(data->status), 0);
+	g_sig.sigstatus = WEXITSTATUS(data->status);
 	setup_signal();
 	close(fd[1]);
 	cmd->latest_heredoc = fd[0];

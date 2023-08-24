@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:46 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/23 21:45:56 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:28:37 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ char	*wildcard(char *arg, t_sh_data *data)
 		result = multiple_wildcards(arg, data, filename);
 	closedir(data->dir);
 	if (ft_strcmp(result, "") == 0)
+	{
+		free(result);
 		return (ft_strdup(tmp));
+	}
 	return (result);
 }

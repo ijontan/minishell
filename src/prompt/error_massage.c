@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 00:44:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 01:02:51 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:34:11 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,30 @@ void	error_massage(char *str)
 	ft_putstr_fd("\n", 2);
 }
 
-void	handle_error(int error_code)
+static void	set_error(int error_code, t_sh_data *data)
 {
+	if (error_code == SYNTAX_ERROR)
+		data->status = 2;
+	else if (error_code == NO_SUCH_FILE)
+		data->status = 1;
+	else if (error_code == NO_SUCH_DIR)
+		data->status = 1;
+	else if (error_code == NO_INPUT_FILE)
+		data->status = 1;
+	else if (error_code == AMBIGUOUS_REDIRECT)
+		data->status = 1;
+	else if (error_code == HEREDOC_NOTFOULD)
+		data->status = 0;
+	else if (error_code == PARSE_ERROR)
+		data->status = 2;
+}
+
+void	handle_error(t_command *cmd, t_sh_data *data)
+{
+	int	error_code;
+
+	error_code = cmd->error;
+	set_error(error_code, data);
 	if (error_code == SYNTAX_ERROR)
 		error_massage("Syntax error");
 	else if (error_code == NO_SUCH_FILE)

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:06:56 by itan              #+#    #+#             */
-/*   Updated: 2023/08/23 23:54:52 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:20:41 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_t_chunk_array(t_command_chunk *command_chunks)
 	while (command_chunks[++i].chunk)
 	{
 		free(command_chunks[i].chunk);
-		if (!command_chunks[i].is_subshell && command_chunks[i].commands)
+		if (command_chunks[i].commands)
 			ft_lstclear(&command_chunks[i].commands, free_t_command);
 		if (command_chunks[i].sep)
 			free(command_chunks[i].sep);

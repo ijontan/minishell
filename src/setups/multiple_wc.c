@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:25:57 by nwai-kea          #+#    #+#             */
-/*   Updated: 2023/08/23 23:35:09 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:05:57 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ int	compare_str(char *arg, char **chr, char *dname)
 	char	*tmp;
 
 	i = 0;
+	if (arg[0] != '*' && (ft_strncmp(dname, chr[0], ft_strlen(chr[0])) != 0))
+		return (-1);
 	if (arg[0] == '*')
 		tmp = first_wc(chr, dname);
-	else if ((ft_strncmp(dname, chr[0], ft_strlen(chr[0])) != 0))
-		return (-1);
 	tmp = dname;
 	while (chr[i])
 	{

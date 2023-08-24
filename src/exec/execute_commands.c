@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 21:59:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 01:04:15 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:41:14 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	not_pipe(t_list *cmd_lst, int *status, t_sh_data *sh_data)
 			expand_all_args((t_command *)tmp->content, sh_data);
 		if (((t_command *)tmp->content)->error)
 		{
-			handle_error(((t_command *)tmp->content)->error);
+			handle_error(((t_command *)tmp->content), sh_data);
 			ft_lstclear(&sh_data->pipes, close_pipe);
 			return (true);
 		}
@@ -121,16 +121,17 @@ static pid_t	exec_command(t_sh_data *sh_data, t_command *cmd)
  *
  * @param sh_data contains all data needed to execute commands
  */
-void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
+void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk)
 {
 	int		i;
 	pid_t	*pids;
 	t_list	*tmp;
+	int		status;
 
 	tmp = chunk->commands;
 	clear_signal();
 	setup_pipes(sh_data, chunk);
-	if (not_pipe(tmp, status, sh_data))
+	if (not_pipe(tmp, &status, sh_data))
 		return ;
 	pids = (pid_t *)ft_calloc(ft_lstsize(tmp) + 1, sizeof(pid_t));
 	i = 0;
@@ -143,6 +144,7 @@ void	exec_commands(t_sh_data *sh_data, t_command_chunk *chunk, int *status)
 	ft_lstclear(&sh_data->pipes, close_pipe);
 	i = -1;
 	while (pids[++i])
-		waitpid(pids[i], status, 0);
+		waitpid(pids[i], &status, 0);
+	sh_data->status = WEXITSTATUS(status);
 	free(pids);
 }
