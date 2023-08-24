@@ -46,7 +46,7 @@ static int	left_arrow(t_command *cmd, int i, t_sh_data *data)
 		expend_check(&(cmd->args[i + 1]), cmd, data);
 		if (cmd->fd_in != 0 && cmd->fd_in != cmd->latest_heredoc)
 			close(cmd->fd_in);
-		if (!cmd->args[i + 1])
+		if (!cmd->args[i + 1] || cmd->error == AMBIGUOUS_REDIRECT)
 			return (1);
 		cmd->fd_in = open(cmd->args[i + 1], O_RDONLY);
 		if (cmd->fd_in == -1)
@@ -67,6 +67,8 @@ static int	right_arrow(t_command *cmd, int i, t_sh_data *data)
 		return (1);
 	}
 	expend_check(&(cmd->args[i + 1]), cmd, data);
+	if (!cmd->args[i + 1] || cmd->error == AMBIGUOUS_REDIRECT)
+		return (1);
 	if (cmd->args[i][1] == '>' && cmd->args[i][2] == '\0')
 		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | O_APPEND,
 				0644);
