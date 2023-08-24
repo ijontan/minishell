@@ -6,11 +6,18 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 00:05:57 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 00:25:48 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 18:38:48 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_error(char *program_name)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(program_name, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
 
 static char	*get_path(char **envp)
 {
@@ -47,9 +54,7 @@ char	*check_path_exist(char *program_name, char **envp)
 		if (dst)
 			free(dst);
 	}
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(program_name + 1, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	print_error(program_name);
 	free(program_name);
 	free_2d(paths);
 	return (NULL);
