@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: nwai-kea <nwai-kea@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 18:26:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:17:44 by nwai-kea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,8 @@ char			*find_some(t_sh_data *data, struct dirent *filename,
 char			*find_after(t_sh_data *data, struct dirent *filename,
 					char *after);
 char			*wildcard(char *arg, t_sh_data *data);
+char			*expand_wildcard(char *arg, t_sh_data *data,
+					struct dirent *filename);
 char			*multiple_wildcards(char *arg, t_sh_data *data,
 					struct dirent *filename);
 void			exec_heredoc(t_command *cmd, char *eof, t_sh_data *data);
@@ -211,6 +213,10 @@ int				ft_ischar(char *str, char c);
 char			*write_buffer(t_sh_data *data, struct dirent *filename,
 					char *before, char *after);
 int				ft_strrcmp(const char *str1, const char *str2);
+char			*ft_proc_sep(char *path);
+char			*ft_joinchar(char *path, char c);
+char			**wildcard_split(char *src);
+char			*ft_proc_sep_2(char *path);
 
 /* ------------------------------- validation ------------------------------- */
 
