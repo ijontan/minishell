@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:36:24 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 17:48:26 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 18:26:37 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int				parentheses(char *line, t_sh_data *data);
 /* --------------------------------- prompt --------------------------------- */
 
 void			handle_error(t_command *cmd, t_sh_data *data);
+void			handle_error_chunk(t_sh_data *data);
 void			get_prompt_data(t_sh_data *sh_data);
 char			*get_prompt(t_sh_data *sh_data);
 void			free_prompt_data(t_prompt *prompt);
@@ -190,7 +191,7 @@ void			setup_signal(void);
 void			clear_signal(void);
 
 /* ---------------------------------- utils --------------------------------- */
-
+void			check_pipe_err(char *command, t_command_chunk *chunk);
 int				check_quoted(char *str, int i, int is_quoted);
 int				countchr(char *str, char c);
 int				count_wc(char *str);

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 14:45:39 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 18:00:27 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 18:26:47 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_command_chunk	*setup_chunk(char *line, t_sh_data *data)
 	}
 	if (err)
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
+		handle_error_chunk(data);
 		free_t_chunk_array(chunks);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:50:53 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 17:18:37 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 18:19:27 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_command_chunk	*split_command_chunks(char *str, char **seps)
 	i = -1;
 	while (dst[++i].chunk)
 	{
+		check_pipe_err(dst[i].chunk, &dst[i]);
 		if (dst[i].error)
 		{
 			free_t_chunk_array(dst);

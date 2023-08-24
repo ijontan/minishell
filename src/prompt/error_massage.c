@@ -6,7 +6,7 @@
 /*   By: itan <itan@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 00:44:23 by itan              #+#    #+#             */
-/*   Updated: 2023/08/24 17:34:11 by itan             ###   ########.fr       */
+/*   Updated: 2023/08/24 18:26:30 by itan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,10 @@ void	handle_error(t_command *cmd, t_sh_data *data)
 		error_massage("heredoc not found");
 	else if (error_code == PARSE_ERROR)
 		error_massage("Parse error");
+}
+
+void	handle_error_chunk(t_sh_data *data)
+{
+	error_massage("Syntax error");
+	set_error(SYNTAX_ERROR, data);
 }
